@@ -671,108 +671,79 @@
             line-height: 1.7;
         }
         
-        /* Portfolio Section */
-        .portfolio-section {
-            padding: 5rem 4rem;
-            position: relative;
-        }
-        
-        .portfolio-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .portfolio-section h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .portfolio-section h2 .highlight {
-            color: var(--gold);
-        }
-        
-        .portfolio-intro {
-            font-size: 1.2rem;
-            color: var(--gray-light);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
+       /* Combined CTA Section */
+.cta-section {
+    padding: 6rem 4rem;
+    text-align: center;
+    position: relative;
+}
 
-        .portfolio-section .btn-primary {
-            margin-top: 2rem;
-        }
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 160, 60, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
 
-        /* Contact expect box */
-        .contact-expect {
-            max-width: 500px;
-            margin: 0 auto 2.5rem;
-            padding: 1.5rem 2rem;
-            background: var(--dark-card);
-            border: 1px solid #1f1f1f;
-            border-left: 3px solid var(--gold);
-            text-align: left;
-        }
+.cta-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+}
 
-        .contact-expect h3 {
-            font-size: 0.9rem;
-            color: var(--gold);
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.02em;
-        }
+.cta-section h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
 
-        .contact-expect p {
-            font-size: 1rem;
-            color: var(--gray-light);
-            margin: 0;
-            line-height: 1.6;
-        }
-        
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        /* Contact Section */
-        .contact-section {
-            padding: 5rem 4rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .contact-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(212, 160, 60, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        
-        .contact-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .contact-section h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .contact-section p {
-            font-size: 1.2rem;
-            color: var(--gray-light);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
-        
+.cta-section h2 .highlight {
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+.cta-intro {
+    font-size: 1.2rem;
+    color: var(--gray-light);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.cta-expect {
+    padding: 1.5rem 2rem;
+    background: var(--dark-card);
+    border: 1px solid #1f1f1f;
+    border-left: 3px solid var(--gold);
+    text-align: left;
+    margin-bottom: 2.5rem;
+}
+
+.cta-expect h3 {
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
+.cta-expect p {
+    font-size: 1rem;
+    color: var(--gray-light);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
         /* Footer */
         footer {
             padding: 3rem 4rem;
@@ -836,8 +807,7 @@
             }
             
             .services-section,
-            .portfolio-section,
-            .contact-section {
+            .cta-section {
                 padding: 4rem 2rem;
             }
             
@@ -1071,41 +1041,34 @@
     </div>
 </section>
 
-<!-- Portfolio Section -->
-<section class="portfolio-section" id="portfolio">
-    <div class="portfolio-content">
+<!-- Portfolio & Contact Section -->
+<section class="cta-section" id="portfolio">
+    <div class="cta-content">
         <span class="section-label">Our Work</span>
         <h2>Real results. <span class="highlight">Real systems.</span></h2>
-        <p class="portfolio-intro">
+        <p class="cta-intro">
             We've built platforms tracking $20M+ in operations, saved teams 25+ hours per week, and replaced systems businesses had outgrown.
         </p>
-        <a href="portfolio.html" class="btn-primary">
-            View Our Work
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-        </a>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section class="contact-section" id="contact">
-    <div class="contact-content">
-        <span class="section-label">Let's Talk</span>
-        <h2>Ready to make your<br>systems work together?</h2>
-        <p>No pitch decks. No pressure. Just a conversation about what's not working and whether we can help.</p>
         
-        <div class="contact-expect">
-            <h3>What to expect</h3>
-            <p>A 30-minute call to understand your current systems, where the pain points are, and whether custom software is the right fit. If we're not the right solution, we'll tell you.</p>
+        <div class="cta-expect" id="contact">
+            <h3>Ready to talk?</h3>
+            <p>A 30-minute call to understand your current systems, where the pain points are, and whether custom software is the right fit. No pitch decks. If we're not the right solution, we'll tell you.</p>
         </div>
         
-        <a href="mailto:andy@synciolabs.com" class="btn-primary">
-            Get in Touch
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-        </a>
+        <div class="cta-buttons">
+            <a href="portfolio.html" class="btn-secondary">
+                View Our Work
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="mailto:andy@synciolabs.com" class="btn-primary">
+                Get in Touch
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
     </div>
 </section>
     
