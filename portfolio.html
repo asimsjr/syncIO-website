@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Work | SyncIO Labs</title>
+    <title>SyncIO Labs | Custom Software</title>
+    <meta name="description" content="SyncIO Labs builds custom operational software that connects your systems, automates workflows, and creates the infrastructure growing businesses need to scale.">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --black: #0A0A0A;
             --gold: #D4A03C;
-            --gold-dim: rgba(212, 160, 60, 0.3);
-            --white: #FFFFFF;
-            --gray-light: #888888;
-            --gray-dark: #1a1a1a;
-            --dark-card: #111111;
+            --gold-bright: #F5B942;
+            --gold-dim: #8B6914;
+            --black: #0A0A0A;
+            --dark: #111111;
+            --dark-card: #161616;
+            --gray: #6B6B6B;
+            --gray-light: #9A9A9A;
+            --white: #FAFAFA;
+            --white-dim: #E0E0E0;
         }
         
         * {
@@ -41,50 +48,95 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 100;
+            padding: 1.5rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 4rem;
             background: var(--black);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0;
             font-family: 'Outfit', sans-serif;
-            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--white);
+            font-size: 1.4rem;
             text-decoration: none;
+            color: var(--white);
         }
         
-        .logo-brackets {
+        .logo-bracket {
             color: var(--gold);
+            font-weight: 700;
+        }
+        
+        .logo-io {
+            color: var(--gray-light);
+        }
+
+        .logo-labs {
+            font-weight: 400;
+            color: var(--white);
         }
         
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
         }
-        
+
         .nav-links a {
             color: var(--gray-light);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 900;
-            padding-top: 0.5rem;
-            border-top: 2px solid var(--gray-light);
+            transition: color 0.3s ease;
+            padding-bottom: 0.25rem;
+            border-top: 2px solid var(--gray);
+            padding-top: 0.25rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+            border-top: 2px solid var(--gold);
+        }
+        
+        .nav-contact {
+            padding: 0.75rem 1.75rem;
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            letter-spacing: 0.05em;
             transition: all 0.3s ease;
         }
         
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--gold);
-            border-top-color: var(--gold);
+        .nav-contact:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
         }
         
+        /* Hamburger button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+  
         /* Hero Section */
         .hero {
             padding: 10rem 4rem 4rem;
@@ -531,26 +583,65 @@
                 font-size: 2.5rem;
             }
             
-            .case-study-metrics {
+            .hero-cta {
+                flex-direction: column;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
                 justify-content: center;
             }
             
-            .metric {
-                min-width: 100px;
+            /* Hamburger menu */
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--black);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-top: 1px solid #1a1a1a;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                border-top: none;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid #1a1a1a;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .scroll-indicator {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav>
+        <nav>
         <a href="index.html" class="logo">
-            <span class="logo-brackets">&lt;</span>sync<span class="logo-brackets">IO/&gt;</span>Labs
+            <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
         </a>
+        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="nav-links">
-            <a href="index.html#services">Services</a>
-            <a href="portfolio.html" class="active">Portfolio</a>
-            <a href="mailto:andy@synciolabs.com">Contact</a>
+            <a href="#services">Services</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="#contact">Contact</a>
         </div>
     </nav>
 
