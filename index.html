@@ -143,6 +143,22 @@
             border-color: var(--gold);
         }
         
+        /* Hamburger button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -846,21 +862,57 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            /* Hamburger menu */
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--black);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-top: 1px solid #1a1a1a;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                border-top: none;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid #1a1a1a;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .scroll-indicator {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav>
-        <a href="/" class="logo">
-            <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
+        <nav>
+        <a href="index.html" class="logo">
+            <span class="logo-brackets">&lt;</span>sync<span class="logo-brackets">IO/&gt;</span>Labs
         </a>
+        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="nav-links">
             <a href="#services">Services</a>
-            <a href="#portfolio">Portfolio</a>
+            <a href="portfolio.html">Portfolio</a>
             <a href="#contact">Contact</a>
         </div>
-        <a href="mailto:info@synciolabs.com" class="nav-contact">GET IN TOUCH</a>
     </nav>
     
     <!-- Hero Section -->
@@ -887,7 +939,7 @@
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
-                <a href="#portfolio" class="btn-secondary">
+                <a href="portfolio.html" class="btn-secondary">
                     See Our Work
                 </a>
             </div>
@@ -1062,7 +1114,7 @@
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
             </a>
-            <a href="mailto:andy@synciolabs.com" class="btn-primary">
+            <a href="mailto:info@synciolabs.com" class="btn-primary">
                 Get in Touch
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>

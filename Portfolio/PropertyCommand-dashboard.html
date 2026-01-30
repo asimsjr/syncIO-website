@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, height=900">
+    <title>PropertyCommand - Portfolio Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F8F9FA; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+        .app-container { display: flex; height: 900px; width: 1440px; }
+        
+        .sidebar { width: 240px; background: #1a1a1a; color: #fff; padding: 0; flex-shrink: 0; }
+        .sidebar-logo { padding: 20px 24px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; }
+        .sidebar-logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #10B981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; }
+        .sidebar-logo-icon svg { width: 20px; height: 20px; }
+        .sidebar-logo-text { font-size: 16px; font-weight: 700; color: #10B981; }
+        .sidebar-nav { padding: 16px 0; }
+        .nav-section { padding: 0 12px; margin-bottom: 8px; }
+        .nav-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #666; padding: 8px 12px; font-weight: 600; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; color: #999; font-size: 14px; }
+        .nav-item:hover { background: #2a2a2a; color: #fff; }
+        .nav-item.active { background: #10B981; color: #fff; font-weight: 500; }
+        .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .nav-badge { margin-left: auto; background: #DC2626; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
+        
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #fff; padding: 16px 32px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .header-left h1 { font-size: 24px; font-weight: 700; color: #1a1a1a; }
+        .header-left p { font-size: 14px; color: #666; margin-top: 2px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .header-search { display: flex; align-items: center; background: #f3f4f6; border-radius: 8px; padding: 8px 12px; gap: 8px; width: 240px; }
+        .header-search input { border: none; background: none; outline: none; font-size: 14px; width: 100%; }
+        .header-search svg { width: 18px; height: 18px; color: #999; }
+        .header-btn { background: #10B981; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .header-btn svg { width: 18px; height: 18px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #666; }
+        
+        .content { flex: 1; padding: 24px 32px; overflow-y: auto; }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .stat-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .stat-label { font-size: 12px; color: #666; font-weight: 500; }
+        .stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .stat-icon svg { width: 18px; height: 18px; }
+        .stat-icon.green { background: #D1FAE5; color: #10B981; }
+        .stat-icon.blue { background: #DBEAFE; color: #3B82F6; }
+        .stat-icon.red { background: #FEE2E2; color: #DC2626; }
+        .stat-icon.purple { background: #EDE9FE; color: #7C3AED; }
+        .stat-icon.amber { background: #FEF3C7; color: #D97706; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+        .stat-sub { font-size: 12px; color: #999; margin-top: 6px; }
+        
+        .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .card-header { padding: 18px 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .card-title { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+        .card-action { font-size: 13px; color: #10B981; font-weight: 500; cursor: pointer; }
+        .card-body { padding: 0; }
+        
+        .properties-table { width: 100%; border-collapse: collapse; }
+        .properties-table th { text-align: left; padding: 12px 24px; font-size: 11px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+        .properties-table td { padding: 14px 24px; border-bottom: 1px solid #f5f5f5; vertical-align: middle; }
+        .properties-table tr:last-child td { border-bottom: none; }
+        .property-info { display: flex; align-items: center; gap: 12px; }
+        .property-img { width: 48px; height: 48px; border-radius: 8px; background: #D1FAE5; display: flex; align-items: center; justify-content: center; color: #10B981; }
+        .property-img svg { width: 24px; height: 24px; }
+        .property-name { font-weight: 500; color: #1a1a1a; }
+        .property-address { font-size: 12px; color: #999; }
+        .property-units { font-weight: 500; color: #1a1a1a; }
+        .occupancy-bar { width: 80px; height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
+        .occupancy-fill { height: 100%; border-radius: 4px; }
+        .occupancy-fill.high { background: #10B981; }
+        .occupancy-fill.medium { background: #F59E0B; }
+        .occupancy-fill.low { background: #EF4444; }
+        .occupancy-text { font-size: 12px; color: #666; margin-top: 4px; }
+        .rent-collected { font-weight: 600; color: #1a1a1a; }
+        .rent-total { font-size: 12px; color: #999; }
+        .status-badge { display: inline-flex; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+        .status-badge.good { background: #D1FAE5; color: #059669; }
+        .status-badge.warning { background: #FEF3C7; color: #B45309; }
+        .status-badge.alert { background: #FEE2E2; color: #DC2626; }
+        
+        .maintenance-item { padding: 16px 24px; border-bottom: 1px solid #f5f5f5; }
+        .maintenance-item:last-child { border-bottom: none; }
+        .maintenance-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .maintenance-title { font-weight: 500; color: #1a1a1a; font-size: 14px; }
+        .maintenance-priority { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+        .maintenance-priority.urgent { background: #FEE2E2; color: #DC2626; }
+        .maintenance-priority.high { background: #FEF3C7; color: #B45309; }
+        .maintenance-priority.normal { background: #DBEAFE; color: #2563EB; }
+        .maintenance-meta { display: flex; gap: 16px; font-size: 12px; color: #666; }
+        .maintenance-meta svg { width: 14px; height: 14px; }
+        .maintenance-meta span { display: flex; align-items: center; gap: 4px; }
+        
+        .collection-summary { padding: 20px 24px; }
+        .collection-chart { display: flex; align-items: flex-end; gap: 8px; height: 100px; margin-bottom: 16px; padding-bottom: 24px; border-bottom: 1px solid #f0f0f0; position: relative; }
+        .collection-bar { flex: 1; background: #f3f4f6; border-radius: 4px 4px 0 0; position: relative; display: flex; flex-direction: column; justify-content: flex-end; }
+        .collection-bar-fill { border-radius: 4px 4px 0 0; }
+        .collection-bar-fill.collected { background: #10B981; }
+        .collection-bar-fill.pending { background: #F59E0B; }
+        .collection-bar-fill.late { background: #EF4444; }
+        .collection-bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #999; white-space: nowrap; }
+        .collection-legend { display: flex; gap: 20px; justify-content: center; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .legend-dot.collected { background: #10B981; }
+        .legend-dot.pending { background: #F59E0B; }
+        .legend-dot.late { background: #EF4444; }
+        
+        .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        .lease-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid #f5f5f5; }
+        .lease-item:last-child { border-bottom: none; }
+        .lease-tenant { display: flex; align-items: center; gap: 12px; }
+        .tenant-avatar { width: 36px; height: 36px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 12px; color: #666; }
+        .tenant-name { font-weight: 500; color: #1a1a1a; font-size: 13px; }
+        .tenant-unit { font-size: 12px; color: #999; }
+        .lease-expires { text-align: right; }
+        .lease-date { font-weight: 500; color: #1a1a1a; font-size: 13px; }
+        .lease-days { font-size: 11px; color: #999; }
+        .lease-days.urgent { color: #DC2626; }
+        .lease-days.soon { color: #B45309; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <span class="sidebar-logo-text">PropertyCommand</span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <div class="nav-item active">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        Dashboard
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+                        Properties
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Operations</div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        Maintenance
+                        <span class="nav-badge">8</span>
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                        Rent Collection
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                        Leases
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                        Expenses
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">People</div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Tenants
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Owners
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        Vendors
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">Portals</div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        Tenant Portal
+                    </div>
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                        Owner Portal
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Settings
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1>Portfolio Dashboard</h1>
+                    <p>January 2025 Overview — The Eulalia Group</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" placeholder="Search properties, tenants...">
+                    </div>
+                    <button class="header-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        Add Property
+                    </button>
+                    <div class="avatar">SH</div>
+                </div>
+            </header>
+            
+            <div class="content">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Total Units</span>
+                            <div class="stat-icon green">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-sub">Across 12 properties</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Occupancy Rate</span>
+                            <div class="stat-icon blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">94.2%</div>
+                        <div class="stat-sub">147 occupied / 9 vacant</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Rent Collected</span>
+                            <div class="stat-icon green">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">$168K</div>
+                        <div class="stat-sub">of $182K expected</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Open Work Orders</span>
+                            <div class="stat-icon red">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-sub">2 urgent, 3 high priority</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-label">Lease Renewals</span>
+                            <div class="stat-icon purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-value">11</div>
+                        <div class="stat-sub">Expiring in 60 days</div>
+                    </div>
+                </div>
+                
+                <div class="main-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Properties Overview</span>
+                            <span class="card-action">View All →</span>
+                        </div>
+                        <div class="card-body">
+                            <table class="properties-table">
+                                <thead>
+                                    <tr><th>Property</th><th>Units</th><th>Occupancy</th><th>Rent (MTD)</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div class="property-info"><div class="property-img"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg></div><div><div class="property-name">Peachtree Commons</div><div class="property-address">1420 Peachtree St NE, Atlanta</div></div></div></td>
+                                        <td><span class="property-units">32</span></td>
+                                        <td><div class="occupancy-bar"><div class="occupancy-fill high" style="width: 97%;"></div></div><div class="occupancy-text">31/32 (97%)</div></td>
+                                        <td><div class="rent-collected">$42,800</div><div class="rent-total">of $44,160</div></td>
+                                        <td><span class="status-badge good">On Track</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="property-info"><div class="property-img"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="property-name">Buckhead Terrace</div><div class="property-address">3200 Lenox Rd NE, Atlanta</div></div></div></td>
+                                        <td><span class="property-units">24</span></td>
+                                        <td><div class="occupancy-bar"><div class="occupancy-fill high" style="width: 92%;"></div></div><div class="occupancy-text">22/24 (92%)</div></td>
+                                        <td><div class="rent-collected">$38,200</div><div class="rent-total">of $41,400</div></td>
+                                        <td><span class="status-badge good">On Track</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="property-info"><div class="property-img"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg></div><div><div class="property-name">Midtown Lofts</div><div class="property-address">875 W Peachtree St, Atlanta</div></div></div></td>
+                                        <td><span class="property-units">18</span></td>
+                                        <td><div class="occupancy-bar"><div class="occupancy-fill medium" style="width: 83%;"></div></div><div class="occupancy-text">15/18 (83%)</div></td>
+                                        <td><div class="rent-collected">$24,600</div><div class="rent-total">of $29,520</div></td>
+                                        <td><span class="status-badge warning">3 Vacant</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="property-info"><div class="property-img"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="property-name">Decatur Heights</div><div class="property-address">450 Church St, Decatur</div></div></div></td>
+                                        <td><span class="property-units">28</span></td>
+                                        <td><div class="occupancy-bar"><div class="occupancy-fill high" style="width: 96%;"></div></div><div class="occupancy-text">27/28 (96%)</div></td>
+                                        <td><div class="rent-collected">$31,400</div><div class="rent-total">of $32,480</div></td>
+                                        <td><span class="status-badge good">On Track</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="property-info"><div class="property-img"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg></div><div><div class="property-name">Sandy Springs Plaza</div><div class="property-address">6100 Lake Forrest Dr, Sandy Springs</div></div></div></td>
+                                        <td><span class="property-units">20</span></td>
+                                        <td><div class="occupancy-bar"><div class="occupancy-fill high" style="width: 95%;"></div></div><div class="occupancy-text">19/20 (95%)</div></td>
+                                        <td><div class="rent-collected">$28,400</div><div class="rent-total">of $29,880</div></td>
+                                        <td><span class="status-badge alert">2 Late</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Maintenance Queue</span>
+                                <span class="card-action">View All →</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="maintenance-item">
+                                    <div class="maintenance-header"><span class="maintenance-title">HVAC not cooling</span><span class="maintenance-priority urgent">Urgent</span></div>
+                                    <div class="maintenance-meta"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg> Peachtree Commons</span><span>Unit 204</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2h ago</span></div>
+                                </div>
+                                <div class="maintenance-item">
+                                    <div class="maintenance-header"><span class="maintenance-title">Water heater leaking</span><span class="maintenance-priority urgent">Urgent</span></div>
+                                    <div class="maintenance-meta"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Buckhead Terrace</span><span>Unit 112</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4h ago</span></div>
+                                </div>
+                                <div class="maintenance-item">
+                                    <div class="maintenance-header"><span class="maintenance-title">Dishwasher not draining</span><span class="maintenance-priority high">High</span></div>
+                                    <div class="maintenance-meta"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg> Midtown Lofts</span><span>Unit 308</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1d ago</span></div>
+                                </div>
+                                <div class="maintenance-item">
+                                    <div class="maintenance-header"><span class="maintenance-title">Broken window lock</span><span class="maintenance-priority normal">Normal</span></div>
+                                    <div class="maintenance-meta"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Decatur Heights</span><span>Unit 105</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2d ago</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">January Collection</span>
+                                <span class="card-action">Details →</span>
+                            </div>
+                            <div class="collection-summary">
+                                <div class="collection-chart">
+                                    <div class="collection-bar"><div class="collection-bar-fill collected" style="height: 92%;"></div><span class="collection-bar-label">Week 1</span></div>
+                                    <div class="collection-bar"><div class="collection-bar-fill collected" style="height: 78%;"></div><span class="collection-bar-label">Week 2</span></div>
+                                    <div class="collection-bar"><div class="collection-bar-fill pending" style="height: 45%;"></div><span class="collection-bar-label">Week 3</span></div>
+                                    <div class="collection-bar"><div class="collection-bar-fill late" style="height: 12%;"></div><span class="collection-bar-label">Week 4</span></div>
+                                </div>
+                                <div class="collection-legend">
+                                    <div class="legend-item"><span class="legend-dot collected"></span>Collected ($168K)</div>
+                                    <div class="legend-item"><span class="legend-dot pending"></span>Pending ($9K)</div>
+                                    <div class="legend-item"><span class="legend-dot late"></span>Late ($5K)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bottom-grid">
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Upcoming Lease Expirations</span><span class="card-action">View All →</span></div>
+                        <div class="card-body">
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">JM</div><div><div class="tenant-name">James Mitchell</div><div class="tenant-unit">Peachtree Commons, Unit 118</div></div></div><div class="lease-expires"><div class="lease-date">Feb 1, 2025</div><div class="lease-days urgent">12 days</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">SR</div><div><div class="tenant-name">Sarah Rodriguez</div><div class="tenant-unit">Buckhead Terrace, Unit 205</div></div></div><div class="lease-expires"><div class="lease-date">Feb 15, 2025</div><div class="lease-days soon">26 days</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">DW</div><div><div class="tenant-name">David Williams</div><div class="tenant-unit">Midtown Lofts, Unit 402</div></div></div><div class="lease-expires"><div class="lease-date">Feb 28, 2025</div><div class="lease-days soon">39 days</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">LT</div><div><div class="tenant-name">Lisa Thompson</div><div class="tenant-unit">Decatur Heights, Unit 312</div></div></div><div class="lease-expires"><div class="lease-date">Mar 1, 2025</div><div class="lease-days">40 days</div></div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header"><span class="card-title">Owner Distributions (January)</span><span class="card-action">Generate Reports →</span></div>
+                        <div class="card-body">
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">RJ</div><div><div class="tenant-name">Robert Johnson</div><div class="tenant-unit">3 properties, 74 units</div></div></div><div class="lease-expires"><div class="lease-date">$28,420</div><div class="lease-days">Ready to send</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">MC</div><div><div class="tenant-name">Michelle Chen</div><div class="tenant-unit">2 properties, 42 units</div></div></div><div class="lease-expires"><div class="lease-date">$16,840</div><div class="lease-days">Ready to send</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">AP</div><div><div class="tenant-name">Anderson Properties LLC</div><div class="tenant-unit">4 properties, 28 units</div></div></div><div class="lease-expires"><div class="lease-date">$12,280</div><div class="lease-days soon">2 pending collections</div></div></div>
+                            <div class="lease-item"><div class="lease-tenant"><div class="tenant-avatar">KW</div><div><div class="tenant-name">Karen Wilson</div><div class="tenant-unit">3 properties, 12 units</div></div></div><div class="lease-expires"><div class="lease-date">$8,640</div><div class="lease-days">Ready to send</div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
