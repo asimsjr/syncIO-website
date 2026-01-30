@@ -75,7 +75,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0) 100%);
+            background: var(--black);
         }
         
         .logo {
@@ -101,6 +101,27 @@
         .logo-labs {
             font-weight: 400;
             color: var(--white);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 900;
+            transition: color 0.3s ease;
+            padding-bottom: 0.25rem;
+            border-top: 2px solid var(--gray);
+            padding-top: 0.25rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+            border-top: 2px solid var(--gold);
         }
         
         .nav-contact {
@@ -133,7 +154,6 @@
             overflow: hidden;
         }
         
-        /* Animated background nodes */
         .node-canvas {
             position: absolute;
             top: 0;
@@ -297,21 +317,7 @@
             50% { opacity: 0.5; height: 40px; }
         }
         
-        /* Problem Section */
-        .problem-section {
-            padding: 8rem 4rem;
-            position: relative;
-        }
-        
-        .section-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
+        /* Section Label (shared) */
         .section-label {
             display: inline-block;
             font-family: 'Outfit', sans-serif;
@@ -325,120 +331,14 @@
             border-bottom: 2px solid var(--gold-dim);
         }
         
-        .problem-section h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .problem-section p {
-            color: var(--gray-light);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .pain-points {
-            list-style: none;
-            margin-top: 2rem;
-        }
-        
-        .pain-points li {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid #1a1a1a;
-            color: var(--white-dim);
-            font-size: 1.05rem;
-        }
-        
-        .pain-points li:last-child {
-            border-bottom: none;
-        }
-        
-        .pain-icon {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin-top: 0.15rem;
-        }
-        
-        /* Visual side - disconnected systems */
-        .systems-visual {
-            position: relative;
-            height: 500px;
-        }
-        
-        .system-node {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: var(--dark-card);
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--gray-light);
-            transition: all 0.4s ease;
-        }
-        
-        .system-node:hover {
-            border-color: var(--gold-dim);
-            transform: scale(1.05);
-        }
-        
-        .system-node svg {
-            width: 32px;
-            height: 32px;
-            color: var(--gray);
-        }
-        
-        .node-1 { top: 10%; left: 10%; animation: float 6s ease-in-out infinite; }
-        .node-2 { top: 5%; right: 20%; animation: float 6s ease-in-out 1s infinite; }
-        .node-3 { top: 40%; left: 5%; animation: float 6s ease-in-out 2s infinite; }
-        .node-4 { top: 45%; right: 10%; animation: float 6s ease-in-out 0.5s infinite; }
-        .node-5 { bottom: 10%; left: 25%; animation: float 6s ease-in-out 1.5s infinite; }
-        .node-6 { bottom: 15%; right: 25%; animation: float 6s ease-in-out 2.5s infinite; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Broken connection lines */
-        .broken-line {
-            position: absolute;
-            background: #1a1a1a;
-            height: 2px;
-        }
-        
-        .broken-line::after {
-            content: '×';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff4444;
-            font-size: 1.2rem;
-            background: var(--black);
-            padding: 0 0.5rem;
-        }
-        
-        .line-1 { width: 100px; top: 20%; left: 35%; transform: rotate(15deg); }
-        .line-2 { width: 80px; top: 50%; left: 40%; transform: rotate(-20deg); }
-        .line-3 { width: 120px; bottom: 30%; left: 30%; transform: rotate(5deg); }
-        
-        /* Solution Section */
-        .solution-section {
-            padding: 8rem 4rem;
+        /* Services Section */
+        .services-section {
+            padding: 8rem 4rem 5rem;
             background: linear-gradient(180deg, var(--black) 0%, var(--dark) 50%, var(--black) 100%);
             position: relative;
         }
         
-        .solution-section::before {
+        .services-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -449,30 +349,22 @@
             background: linear-gradient(to bottom, transparent, var(--gold), transparent);
         }
         
-        .solution-content {
+        .services-content {
             max-width: 1400px;
             margin: 0 auto;
             text-align: center;
         }
         
-        .solution-section h2 {
+        .services-section h2 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1rem;
             letter-spacing: -0.02em;
         }
         
-        .solution-section h2 .highlight {
+        .services-section h2 .highlight {
             color: var(--gold);
         }
         
-        .solution-sub {
-            font-size: 1.25rem;
-            color: var(--gray-light);
-            max-width: 700px;
-            margin: 0 auto 4rem;
-        }
-        
-        /* What we build cards */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -512,6 +404,249 @@
             transform: translateY(-4px);
         }
         
+        /* Transformation Diagram */
+        .transformation-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background: var(--dark-card);
+            border: 1px solid #1f1f1f;
+        }
+
+        .diagram-before,
+        .diagram-after {
+            flex: 1;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .diagram-label {
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid;
+        }
+
+        .diagram-before .diagram-label {
+            color: var(--white);
+            border-color: var(--gray);
+        }
+
+        .diagram-after .diagram-label {
+            color: var(--gold);
+            border-color: var(--gold-dim);
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: 85px 40px 85px;
+            grid-template-rows: auto 30px auto;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
+        }
+
+        .diagram-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--black);
+            border: 1px solid var(--gray);
+            color: var(--white);
+            font-size: 0.7rem;
+            width: 85px;
+        }
+
+        .diagram-node svg {
+            color: var(--white);
+        }
+
+        .floating-1 { animation: floatDisconnected 3s ease-in-out infinite; }
+        .floating-2 { animation: floatDisconnected 3s ease-in-out 0.5s infinite; }
+        .floating-3 { animation: floatDisconnected 3s ease-in-out 1s infinite; }
+        .floating-4 { animation: floatDisconnected 3s ease-in-out 1.5s infinite; }
+
+        @keyframes floatDisconnected {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(3px, -3px); }
+            50% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, 3px); }
+        }
+
+        .broken-link-h {
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .broken-link-h::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gray-light);
+        }
+
+        .broken-link-h::after {
+            content: '✕';
+            color: #ff4444;
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: var(--dark-card);
+            padding: 0 4px;
+            position: relative;
+            z-index: 1;
+            margin-top: 2px;
+        }
+
+        .broken-link-v {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .broken-link-v::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-light);
+        }
+
+        .broken-link-v::after {
+            content: '✕';
+            color: #ff4444;
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: var(--dark-card);
+            padding: 2px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .broken-link-center {
+            width: 40px;
+            height: 30px;
+        }
+
+        .diagram-arrow {
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* Hub visualization */
+        .diagram-hub {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .hub-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .hub-line {
+            stroke: var(--gold-dim);
+            stroke-width: 2;
+            stroke-dasharray: 4 2;
+            animation: dashFlow 2s linear infinite;
+        }
+
+        @keyframes dashFlow {
+            to { stroke-dashoffset: -24; }
+        }
+
+        .hub-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--black);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 3;
+        }
+
+        .hub-center .logo-bracket {
+            color: var(--gold);
+        }
+
+        .hub-center .logo-io {
+            color: var(--gray-light);
+        }
+
+        .hub-node {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--black);
+            border: 1px solid var(--gold-dim);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            z-index: 2;
+        }
+
+        .hub-node svg {
+            display: block;
+        }
+
+        .node-pos-1 { top: 10px; left: 50%; transform: translateX(-50%); }
+        .node-pos-2 { top: 50%; right: 10px; transform: translateY(-50%); }
+        .node-pos-3 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .node-pos-4 { top: 50%; left: 10px; transform: translateY(-50%); }
+
+        @media (max-width: 768px) {
+            .transformation-diagram {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 2rem;
+            }
+            
+            .diagram-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .diagram-before,
+            .diagram-after {
+                max-width: 100%;
+            }
+        }
+
         .service-icon {
             width: 48px;
             height: 48px;
@@ -536,14 +671,79 @@
             line-height: 1.7;
         }
         
-        /* CTA Section */
-        .cta-section {
-            padding: 10rem 4rem;
+        /* Portfolio Section */
+        .portfolio-section {
+            padding: 5rem 4rem;
+            position: relative;
+        }
+        
+        .portfolio-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .portfolio-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .portfolio-section h2 .highlight {
+            color: var(--gold);
+        }
+        
+        .portfolio-intro {
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .portfolio-section .btn-primary {
+            margin-top: 2rem;
+        }
+
+        /* Contact expect box */
+        .contact-expect {
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            padding: 1.5rem 2rem;
+            background: var(--dark-card);
+            border: 1px solid #1f1f1f;
+            border-left: 3px solid var(--gold);
+            text-align: left;
+        }
+
+        .contact-expect h3 {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+
+        .contact-expect p {
+            font-size: 1rem;
+            color: var(--gray-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 5rem 4rem;
             text-align: center;
             position: relative;
         }
         
-        .cta-section::before {
+        .contact-section::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -555,18 +755,18 @@
             pointer-events: none;
         }
         
-        .cta-content {
+        .contact-content {
             position: relative;
             z-index: 1;
         }
         
-        .cta-section h2 {
+        .contact-section h2 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
         }
         
-        .cta-section p {
+        .contact-section p {
             font-size: 1.2rem;
             color: var(--gray-light);
             max-width: 600px;
@@ -635,22 +835,17 @@
                 padding: 8rem 2rem 4rem;
             }
             
-            .section-grid {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-            
-            .systems-visual {
-                display: none;
-            }
-            
-            .problem-section,
-            .solution-section,
-            .cta-section {
-                padding: 6rem 2rem;
+            .services-section,
+            .portfolio-section,
+            .contact-section {
+                padding: 4rem 2rem;
             }
             
             .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .portfolio-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -690,10 +885,16 @@
         <a href="/" class="logo">
             <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
         </a>
+        <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </div>
         <a href="mailto:info@synciolabs.com" class="nav-contact">GET IN TOUCH</a>
     </nav>
     
     <!-- Hero Section -->
+<!-- Hero Section -->
     <section class="hero">
         <canvas class="node-canvas" id="nodeCanvas"></canvas>
         
@@ -706,18 +907,18 @@
             <h1>We make your<br>systems <span class="highlight">talk.</span></h1>
             
             <p class="hero-sub">
-                SyncIO Labs builds the connective tissue between your tools—integrating what you have, automating what wastes your time, and creating the infrastructure your business needs to scale.
+                Your software tools work fine—they just don't work together. We build the integrations, dashboards, and automations that connect what you have into one system that actually fits your business.
             </p>
             
             <div class="hero-cta">
-                <a href="mailto:andy@synciolabs.com" class="btn-primary">
-                    Start a Conversation
+                <a href="#contact" class="btn-primary">
+                    Get in Touch
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
-                <a href="#problem" class="btn-secondary">
-                    Learn More
+                <a href="#portfolio" class="btn-secondary">
+                    See Our Work
                 </a>
             </div>
         </div>
@@ -728,165 +929,196 @@
         </div>
     </section>
     
-    <!-- Problem Section -->
-    <section class="problem-section" id="problem">
-        <div class="section-grid">
-            <div class="problem-content">
-                <span class="section-label">The Problem</span>
-                <h2>Your tools work fine.<br>They just don't work <em>together.</em></h2>
-                <p>
-                    QuickBooks, Salesforce, industry software, spreadsheets—each tool does its job. But they operate in silos. Critical data lives in five places. Your team enters everything twice. And getting a clear picture requires chasing down three people.
-                </p>
+<!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="services-content">
+            <span class="section-label">What We Build</span>
+            <h2>The <span class="highlight">connective tissue</span> your business is missing.</h2>
+            
+           <!-- Before/After Diagram -->
+            <div class="transformation-diagram">
+                <div class="diagram-before">
+                    <span class="diagram-label">Before</span>
+                    <div class="diagram-grid">
+                        <div class="diagram-node floating-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                            <span>QuickBooks</span>
+                        </div>
+                        <div class="broken-link-h"></div>
+                        <div class="diagram-node floating-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>CRM</span>
+                        </div>
+                        <div class="broken-link-v"></div>
+                        <div class="broken-link-center"></div>
+                        <div class="broken-link-v"></div>
+                        <div class="diagram-node floating-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                            <span>Spreadsheets</span>
+                        </div>
+                        <div class="broken-link-h"></div>
+                        <div class="diagram-node floating-4">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span>Scheduling</span>
+                        </div>
+                    </div>
+                </div>
                 
-                <ul class="pain-points">
-                    <li>
-                        <span class="pain-icon">→</span>
-                        "We're entering the same data into multiple systems."
-                    </li>
-                    <li>
-                        <span class="pain-icon">→</span>
-                        "I can't get a clear picture without digging through spreadsheets."
-                    </li>
-                    <li>
-                        <span class="pain-icon">→</span>
-                        "If Sarah quits, we're in serious trouble."
-                    </li>
-                    <li>
-                        <span class="pain-icon">→</span>
-                        "Things keep falling through the cracks."
-                    </li>
-                </ul>
+                <div class="diagram-arrow">
+                    <svg width="48" height="24" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="0" y1="12" x2="40" y2="12"/>
+                        <polyline points="34 6 40 12 34 18"/>
+                    </svg>
+                </div>
+                
+                <div class="diagram-after">
+                    <span class="diagram-label">After</span>
+                    <div class="diagram-hub">
+                        <svg class="hub-lines" viewBox="0 0 200 200">
+                            <line x1="100" y1="100" x2="100" y2="30" class="hub-line"/>
+                            <line x1="100" y1="100" x2="170" y2="100" class="hub-line"/>
+                            <line x1="100" y1="100" x2="100" y2="170" class="hub-line"/>
+                            <line x1="100" y1="100" x2="30" y2="100" class="hub-line"/>
+                        </svg>
+                        <div class="hub-center">
+                            <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
+                        </div>
+                        <div class="hub-node node-pos-1">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <div class="hub-node node-pos-2">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="hub-node node-pos-3">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                        </div>
+                        <div class="hub-node node-pos-4">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+                        <polyline points="13 2 13 9 20 9"/>
+                    </svg>
+                </div>
+                <h3>System Integration</h3>
+                <p>Connect the tools you already use. QuickBooks, CRMs, industry software—finally talking to each other in real-time.</p>
             </div>
             
-            <div class="systems-visual">
-                <!-- Disconnected system nodes -->
-                <div class="system-node node-1">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                        <line x1="9" y1="21" x2="9" y2="9"/>
                     </svg>
-                    <span>QuickBooks</span>
                 </div>
-                
-                <div class="system-node node-2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <span>Spreadsheets</span>
-                </div>
-                
-                <div class="system-node node-3">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    <span>CRM</span>
-                </div>
-                
-                <div class="system-node node-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span>Scheduling</span>
-                </div>
-                
-                <div class="system-node node-5">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    <span>Email</span>
-                </div>
-                
-                <div class="system-node node-6">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                    </svg>
-                    <span>Inventory</span>
-                </div>
-                
-                <!-- Broken connection lines -->
-                <div class="broken-line line-1"></div>
-                <div class="broken-line line-2"></div>
-                <div class="broken-line line-3"></div>
+                <h3>Custom Dashboards</h3>
+                <p>Real-time visibility into your operations. One screen. No more chasing spreadsheets or waiting for weekly reports.</p>
             </div>
-        </div>
-    </section>
-    
-    <!-- Solution Section -->
-    <section class="solution-section" id="solution">
-        <div class="solution-content">
-            <span class="section-label">The Solution</span>
-            <h2>We build the <span class="highlight">connective tissue.</span></h2>
-            <p class="solution-sub">
-                We don't replace your tools—we make them work together. Custom integrations, unified dashboards, and automated workflows that fit how your business actually operates.
-            </p>
             
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/>
-                            <polyline points="13 2 13 9 20 9"/>
-                        </svg>
-                    </div>
-                    <h3>System Integration</h3>
-                    <p>Connect the tools you already use. QuickBooks, CRMs, industry software—finally talking to each other in real-time.</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 3 21 3 21 8"/>
+                        <line x1="4" y1="20" x2="21" y2="3"/>
+                        <polyline points="21 16 21 21 16 21"/>
+                        <line x1="15" y1="15" x2="21" y2="21"/>
+                        <line x1="4" y1="4" x2="9" y2="9"/>
+                    </svg>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="3" y1="9" x2="21" y2="9"/>
-                            <line x1="9" y1="21" x2="9" y2="9"/>
-                        </svg>
-                    </div>
-                    <h3>Custom Dashboards</h3>
-                    <p>Real-time visibility into your operations. One screen. No more chasing spreadsheets or waiting for weekly reports.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="16 3 21 3 21 8"/>
-                            <line x1="4" y1="20" x2="21" y2="3"/>
-                            <polyline points="21 16 21 21 16 21"/>
-                            <line x1="15" y1="15" x2="21" y2="21"/>
-                            <line x1="4" y1="4" x2="9" y2="9"/>
-                        </svg>
-                    </div>
-                    <h3>Workflow Automation</h3>
-                    <p>Stop entering data twice. Automate the handoffs, triggers, and notifications that keep your operation running smooth.</p>
-                </div>
+                <h3>Workflow Automation</h3>
+                <p>Stop entering data twice. Automate the handoffs, triggers, and notifications that keep your operation running smooth.</p>
             </div>
         </div>
-    </section>
-    
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <div class="cta-content">
-            <span class="section-label">Let's Talk</span>
-            <h2>Ready to make your<br>systems work together?</h2>
-            <p>
-                No pitch decks. No pressure. Just a conversation about what's not working and whether we can help.
-            </p>
-            <a href="mailto:andy@synciolabs.com" class="btn-primary">
-                Start a Conversation
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="portfolio-section" id="portfolio">
+    <div class="portfolio-content">
+        <span class="section-label">Our Work</span>
+        <h2>Real results. <span class="highlight">Real systems.</span></h2>
+        <p class="portfolio-intro">
+            We've built platforms tracking $20M+ in operations, saved teams 25+ hours per week, and replaced systems businesses had outgrown.
+        </p>
+        <a href="portfolio.html" class="btn-primary">
+            View Our Work
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="contact-content">
+        <span class="section-label">Let's Talk</span>
+        <h2>Ready to make your<br>systems work together?</h2>
+        <p>No pitch decks. No pressure. Just a conversation about what's not working and whether we can help.</p>
+        
+        <div class="contact-expect">
+            <h3>What to expect</h3>
+            <p>A 30-minute call to understand your current systems, where the pain points are, and whether custom software is the right fit. If we're not the right solution, we'll tell you.</p>
         </div>
-    </section>
+        
+        <a href="mailto:andy@synciolabs.com" class="btn-primary">
+            Get in Touch
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
+</section>
     
     <!-- Footer -->
     <footer>
         <div class="footer-left">
             <a href="/" class="footer-logo">
-                <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span> Labs
+                <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span><span class="logo-labs"> Labs</span>
             </a>
             <span class="footer-copy">© 2026 SyncIO Labs. Atlanta, GA.</span>
         </div>
         <div class="footer-right">
-            <a href="mailto:andy@synciolabs.com" class="footer-link">andy@synciolabs.com</a>
+            <a href="mailto:info@synciolabs.com" class="footer-link">info@synciolabs.com</a>
         </div>
     </footer>
     
