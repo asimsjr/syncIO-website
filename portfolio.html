@@ -21,6 +21,7 @@
             --dark-card: #161616;
             --gray: #6B6B6B;
             --gray-light: #9A9A9A;
+            --gray-dark: #111111;
             --white: #FAFAFA;
             --white-dim: #E0E0E0;
         }
@@ -185,7 +186,6 @@
             background: var(--dark-card);
             border: 1px solid #1f1f1f;
             border-radius: 8px;
-            overflow: hidden;
         }
         
         .case-study-header {
@@ -254,31 +254,72 @@
         .case-study-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            grid-template-rows: auto auto;
+            gap: 2rem 3rem;
             padding: 3rem;
+        }
+        
+        .case-study-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .case-study-details {
+        }
+        
+        .tech-tags-wrapper {
+            grid-column: 1 / -1;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 2rem;
+            margin-top: 1rem;
         }
         
         .case-study-screenshot {
             background: #1a1a1a;
             border-radius: 8px;
             overflow: hidden;
-            aspect-ratio: 16/10;
-            display: flex;
+            width: 100%;
+            height: 0;
+            padding-bottom: 62.5%; /* 900/1440 aspect ratio */
+            position: relative;
+        }
+        
+        .case-study-screenshot iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1440px;
+            height: 900px;
+            border: none;
+            transform: scale(0.42);
+            transform-origin: top left;
+            pointer-events: none;
+        }
+        
+        .btn-download {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            align-self: center;
+            width: 200px;
         }
         
-        .case-study-screenshot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .screenshot-placeholder {
-            color: var(--gray-light);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 2rem;
+        .btn-download:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
         }
         
         .case-study-details h3 {
@@ -323,18 +364,45 @@
         
         .tech-tags {
             display: flex;
+            align-items: center;
+            justify-content: center;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.35rem;
         }
         
         .tech-tag {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            color: var(--gray-light);
-            font-size: 0.8rem;
-            padding: 0.35rem 0.75rem;
+            background: rgba(212, 160, 60, 0.15);
+            border: 2px solid var(--gold-dim);
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.5rem 0.6rem;
             border-radius: 4px;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .tech-tag-number {
+            display: block;
+            color: var(--gold);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.1rem;
+        }
+        
+        .tech-tag-label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            margin-top: 0.1rem;
+        }
+        
+        .tech-arrow {
+            color: var(--gold);
+            flex-shrink: 0;
+            width: 30px;
+            height: 20px;
         }
         
         /* Concepts Section */
@@ -646,7 +714,7 @@
         <div class="nav-links">
             <a href="index.html#services">Services</a>
             <a href="portfolio.html" class="active">Portfolio</a>
-            <a href="mailto:andy@synciolabs.com">Contact</a>
+            <a href="/cdn-cgi/l/email-protection#86e7e8e2ffc6f5ffe8e5efe9eae7e4f5a8e5e9eb">Contact</a>
         </div>
     </nav>
 
@@ -664,7 +732,7 @@
                 <div class="case-study-title">
                     <span class="case-study-badge">Case Study</span>
                     <h2>New Steel Structures</h2>
-                    <p class="case-study-subtitle">Operations Dashboard — Construction / Multi-State</p>
+                    <p class="case-study-subtitle">Operations Dashboard — Construction Firm / Operating across Multiple State</p>
                 </div>
                 <div class="case-study-metrics">
                     <div class="metric">
@@ -687,39 +755,79 @@
             </div>
             
             <div class="case-study-content">
-                <div class="case-study-screenshot">
-                    <div class="screenshot-placeholder">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 1rem; opacity: 0.5;">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                        <br>Dashboard Screenshot<br>
-                        <span style="font-size: 0.8rem; opacity: 0.7;">Cashflow Tracking View</span>
+                <div class="case-study-left">
+                    <div class="case-study-screenshot">
+                        <iframe src="Portfolio/NSS-dashboard.html" loading="lazy"></iframe>
                     </div>
+                    
+                    <a href="Portfolio/NSS-CaseStudy.pdf" download class="btn-download">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download PDF<br>CASE STUDY
+                    </a>
                 </div>
                 
                 <div class="case-study-details">
                     <h3>The Challenge</h3>
-                    <p>New Steel Structures was managing $14M+ in projects across five states. The tools were solid—QuickBooks for accounting, Excel for analysis, SmartSheet for tracking. The problem? They didn't talk to each other.</p>
+                    <p>New Steel Structures was managing $20M+ in projects across five states. The tools were solid—QuickBooks for accounting, Excel for analysis, SmartSheet for tracking. The problem? They didn't talk to each other.</p>
                     
                     <ul class="challenge-list">
-                        <li><strong>Triple data entry:</strong> Every bill entered in QuickBooks, SmartSheet, and Excel</li>
+                        <li><strong>Triple data entry:</strong> Bills entered in QuickBooks, SmartSheet, and Excel</li>
                         <li><strong>Stale data:</strong> Tuesday WIP reports were already a week old</li>
                         <li><strong>25-30 hours/week</strong> spent on manual reporting and data assembly</li>
                     </ul>
                     
                     <h3>The Solution</h3>
-                    <p>A unified operations dashboard pulling directly from QuickBooks, serving as the single source of truth. Real-time visibility into WIP, cashflow, collections, and project health—automatically synced every night.</p>
-                    
-                    <p>The 5-layer SSOT architecture ensures data flows one direction only. QuickBooks remains the source of truth. The frontend never calculates—it only displays.</p>
-                    
+                    <p>A unified operations dashboard pulling directly from QuickBooks, serving as the single source of truth. Real-time visibility into WIP, cashflow, collections, and project health—automatically synced every morning at 3am.</p>
+                </div>
+                
+                <div class="tech-tags-wrapper">
+                    <div class="case-study-details">
+                    <h3>The Single Source of Truth Principle (SSOT)</h3>
+                    <p>Every calculation followed a strict 5-layer architecture. Data flows one direction only—from QuickBooks through the sync layer, stored raw in the database, calculated in the API layer, and displayed in the frontend. <strong>The #1 Rule: Frontend NEVER Calculates. </strong> If the same number could exist in two places with two different values, the architecture failed. This separation eliminated reconciliation errors entirely.
+                    </p>
+
                     <div class="tech-tags">
-                        <span class="tech-tag">QuickBooks API</span>
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">REST API</span>
+                        <div class="tech-tag">
+                            <span class="tech-tag-number">01</span>
+                            QuickBooks
+                            <span class="tech-tag-label">SSOT</span>
+                        </div>
+                        <svg class="tech-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <div class="tech-tag">
+                            <span class="tech-tag-number">02</span>
+                            Sync Layer
+                            <span class="tech-tag-label">Auto-Sync</span>
+                        </div>
+                        <svg class="tech-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <div class="tech-tag">
+                            <span class="tech-tag-number">03</span>
+                            Database
+                            <span class="tech-tag-label">44 Tables</span>
+                        </div>
+                        <svg class="tech-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <div class="tech-tag">
+                            <span class="tech-tag-number">04</span>
+                            API Layer
+                            <span class="tech-tag-label">20 Endpoints</span>
+                        </div>
+                        <svg class="tech-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <div class="tech-tag">
+                            <span class="tech-tag-number">05</span>
+                            Frontend
+                            <span class="tech-tag-label">Display Only</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -729,9 +837,9 @@
     <!-- Concepts Section -->
     <section class="concepts-section">
         <div class="concepts-header">
-            <span class="section-label">Capabilities</span>
+            <span class="section-label">Intelligent Dashboards</span>
             <h2>What We Can Build For You</h2>
-            <p>Every business is different. These concepts show the types of solutions we design—tailored to your industry and workflows.</p>
+            <p>Every business is different. These Intelligent Dashboards (IDs) show the types of solutions we design—tailored to your industry, your business, and your workflows. <br><br> Feel free to interact with them, they dont bite. Then let's talk about how we can create a custom ID for your business.</p>
         </div>
         
         <div class="concepts-grid">
@@ -786,7 +894,7 @@
         <div class="cta-content">
             <h2>Ready to build <span class="highlight">yours?</span></h2>
             <p>Let's talk about what's not working and whether custom software is the right fit.</p>
-            <a href="mailto:andy@synciolabs.com" class="btn-primary">
+            <a href="mailto:info@synciolabs.com" class="btn-primary">
                 Get in Touch
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -801,7 +909,7 @@
             <a href="index.html" class="footer-logo">
                 <span class="logo-brackets">&lt;</span>sync<span class="logo-brackets">IO/&gt;</span>Labs
             </a>
-            <a href="mailto:andy@synciolabs.com" class="footer-email">andy@synciolabs.com</a>
+            <a href="mailto:info@synciolabs.com" class="footer-email">info@synciolabs.com</a>
         </div>
         <div class="footer-right">
             © 2025 SyncIO Labs. Atlanta, GA.
