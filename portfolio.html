@@ -734,6 +734,38 @@
                 display: none;
             }
         }
+
+        /* Dashboard link style */
+        a.concept-card {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        /* Mobile landscape hint */
+        .landscape-hint {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .landscape-hint {
+                display: block;
+                font-size: 0.75rem;
+                color: var(--gray-light);
+                margin-top: 0.5rem;
+            }
+            
+            .landscape-hint svg {
+                width: 14px;
+                height: 14px;
+                vertical-align: middle;
+                margin-right: 4px;
+            }
+        }
+        a.case-study-screenshot {
+            display: block;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -793,7 +825,9 @@
             <div class="case-study-content">
                 <div class="case-study-left">
                     <div class="case-study-screenshot">
-                        <iframe src="Portfolio/NSS-dashboard.html" loading="lazy"></iframe>
+                        <a href="Portfolio/NSS-dashboard.html" class="case-study-screenshot">
+                            <iframe src="Portfolio/NSS-dashboard.html" loading="lazy"></iframe>
+                        </a>
                     </div>
                     
                     <a href="Portfolio/NSS-CaseStudy.pdf" download class="btn-download">
@@ -880,6 +914,7 @@
         
         <div class="concepts-grid">
             <div class="concept-card">
+                <a href="Portfolio/InsureOps-dashboard.html" class="concept-card">
                 <div class="concept-preview">
                     <iframe src="Portfolio/InsureOps-dashboard.html" loading="lazy"></iframe>
                 </div>
@@ -887,10 +922,16 @@
                     <span class="concept-industry insurance">Insurance</span>
                     <h3>InsureOps</h3>
                     <p>Policy management, claims tracking, and commission reconciliation. Built for agencies drowning in spreadsheets and carrier portals.</p>
+                    <p class="landscape-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
+                        Best viewed in landscape
+                    </p>
                 </div>
+                </a>
             </div>
             
             <div class="concept-card">
+                <a href="Portfolio/PropertyCommand-dashboard.html" class="concept-card">
                 <div class="concept-preview">
                     <iframe src="Portfolio/PropertyCommand-dashboard.html" loading="lazy"></iframe>
                 </div>
@@ -898,10 +939,16 @@
                     <span class="concept-industry property">Property Management</span>
                     <h3>PropertyCommand</h3>
                     <p>Multi-property operations, maintenance tracking, and tenant communications. Real-time visibility across your entire portfolio.</p>
+                    <p class="landscape-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
+                        Best viewed in landscape
+                    </p>
                 </div>
+                </a>
             </div>
             
             <div class="concept-card">
+                <a href="Portfolio/ClientView-portal.html" class="concept-card">
                 <div class="concept-preview">
                     <iframe src="Portfolio/ClientView-portal.html" loading="lazy"></iframe>
                 </div>
@@ -909,10 +956,16 @@
                     <span class="concept-industry portal">Client Portal</span>
                     <h3>ClientView</h3>
                     <p>Self-service portals that reduce support calls. Let clients check status, view documents, and submit requests without calling your team.</p>
+                    <p class="landscape-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
+                        Best viewed in landscape
+                    </p>
                 </div>
+                </a>
             </div>
             
             <div class="concept-card">
+                <a href="Portfolio/AutoPilot-dashboard.html" class="concept-card">
                 <div class="concept-preview">
                     <iframe src="Portfolio/AutoPilot-dashboard.html" loading="lazy"></iframe>
                 </div>
@@ -920,7 +973,12 @@
                     <span class="concept-industry automation">Automation</span>
                     <h3>AutoPilot</h3>
                     <p>Workflow automation that eliminates manual handoffs. When X happens, Y follows—automatically, reliably, every time.</p>
+                    <p class="landscape-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
+                        Best viewed in landscape
+                    </p>
                 </div>
+                </a>
             </div>
         </div>
     </section>
@@ -948,7 +1006,7 @@
             <a href="mailto:info@synciolabs.com" class="footer-email">info@synciolabs.com</a>
         </div>
         <div class="footer-right">
-            © 2025 SyncIO Labs. Atlanta, GA.
+            © 2026 SyncIO Labs. Atlanta, GA.
         </div>
     </footer>
 </body>

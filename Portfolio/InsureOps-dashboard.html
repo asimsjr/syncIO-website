@@ -51,6 +51,52 @@
             min-height: 100vh;
         }
         
+        /* SyncIO Navigation */
+        .syncio-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #0A0A0A;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+
+        .syncio-nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #FAFAFA;
+            text-decoration: none;
+        }
+
+        .syncio-nav-logo .bracket { color: #D4A03C; }
+        .syncio-nav-logo .io { color: #9A9A9A; }
+
+        .syncio-nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9A9A9A;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .syncio-nav-back:hover {
+            color: #D4A03C;
+        }
+
+        /* Push content down */
+        body {
+            padding-top: 50px;
+        }
+
         /* Sidebar */
         .sidebar {
             width: 260px;
@@ -1183,6 +1229,18 @@
     </style>
 </head>
 <body>
+        <!-- SyncIO Nav -->
+    <nav class="syncio-nav">
+        <a href="../portfolio.html" class="syncio-nav-logo">
+            <span class="bracket">&lt;</span>sync<span class="io">IO</span><span class="bracket">/&gt;</span>
+        </a>
+        <a href="../portfolio.html" class="syncio-nav-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar">
