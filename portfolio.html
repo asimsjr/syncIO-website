@@ -404,6 +404,22 @@
             width: 30px;
             height: 20px;
         }
+
+        /* Mobile: Stack tech-tags vertically */
+        @media (max-width: 600px) {
+            .tech-tags {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .tech-tag {
+                width: 140px;
+            }
+            
+            .tech-arrow {
+                transform: rotate(90deg);
+            }
+        }
         
         /* Concepts Section */
         .concepts-section {
@@ -666,6 +682,26 @@
                 justify-content: center;
             }
             
+            @media (max-width: 600px) {
+                /* Make case study screenshot taller on mobile */
+                .case-study-screenshot {
+                    padding-bottom: 90%; /* Taller container */
+                }
+                
+                .case-study-screenshot iframe {
+                    transform: scale(0.28); /* Zoom out to show more */
+                }
+                
+                /* Make concept previews taller on mobile */
+                .concept-preview {
+                    aspect-ratio: 6/5; /* Taller than wide */
+                }
+                
+                .concept-preview iframe {
+                    transform: scale(0.28);
+                }
+            }
+
             /* Hamburger menu */
             .nav-links {
                 display: none;
