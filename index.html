@@ -306,8 +306,8 @@
         /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
-            bottom: 3rem;
-            left: 50%;
+            bottom: 1.5rem;
+            left: 48.5%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
@@ -895,6 +895,130 @@
                 display: none;
             }
         }
+
+        /* Sound Familiar Section */
+            .familiar-section {
+                padding: 6rem 4rem 5rem;
+                position: relative;
+            }
+
+            .familiar-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 1px;
+                height: 100px;
+                background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            }
+
+            .familiar-content {
+                max-width: 1000px;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .familiar-section h2 {
+                font-size: clamp(2.5rem, 5vw, 4rem);
+                margin-bottom: 1.5rem;
+                letter-spacing: -0.02em;
+            }
+
+            .familiar-section h2 .highlight {
+                color: var(--gold);
+            }
+
+            .familiar-intro {
+                font-size: 1.15rem;
+                color: var(--gray-light);
+                max-width: 650px;
+                margin: 0 auto 3rem;
+                line-height: 1.7;
+            }
+
+            .familiar-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .familiar-card {
+                background: var(--dark-card);
+                border: 1px solid #1f1f1f;
+                padding: 2rem;
+                text-align: left;
+                transition: all 0.4s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .familiar-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: var(--gold);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.4s ease;
+            }
+
+            .familiar-card:hover::before {
+                transform: scaleX(1);
+            }
+
+            .familiar-card:hover {
+                border-color: #2a2a2a;
+                transform: translateY(-4px);
+            }
+
+            .familiar-quote {
+                font-family: 'Outfit', sans-serif;
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--white);
+                margin-bottom: 0.75rem;
+                line-height: 1.4;
+            }
+
+            .familiar-card p {
+                color: var(--gray-light);
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .familiar-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .familiar-cta-text {
+                font-size: 1.1rem;
+                color: var(--gray-light);
+                line-height: 1.6;
+                max-width: 500px;
+            }
+
+            .familiar-cta-text strong {
+                color: var(--white);
+            }
+
+            @media (max-width: 1024px) {
+                .familiar-section {
+                    padding: 4rem 2rem;
+                }
+
+                .familiar-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
     </style>
 </head>
 <body>
@@ -948,6 +1072,46 @@
         <div class="scroll-indicator">
             <span>Scroll</span>
             <div class="scroll-line"></div>
+        </div>
+    </section>
+
+<!-- Sound Familiar Section -->
+    <section class="familiar-section">
+        <div class="familiar-content">
+            <span class="section-label">Sound Familiar?</span>
+            <h2>You know something's <span class="highlight">not working.</span></h2>
+            <p class="familiar-intro">
+                You've got the tools. They just don't talk to each other. And the workarounds your team built three years ago are now running the whole operation.
+            </p>
+            
+            <div class="familiar-grid">
+                <div class="familiar-card">
+                    <div class="familiar-quote">"We're entering the same data into three different systems."</div>
+                    <p>Every invoice, every change order, entered twice. Sometimes three times. And when the numbers don't match, someone spends an hour figuring out which version is right.</p>
+                </div>
+                
+                <div class="familiar-card">
+                    <div class="familiar-quote">"If Sarah quits, we're in serious trouble."</div>
+                    <p>There's a spreadsheet that runs your business. Only one person understands how it works. Everyone knows this is a problem. Nobody knows what to do about it.</p>
+                </div>
+                
+                <div class="familiar-card">
+                    <div class="familiar-quote">"We don't know if a job is profitable until it's over."</div>
+                    <p>Overall P&L looks okay. But which projects are actually making money? By the time you figure it out, it's three months after the job closed.</p>
+                </div>
+            </div>
+            
+            <div class="familiar-bottom">
+                <p class="familiar-cta-text">
+                    These aren't technology problems. They're operations problems that the right software can fix. <strong>Not every business needs a six-figure platform.</strong> We scope solutions to what you actually need.
+                </p>
+                <a href="services.html" class="btn-primary">
+                    See How We Solve This
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
     
