@@ -577,7 +577,6 @@
                 <p class="form-intro">Or just email directly <a href="mailto:info@synciolabs.com" class="footer-email">info@synciolabs.com</a> whatever's easier.</p>
                 
                 <form action="https://formspree.io/f/xojloqkk" method="POST">
-                    <input type="hidden" name="_next" value="https://synciolabs.com/thank-you.html">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -619,6 +618,23 @@
                     </button>
                     
                     <p class="form-note">We typically respond within 24 hours.</p>
+                    <script>
+                        document.querySelector('form').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            const form = this;
+                            
+                            fetch(form.action, {
+                                method: 'POST',
+                                body: new FormData(form),
+                                headers: { 'Accept': 'application/json' }
+                            }).then(function(response) {
+                                if (response.ok) {
+                                    form.reset();
+                                    window.location.href = 'thank-you.html';
+                                }
+                            });
+                        });
+                    </script>
                 </form>
             </div>
         </div>
