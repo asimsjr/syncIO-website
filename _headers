@@ -1,14 +1,14 @@
 /synced
   Content-Type: text/vcard; charset=utf-8
-  Content-Disposition: attachment; filename="asimsjr.vcf"
+  Content-Disposition: inline; filename="asimsjr.vcf"
 
 /synced/rj
   Content-Type: text/vcard; charset=utf-8
-  Content-Disposition: attachment; filename="rj.vcf"
+  Content-Disposition: inline; filename="rj.vcf"
 
 /synced/bobtest
   Content-Type: text/vcard; charset=utf-8
-  Content-Disposition: attachment; filename="bobtest.vcf"
+  Content-Disposition: inline; filename="bobtest.vcf"
 
 /vcard/*
   Content-Type: text/vcard; charset=utf-8
