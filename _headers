@@ -6,5 +6,9 @@
   Content-Type: text/vcard; charset=utf-8
   Content-Disposition: attachment; filename="rj.vcf"
 
+/synced/bobtest
+  Content-Type: text/vcard; charset=utf-8
+  Content-Disposition: attachment; filename="bobtest.vcf"
+
 /vcard/*
   Content-Type: text/vcard; charset=utf-8
