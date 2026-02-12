@@ -1,0 +1,10 @@
+/synced
+  Content-Type: text/vcard; charset=utf-8
+  Content-Disposition: attachment; filename="asimsjr.vcf"
+
+/synced/rj
+  Content-Type: text/vcard; charset=utf-8
+  Content-Disposition: attachment; filename="rj.vcf"
+
+/vcard/*
+  Content-Type: text/vcard; charset=utf-8
