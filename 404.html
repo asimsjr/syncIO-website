@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow">
+    <title>Page Not Found | syncIO Labs</title>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --gold: #e8a600;
+        --gold-bright: #f5b942;
+        --gold-dim: #8b6914;
+        --black: #0a0a0a;
+        --dark: #111111;
+        --dark-card: #161616;
+        --gray: #6f6f6f;
+        --gray-light: #9a9a9a;
+        --white: #fafafa;
+        --white-dim: #e0e0e0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Albert Sans', sans-serif;
+        background-color: var(--black);
+        color: var(--white);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: 'Outfit', sans-serif;
+      }
+
+            /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1.5rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--black);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.4rem;
+        text-decoration: none;
+        color: var(--white);
+      }
+
+      .logo-bracket {
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      .logo-io {
+        color: var(--gray-light);
+      }
+
+      .logo-labs {
+        font-weight: 400;
+        color: var(--white);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+      }
+
+      .nav-links a {
+        color: var(--gray-light);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 900;
+        transition: color 0.3s ease;
+        padding-bottom: 0.25rem;
+        border-top: 2px solid var(--gray);
+        padding-top: 0.25rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--white);
+        border-top: 2px solid var(--gold);
+      }
+
+      .nav-links a.active {
+        color: var(--gold);
+        border-top: 2px solid var(--gold);
+      }
+
+      /* Hamburger button */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .hamburger span {
+        width: 24px;
+        height: 2px;
+        background: var(--white);
+        transition: all 0.3s ease;
+      }
+
+      .confirmation {
+        text-align: center;
+        max-width: 500px;
+        padding: 2rem;
+        animation: fadeIn 0.6s ease forwards;
+      }
+
+      .check-icon {
+        width: 440px;
+        height: 230px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        padding: 2rem;
+        animation: scaleIn 0.4s ease 0.2s forwards;
+        opacity: 0;
+      }
+
+      .check-icon svg {
+        color: var(--gold);
+      }
+
+      .confirmation h1 {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.02em;
+      }
+
+      .confirmation h1 .highlight {
+        color: var(--gold);
+      }
+
+      .confirmation p {
+        color: var(--gray-light);
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+          <!-- Navigation -->
+      <nav>
+        <a href="/" class="logo">
+          <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span
+          ><span class="logo-bracket">/&gt;</span>
+        </a>
+        <div
+          class="hamburger"
+          onclick="document.querySelector('.nav-links').classList.toggle('active')"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="nav-links">
+          <a href="/services">Services</a>
+          <a href="/solutions">Solutions</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    <div class="confirmation">
+      <div class="check-icon">
+        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 454.62 317.91">
+        <!-- Generator: Adobe Illustrator 30.2.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 1)  -->
+        <g>
+          <polygon points="33.68 99.25 80.79 99.25 80.79 81 33.68 81 33.68 59.79 75.96 59.79 75.96 41.94 33.68 41.94 33.68 22.74 79.99 22.74 79.99 4.48 33.68 4.48 28.71 4.48 12.47 4.48 12.47 99.25 28.71 99.25 33.68 99.25" fill="#e6ab17"/>
+          <path d="M141.47,59.6c3.16-.58,6.07-1.49,8.72-2.77,4.83-2.33,8.59-5.57,11.28-9.73s4.03-9.1,4.03-14.83c0-5.37-1.32-10.16-3.96-14.36-2.64-4.21-6.33-7.49-11.07-9.87-4.74-2.37-10.29-3.56-16.64-3.56h-38.79v94.77h21.21v-38.93h2.17l28.17,38.93h25.1l-30.2-39.65ZM116.23,21h15.17c4.11,0,7.32,1.12,9.6,3.36,2.28,2.24,3.42,5.06,3.42,8.46,0,3.58-1.16,6.42-3.49,8.52-2.33,2.1-5.55,3.15-9.66,3.15h-15.03v-23.49Z" fill="#e6ab17"/>
+          <path d="M201.87,60.33h2.17l28.17,38.93h25.1l-30.2-39.65c3.16-.58,6.07-1.49,8.72-2.77,4.83-2.33,8.59-5.57,11.28-9.73,2.68-4.16,4.03-9.1,4.03-14.83,0-5.37-1.32-10.16-3.96-14.36-2.64-4.21-6.33-7.49-11.07-9.87-4.74-2.37-10.29-3.56-16.64-3.56h-38.79v94.77h21.21v-38.93ZM217.04,21c4.11,0,7.32,1.12,9.6,3.36,2.28,2.24,3.42,5.06,3.42,8.46,0,3.58-1.16,6.42-3.49,8.52-2.33,2.1-5.55,3.15-9.66,3.15h-15.03v-23.49h15.17Z" fill="#e6ab17"/>
+          <path d="M346.57,86.7c4.47-4.43,7.96-9.62,10.47-15.57,2.5-5.95,3.76-12.37,3.76-19.26s-1.23-13.44-3.69-19.4c-2.46-5.95-5.97-11.14-10.54-15.57s-9.87-7.87-15.91-10.34c-6.04-2.46-12.6-3.69-19.67-3.69s-13.78,1.23-19.87,3.69c-6.09,2.46-11.37,5.91-15.84,10.34-4.48,4.43-7.97,9.6-10.47,15.5-2.51,5.91-3.76,12.35-3.76,19.33s1.25,13.31,3.76,19.26c2.5,5.95,6.04,11.16,10.6,15.64,4.56,4.48,9.89,7.97,15.97,10.47,6.08,2.5,12.71,3.76,19.87,3.76s13.6-1.25,19.6-3.76c5.99-2.5,11.23-5.97,15.71-10.4ZM311,81.53c-4.21,0-8.03-.69-11.48-2.08-3.45-1.39-6.42-3.4-8.93-6.04-2.51-2.64-4.43-5.79-5.77-9.46-1.34-3.67-2.01-7.74-2.01-12.21,0-5.91,1.16-11.07,3.49-15.5,2.33-4.43,5.61-7.87,9.87-10.34,4.25-2.46,9.19-3.69,14.83-3.69,4.12,0,7.92.69,11.41,2.08,3.49,1.39,6.49,3.4,8.99,6.04,2.5,2.64,4.43,5.77,5.77,9.4,1.34,3.62,2.01,7.63,2.01,12.01,0,5.91-1.19,11.1-3.56,15.57-2.37,4.48-5.66,7.97-9.87,10.47-4.21,2.51-9.13,3.76-14.77,3.76Z" fill="#e6ab17"/>
+          <path d="M395.3,60.33h2.16l28.17,38.93h25.1l-30.2-39.65c3.16-.58,6.07-1.49,8.72-2.77,4.83-2.33,8.59-5.57,11.28-9.73s4.03-9.1,4.03-14.83c0-5.37-1.32-10.16-3.96-14.36-2.64-4.21-6.33-7.49-11.07-9.87-4.74-2.37-10.29-3.56-16.64-3.56h-38.79v94.77h21.21v-38.93ZM410.46,21c4.12,0,7.32,1.12,9.6,3.36,2.28,2.24,3.42,5.06,3.42,8.46,0,3.58-1.16,6.42-3.49,8.52-2.33,2.1-5.55,3.15-9.67,3.15h-15.03v-23.49h15.17Z" fill="#e6ab17"/>
+          <polygon points="91.13 242.79 36.1 242.79 36.1 232.59 116.91 115.27 79.32 115.27 3.88 223.73 3.88 272.32 91.13 272.32 91.13 311.25 124.69 311.25 124.69 198.5 91.13 198.5 91.13 242.79" fill="#fff"/>
+          <path d="M261.2,119.84c-9.22-4.83-20.27-7.25-33.15-7.25s-23.49,2.42-32.89,7.25c-9.4,4.83-16.64,11.64-21.75,20.4-5.1,8.77-7.65,19.06-7.65,30.87v84.3c0,11.81,2.55,22.11,7.65,30.87,5.1,8.77,12.3,15.57,21.61,20.4,9.3,4.83,20.31,7.25,33.02,7.25s23.71-2.42,33.02-7.25c9.3-4.83,16.51-11.63,21.61-20.4,5.1-8.77,7.65-19.06,7.65-30.87v-84.3c0-11.81-2.55-22.1-7.65-30.87-5.1-8.77-12.26-15.57-21.48-20.4Z" fill="#fff"/>
+          <polygon points="413.28 242.79 358.25 242.79 358.25 232.59 439.05 115.27 401.47 115.27 326.03 223.73 326.03 272.32 413.28 272.32 413.28 311.25 446.84 311.25 446.84 198.5 413.28 198.5 413.28 242.79" fill="#fff"/>
+        </g>
+        <g>
+          <polygon points="220.69 143.97 200.87 191.29 214.93 191.29 226.05 163.09 237.17 191.29 251.22 191.29 231.41 143.97 220.69 143.97" fill="#e6ab17"/>
+          <polygon points="186.62 196.47 186.62 210.12 268.51 234.79 268.51 221.34 186.62 196.47" fill="#e6ab17"/>
+          <polygon points="237.17 239.94 226.05 268.06 214.93 239.94 200.87 239.94 220.69 287.25 231.41 287.25 251.22 239.94 237.17 239.94" fill="#e6ab17"/>
+        </g>
+      </svg>
+      </div>
+      <h1>Oops! <span class="highlight">Page not found.</span></h1>
+      <p>You must really need our help because you're looking for something that doesn't exist.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -9,6 +9,11 @@
       content="Get in touch with syncIO Labs. Free 15-minute call to talk about your operational software needs. No pitch, no pressure."
     />
     <link rel="canonical" href="https://synciolabs.com/contact" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -506,7 +511,7 @@
     <div class="contact-page">
       <!-- Navigation -->
       <nav>
-        <a href="index.html" class="logo">
+        <a href="/" class="logo">
           <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span
           ><span class="logo-bracket">/&gt;</span>
         </a>
@@ -519,9 +524,9 @@
           <span></span>
         </div>
         <div class="nav-links">
-          <a href="services.html">Services</a>
-          <a href="solutions.html">Solutions</a>
-          <a href="contact.html" class="active">Contact</a>
+          <a href="/services">Services</a>
+          <a href="/solutions">Solutions</a>
+          <a href="/contact" class="active">Contact</a>
         </div>
       </nav>
 
@@ -696,7 +701,7 @@
                   }).then(function (response) {
                     if (response.ok) {
                       form.reset();
-                      window.location.href = 'thank-you.html';
+                      window.location.href = '/thank-you';
                     }
                   });
                 });
@@ -709,7 +714,7 @@
       <!-- Footer -->
       <footer>
         <div class="footer-left">
-          <a href="index.html" class="footer-logo">
+          <a href="/" class="footer-logo">
             <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span
             ><span class="logo-bracket">/&gt;</span><span class="logo-labs"> Labs</span>
           </a>
