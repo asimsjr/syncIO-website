@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Keep demo dashboards and utility pages out of search
+Disallow: /Solutions/
+Disallow: /thank-you
+Disallow: /vcard/
+
+# Sitemap location
+Sitemap: https://synciolabs.com/sitemap.xml
