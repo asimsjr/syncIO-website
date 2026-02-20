@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCI Roofing — Operations Dashboard Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ============================================
+   CSS VARIABLES & RESET
+   ============================================ */
+:root {
+  --primary: #dc2626;
+  --primary-light: #fee2e2;
+  --primary-dark: #991b1b;
+  --positive: #16a34a;
+  --positive-light: #dcfce7;
+  --positive-bg: #f0fdf4;
+  --negative: #dc2626;
+  --negative-light: #fef2f2;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --warning-bg: #fffbeb;
+  --blue: #3b82f6;
+  --blue-light: #eff6ff;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --sidebar-bg: #fafafa;
+  --syncio-black: #0a0a0a;
+  --syncio-gold: #e8a600;
+  --syncio-gray: #9a9a9a;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  padding-top: 82px; /* disclaimer + nav */
+}
+
+/* ============================================
+   DEMO DISCLAIMER BANNER
+   ============================================ */
+.demo-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
+  background: var(--syncio-gold);
+  color: var(--syncio-black);
+  text-align: center;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  height: 32px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.demo-banner span { opacity: 0.7; font-weight: 500; }
+
+/* ============================================
+   SYNCIO TOP NAV
+   ============================================ */
+.syncio-nav {
+  position: fixed; top: 32px; left: 0; right: 0; z-index: 1000;
+  height: 50px;
+  background: var(--syncio-black);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid #222;
+}
+.syncio-nav-logo {
+  font-weight: 700; font-size: 1.1rem; color: #fafafa; text-decoration: none;
+}
+.syncio-nav-logo .bracket { color: var(--syncio-gold); }
+.syncio-nav-logo .io { color: var(--syncio-gray); }
+.syncio-nav-back {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--syncio-gray); text-decoration: none; font-size: 0.85rem;
+  transition: color 0.2s;
+}
+.syncio-nav-back:hover { color: var(--syncio-gold); }
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.dashboard-layout { display: flex; min-height: calc(100vh - 82px); }
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar {
+  width: 230px; background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0;
+  position: sticky; top: 82px; height: calc(100vh - 82px);
+  overflow-y: auto;
+}
+.sidebar-header {
+  padding: 20px; border-bottom: 1px solid var(--border);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 34px; height: 34px; background: var(--primary); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.logo-icon svg { width: 18px; height: 18px; color: white; }
+.logo-text { font-weight: 700; font-size: 14px; color: var(--text); line-height: 1.2; }
+.logo-text span { display: block; color: var(--text-secondary); font-weight: 500; font-size: 11px; }
+
+.sidebar-nav { padding: 16px 12px; flex: 1; }
+
+.nav-section-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); padding: 16px 12px 6px; margin-top: 4px;
+}
+.nav-section-label:first-child { margin-top: 0; padding-top: 0; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 12px; border-radius: 8px;
+  color: var(--text-secondary); font-size: 13.5px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s ease;
+  border: none; background: transparent; width: 100%; text-align: left;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--border); color: var(--text); }
+.nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+.nav-item.disabled {
+  opacity: 0.4; cursor: default; pointer-events: none;
+}
+.nav-item .phase-badge {
+  font-size: 9px; font-weight: 700; background: var(--border); color: var(--text-muted);
+  padding: 1px 6px; border-radius: 3px; margin-left: auto; letter-spacing: 0.03em;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+  flex: 1; padding: 28px 36px; overflow-y: auto; min-width: 0;
+}
+.content-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 28px;
+}
+.page-title {
+  font-size: 22px; font-weight: 800; color: var(--text);
+  display: flex; align-items: baseline; gap: 10px;
+}
+.page-subtitle {
+  font-size: 14px; font-weight: 400; color: var(--text-secondary); font-style: italic;
+}
+.last-sync {
+  font-size: 12px; color: var(--text-muted); margin-top: 4px;
+}
+
+.header-actions { display: flex; gap: 10px; align-items: center; }
+
+.sync-button {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px;
+  border: 2px solid var(--primary); background: white;
+  color: var(--primary); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.sync-button:hover { background: var(--primary); color: white; }
+.sync-button svg { width: 15px; height: 15px; }
+
+/* ============================================
+   SCENARIO TOGGLES
+   ============================================ */
+.scenario-bar {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 20px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+.scenario-bar-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-muted);
+  margin-right: 4px; white-space: nowrap;
+}
+.scenario-toggle {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid var(--border); background: white;
+  font-size: 12px; font-weight: 600; color: var(--text-secondary);
+  cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+}
+.scenario-toggle:hover { border-color: var(--text-muted); color: var(--text); }
+.scenario-toggle.active {
+  border-color: var(--primary); background: var(--primary-light);
+  color: var(--primary);
+}
+.scenario-toggle .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border); transition: background 0.2s;
+}
+.scenario-toggle.active .dot { background: var(--primary); }
+.scenario-reset {
+  margin-left: auto; padding: 5px 12px; border-radius: 6px;
+  border: 1px solid var(--border); background: white;
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+}
+.scenario-reset:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* ============================================
+   KPI CARDS
+   ============================================ */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 18px 20px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); position: relative;
+  transition: box-shadow 0.2s;
+}
+.kpi-card:hover { box-shadow: var(--shadow-md); }
+.kpi-label {
+  font-size: 11.5px; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 26px; font-weight: 800; color: var(--text);
+  line-height: 1.2; margin-bottom: 4px;
+}
+.kpi-value.positive { color: var(--positive); }
+.kpi-value.negative { color: var(--negative); }
+.kpi-value.warning { color: var(--warning); }
+.kpi-subtitle {
+  font-size: 11.5px; color: var(--text-muted); font-weight: 500;
+}
+.kpi-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; margin-top: 4px;
+}
+.kpi-badge.healthy { background: var(--positive-light); color: var(--positive); }
+.kpi-badge.caution { background: var(--warning-light); color: #b45309; }
+.kpi-badge.critical { background: var(--primary-light); color: var(--primary); }
+
+/* Highlight strips */
+.kpi-card.hl-green { border-top: 3px solid var(--positive); }
+.kpi-card.hl-red { border-top: 3px solid var(--negative); }
+.kpi-card.hl-yellow { border-top: 3px solid var(--warning); }
+.kpi-card.hl-blue { border-top: 3px solid var(--blue); }
+
+/* ============================================
+   ANOMALY ALERT CARDS
+   ============================================ */
+.anomaly-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  margin-bottom: 24px;
+}
+.anomaly-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 16px 20px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex; align-items: flex-start; gap: 14px;
+  border-left: 4px solid var(--warning);
+}
+.anomaly-card.severity-high { border-left-color: var(--negative); }
+.anomaly-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.anomaly-card.severity-high .anomaly-icon {
+  background: var(--primary-light); color: var(--primary);
+}
+.anomaly-card.severity-medium .anomaly-icon {
+  background: var(--warning-light); color: #b45309;
+}
+.anomaly-icon svg { width: 18px; height: 18px; }
+.anomaly-content { flex: 1; min-width: 0; }
+.anomaly-title {
+  font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px;
+}
+.anomaly-desc {
+  font-size: 12px; color: var(--text-secondary); line-height: 1.5;
+}
+.anomaly-metric {
+  font-size: 11px; font-weight: 600; margin-top: 6px;
+  padding: 3px 8px; border-radius: 4px; display: inline-block;
+}
+.anomaly-card.severity-high .anomaly-metric {
+  background: var(--primary-light); color: var(--primary);
+}
+.anomaly-card.severity-medium .anomaly-metric {
+  background: var(--warning-light); color: #b45309;
+}
+
+/* ============================================
+   SECTION CARDS
+   ============================================ */
+.section-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  margin-bottom: 24px; overflow: hidden;
+}
+.section-card-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border-light);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.section-card-title {
+  font-size: 15px; font-weight: 700; color: var(--text);
+}
+.section-card-body { padding: 20px; }
+.section-card-body.no-pad { padding: 0; }
+
+/* ============================================
+   DATA TABLES
+   ============================================ */
+.data-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.data-table thead th {
+  text-align: left; padding: 10px 16px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted);
+  border-bottom: 2px solid var(--border); background: var(--bg);
+}
+.data-table thead th.num { text-align: right; }
+.data-table tbody td {
+  padding: 11px 16px; border-bottom: 1px solid var(--border-light);
+  color: var(--text); font-weight: 500;
+}
+.data-table tbody td.num {
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.data-table tbody tr:hover { background: #f8fafc; }
+.data-table tbody tr.totals-row {
+  font-weight: 700; background: var(--bg);
+  border-top: 2px solid var(--border);
+}
+.data-table tbody tr.totals-row td { padding: 12px 16px; }
+.margin-good { color: var(--positive); font-weight: 700; }
+.margin-warn { color: var(--warning); font-weight: 700; }
+.margin-bad { color: var(--negative); font-weight: 700; }
+
+.job-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600;
+}
+.job-status.on-track { background: var(--positive-light); color: var(--positive); }
+.job-status.at-risk { background: var(--warning-light); color: #b45309; }
+.job-status.over-budget { background: var(--primary-light); color: var(--primary); }
+.job-status.complete { background: var(--blue-light); color: var(--blue); }
+
+/* Progress bar */
+.progress-bar {
+  width: 80px; height: 6px; background: var(--border);
+  border-radius: 3px; overflow: hidden; display: inline-block;
+  vertical-align: middle; margin-right: 6px;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 3px; background: var(--positive);
+  transition: width 0.3s ease;
+}
+.progress-bar-fill.warn { background: var(--warning); }
+.progress-bar-fill.danger { background: var(--negative); }
+
+/* ============================================
+   CHART CONTAINERS
+   ============================================ */
+.chart-container { position: relative; height: 340px; padding: 4px 0; }
+
+/* ============================================
+   HEALTH SCORECARD
+   ============================================ */
+.health-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.health-metric {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 16px 18px; border: 1px solid var(--border-light);
+}
+.health-metric-label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+}
+.health-metric-value {
+  font-size: 28px; font-weight: 800; line-height: 1.1; margin-bottom: 6px;
+}
+.health-metric-sub {
+  font-size: 11.5px; color: var(--text-muted); font-weight: 500;
+}
+.health-metric-bar {
+  margin-top: 10px; height: 8px; background: var(--border);
+  border-radius: 4px; overflow: hidden;
+}
+.health-metric-bar-fill {
+  height: 100%; border-radius: 4px; transition: width 0.4s ease;
+}
+
+/* ============================================
+   EDITABLE VALUES
+   ============================================ */
+.editable {
+  cursor: pointer; position: relative;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.15s;
+}
+.editable:hover {
+  border-bottom-color: var(--text-muted);
+}
+.editable-input {
+  font-family: inherit; font-size: inherit; font-weight: inherit;
+  color: inherit; background: var(--warning-light);
+  border: 2px solid var(--warning); border-radius: 4px;
+  padding: 0 4px; outline: none; width: auto;
+  min-width: 60px;
+}
+
+/* ============================================
+   FORECAST SPECIFIC
+   ============================================ */
+.forecast-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-bottom: 20px;
+}
+.forecast-stat {
+  text-align: center; padding: 14px;
+  background: var(--bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+.forecast-stat-value {
+  font-size: 22px; font-weight: 800; margin-bottom: 2px;
+}
+.forecast-stat-label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* ============================================
+   TAB CONTENT VISIBILITY
+   ============================================ */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.powered-by {
+  text-align: center; padding: 24px; font-size: 11px;
+  color: var(--text-muted); font-weight: 500;
+}
+.powered-by a { color: var(--syncio-gold); text-decoration: none; font-weight: 600; }
+.powered-by a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- DEMO DISCLAIMER -->
+<div class="demo-banner">
+  INTERACTIVE DEMO <span>— Simulated data for demonstration purposes only. Does not reflect actual financial information for SCI Roofing.</span>
+</div>
+
+<!-- SYNCIO NAV -->
+<nav class="syncio-nav">
+  <a href="https://synciolabs.com" class="syncio-nav-logo">
+    <span class="bracket">&lt;</span>sync<span class="io">IO</span><span class="bracket">/&gt;</span> Labs
+  </a>
+  <a href="https://synciolabs.com" class="syncio-nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back to syncIOLabs.com
+  </a>
+</nav>
+
+<!-- DASHBOARD LAYOUT -->
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="logo-text">
+          SCI Roofing
+          <span>Operations Dashboard</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <button class="nav-item active" onclick="switchTab('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" onclick="switchTab('jobs')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        Job Profitability
+      </button>
+
+      <div class="nav-section-label">Cash Flow</div>
+      <button class="nav-item" onclick="switchTab('health')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Health
+      </button>
+      <button class="nav-item" onclick="switchTab('history')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        History
+      </button>
+      <button class="nav-item" onclick="switchTab('forecast')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M21 7l-8 8-4-4-6 6"/></svg>
+        Forecast
+      </button>
+
+      <div class="nav-section-label">Phase 2</div>
+      <button class="nav-item disabled">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Overhead
+        <span class="phase-badge">SOON</span>
+      </button>
+      <button class="nav-item disabled">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Collections
+        <span class="phase-badge">SOON</span>
+      </button>
+      <button class="nav-item disabled">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Payments
+        <span class="phase-badge">SOON</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ==========================================
+         SCENARIO TOGGLES (visible on all tabs)
+         ========================================== -->
+    <div class="scenario-bar">
+      <span class="scenario-bar-label">What-If Scenarios:</span>
+      <button class="scenario-toggle" onclick="toggleScenario('latePayment')" id="sc-latePayment">
+        <span class="dot"></span> Summit Ridge pays 30 days late
+      </button>
+      <button class="scenario-toggle" onclick="toggleScenario('costOverrun')" id="sc-costOverrun">
+        <span class="dot"></span> Cedar Park materials +15%
+      </button>
+      <button class="scenario-toggle" onclick="toggleScenario('newContract')" id="sc-newContract">
+        <span class="dot"></span> New $95K contract signed
+      </button>
+      <button class="scenario-reset" onclick="resetScenarios()">Reset All</button>
+    </div>
+
+    <!-- ==========================================
+         TAB 1: EXECUTIVE DASHBOARD
+         ========================================== -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="content-header">
+        <div>
+          <h1 class="page-title">Dashboard <span class="page-subtitle">Monday Morning View</span></h1>
+          <div class="last-sync">Last sync: Today at 6:00 AM — QuickBooks Online</div>
+        </div>
+        <div class="header-actions">
+          <button class="sync-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            Sync Now
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid" id="dashboard-kpis"></div>
+
+      <!-- ANOMALY ALERTS -->
+      <div class="anomaly-grid" id="dashboard-anomalies"></div>
+
+      <!-- ACTIVE JOBS SUMMARY -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="section-card-title">Active Jobs — Quick View</div>
+        </div>
+        <div class="section-card-body no-pad">
+          <table class="data-table" id="dashboard-jobs-table">
+            <thead>
+              <tr>
+                <th>Job Name</th>
+                <th>Customer</th>
+                <th class="num">Contract</th>
+                <th class="num">Costs to Date</th>
+                <th>Progress</th>
+                <th class="num">Margin</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-jobs-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB 2: JOB PROFITABILITY
+         ========================================== -->
+    <div class="tab-content" id="tab-jobs">
+      <div class="content-header">
+        <div>
+          <h1 class="page-title">Job Profitability <span class="page-subtitle">Budget vs. Actual</span></h1>
+          <div class="last-sync">Click any dollar value to edit — changes cascade across all views</div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="jobs-kpis"></div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="section-card-title">All Active Jobs — Detailed View</div>
+        </div>
+        <div class="section-card-body no-pad">
+          <table class="data-table" id="jobs-detail-table">
+            <thead>
+              <tr>
+                <th>Job Name</th>
+                <th class="num">Contract Value</th>
+                <th class="num">Budgeted Cost</th>
+                <th class="num">Actual Cost</th>
+                <th class="num">Variance</th>
+                <th class="num">Gross Profit</th>
+                <th class="num">Margin %</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-detail-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB 3: CASH FLOW HEALTH
+         ========================================== -->
+    <div class="tab-content" id="tab-health">
+      <div class="content-header">
+        <div>
+          <h1 class="page-title">Cash Flow Health <span class="page-subtitle">How strong is your position?</span></h1>
+          <div class="last-sync">Real-time health indicators from QuickBooks data</div>
+        </div>
+      </div>
+
+      <div class="health-grid" id="health-metrics"></div>
+
+      <div class="section-card" style="margin-top: 24px;">
+        <div class="section-card-header">
+          <div class="section-card-title">Burn Rate Trend — 13 Weeks</div>
+        </div>
+        <div class="section-card-body">
+          <div class="chart-container">
+            <canvas id="burnRateChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB 4: CASH FLOW HISTORY
+         ========================================== -->
+    <div class="tab-content" id="tab-history">
+      <div class="content-header">
+        <div>
+          <h1 class="page-title">Cash Flow History <span class="page-subtitle">Where did it come from? Where did it go?</span></h1>
+          <div class="last-sync">13-week trailing analysis</div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="history-kpis"></div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="section-card-title">13-Week Cash Flow Analysis</div>
+        </div>
+        <div class="section-card-body">
+          <div class="chart-container">
+            <canvas id="historyChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB 5: FORECAST
+         ========================================== -->
+    <div class="tab-content" id="tab-forecast">
+      <div class="content-header">
+        <div>
+          <h1 class="page-title">Cash Flow Forecast <span class="page-subtitle">What's coming?</span></h1>
+          <div class="last-sync">13-week forward projection based on known AR, AP, and active jobs</div>
+        </div>
+      </div>
+
+      <div class="forecast-summary" id="forecast-summary"></div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="section-card-title">13-Week Projected Cash Position</div>
+        </div>
+        <div class="section-card-body">
+          <div class="chart-container">
+            <canvas id="forecastChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <div class="section-card-title">Week-by-Week Forecast Detail</div>
+        </div>
+        <div class="section-card-body no-pad">
+          <table class="data-table" id="forecast-table">
+            <thead>
+              <tr>
+                <th>Week</th>
+                <th class="num">Expected In</th>
+                <th class="num">Expected Out</th>
+                <th class="num">Net</th>
+                <th class="num">Projected Cash</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="forecast-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="powered-by">
+      Powered by <a href="https://synciolabs.com">&lt;syncIO/&gt; Labs</a> — Building software that finally fits your business.
+    </div>
+  </main>
+</div>
+
+<script>
+// ============================================
+// DATA MODEL — Single Source of Truth
+// ============================================
+
+function getBaseState() {
+  return {
+    company: { name: "SCI Roofing", type: "Operations Dashboard" },
+    scenarios: { latePayment: false, costOverrun: false, newContract: false },
+
+    accounts: {
+      cashOnHand: 287340,
+      monthlyOverhead: 18500,
+      avgMonthlyOverhead6mo: 14800,
+    },
+
+    jobs: [
+      {
+        id: 1, name: "Summit Ridge Re-Roof", customer: "Summit Ridge HOA",
+        contractValue: 94500, budgetedCost: 71200, actualCost: 55500,
+        percentComplete: 78, billed: 73700, received: 58960
+      },
+      {
+        id: 2, name: "Cedar Park Commercial", customer: "Cedar Park Properties",
+        contractValue: 187000, budgetedCost: 136000, actualCost: 68200,
+        percentComplete: 45, billed: 84150, received: 84150
+      },
+      {
+        id: 3, name: "Oakwood HOA Phase 2", customer: "Oakwood Community Assoc.",
+        contractValue: 156000, budgetedCost: 115000, actualCost: 102400,
+        percentComplete: 92, billed: 143500, received: 117000
+      },
+      {
+        id: 4, name: "Riverside Office Complex", customer: "Riverside Dev Group",
+        contractValue: 234000, budgetedCost: 172000, actualCost: 48600,
+        percentComplete: 28, billed: 65500, received: 65500
+      },
+      {
+        id: 5, name: "Magnolia Estates", customer: "Magnolia Estates LLC",
+        contractValue: 67500, budgetedCost: 47800, actualCost: 38200,
+        percentComplete: 65, billed: 43875, received: 33750
+      },
+      {
+        id: 6, name: "Downtown Lofts Emergency", customer: "Metro Lofts Inc.",
+        contractValue: 42000, budgetedCost: 29500, actualCost: 27800,
+        percentComplete: 100, billed: 42000, received: 33600
+      },
+      {
+        id: 7, name: "Heritage Church Restoration", customer: "Heritage First Baptist",
+        contractValue: 128000, budgetedCost: 94000, actualCost: 12300,
+        percentComplete: 12, billed: 15360, received: 15360
+      }
+    ],
+
+    // 13 weeks of historical cash flow
+    history: {
+      weeks: ['Dec 2','Dec 9','Dec 16','Dec 23','Dec 30','Jan 6','Jan 13','Jan 20','Jan 27','Feb 3','Feb 10','Feb 17','Feb 24'],
+      collections: [85000, 42000, 67000, 31000, 58000, 72000, 45000, 93000, 38000, 61000, 54000, 78000, 52000],
+      payments:    [62000, 55000, 48000, 71000, 43000, 58000, 67000, 52000, 85000, 47000, 63000, 49000, 56000]
+    },
+
+    // 13 weeks of forecast data
+    forecast: {
+      weeks: ['Mar 2','Mar 9','Mar 16','Mar 23','Mar 30','Apr 6','Apr 13','Apr 20','Apr 27','May 4','May 11','May 18','May 25'],
+      expectedIn:  [45000, 58000, 32000, 71000, 28000, 15000, 48000, 65000, 42000, 55000, 38000, 62000, 47000],
+      expectedOut: [38000, 42000, 55000, 35000, 48000, 92000, 45000, 38000, 52000, 41000, 35000, 44000, 39000]
+    },
+
+    anomalies: [
+      {
+        id: 1, severity: "high",
+        title: "Cash vs. Accrual Gap Detected",
+        desc: "Bank balance has declined $47,200 more than net income explains over the past 6 months. Unexplained cash leakage warrants investigation.",
+        metric: "$47,200 unexplained gap"
+      },
+      {
+        id: 2, severity: "medium",
+        title: "Overhead Trending Above Baseline",
+        desc: "Monthly overhead is 25% above the trailing 6-month average. Review recent expense categories for unauthorized or unusual charges.",
+        metric: "$18,500 vs $14,800 avg"
+      }
+    ]
+  };
+}
+
+let STATE = getBaseState();
+
+// ============================================
+// SCENARIO ENGINE
+// ============================================
+
+function applyScenarios() {
+  STATE = getBaseState();
+
+  if (STATE.scenarios.latePayment) {
+    // Summit Ridge: move $58,960 received to $0 (payment delayed)
+    // This affects cash on hand and forecast
+    STATE.accounts.cashOnHand -= 28960; // partial impact
+    STATE.jobs[0].received -= 28960;
+    // Shift forecast: week 1-2 expected in drops
+    STATE.forecast.expectedIn[0] -= 15000;
+    STATE.forecast.expectedIn[1] -= 13960;
+    // Add it back in week 5-6
+    STATE.forecast.expectedIn[5] += 15000;
+    STATE.forecast.expectedIn[6] += 13960;
+  }
+
+  if (STATE.scenarios.costOverrun) {
+    // Cedar Park materials +15%
+    const overrun = Math.round(STATE.jobs[1].actualCost * 0.15);
+    STATE.jobs[1].actualCost += overrun;
+    STATE.jobs[1].budgetedCost; // budget stays same — shows overrun
+    // Additional outflows in forecast
+    STATE.forecast.expectedOut[2] += Math.round(overrun * 0.5);
+    STATE.forecast.expectedOut[3] += Math.round(overrun * 0.5);
+  }
+
+  if (STATE.scenarios.newContract) {
+    // New $95K job
+    STATE.jobs.push({
+      id: 8, name: "Brookstone Villas Re-Roof", customer: "Brookstone Property Mgmt",
+      contractValue: 95000, budgetedCost: 68000, actualCost: 0,
+      percentComplete: 0, billed: 0, received: 0
+    });
+    // 25% deposit comes in week 3
+    STATE.forecast.expectedIn[2] += 23750;
+    // Material purchases start week 4-5
+    STATE.forecast.expectedOut[3] += 8500;
+    STATE.forecast.expectedOut[4] += 12000;
+  }
+
+  renderAll();
+}
+
+function toggleScenario(name) {
+  // We need to preserve scenario state across getBaseState
+  const current = STATE.scenarios[name];
+  STATE = getBaseState();
+  // Restore all scenario states
+  const btn = document.getElementById('sc-' + name);
+  // Toggle the clicked one
+  document.querySelectorAll('.scenario-toggle').forEach(b => {
+    const sName = b.id.replace('sc-', '');
+    if (sName === name) {
+      STATE.scenarios[sName] = !current;
+      b.classList.toggle('active', !current);
+    } else {
+      STATE.scenarios[sName] = b.classList.contains('active');
+    }
+  });
+  applyScenarios();
+}
+
+function resetScenarios() {
+  document.querySelectorAll('.scenario-toggle').forEach(b => b.classList.remove('active'));
+  STATE = getBaseState();
+  renderAll();
+}
+
+// ============================================
+// COMPUTED VALUES
+// ============================================
+
+function getComputed() {
+  const jobs = STATE.jobs;
+  const activeJobs = jobs.filter(j => j.percentComplete < 100);
+  const totalContractValue = jobs.reduce((s, j) => s + j.contractValue, 0);
+  const totalBilled = jobs.reduce((s, j) => s + j.billed, 0);
+  const totalReceived = jobs.reduce((s, j) => s + j.received, 0);
+  const totalActualCost = jobs.reduce((s, j) => s + j.actualCost, 0);
+  const totalBudgetedCost = jobs.reduce((s, j) => s + j.budgetedCost, 0);
+  const unbilledRevenue = totalContractValue - totalBilled;
+  const outstandingAR = totalBilled - totalReceived;
+  const projectedGrossProfit = jobs.reduce((s, j) => s + (j.contractValue - j.budgetedCost), 0);
+  const projectedNetProfit = projectedGrossProfit - (STATE.accounts.monthlyOverhead * 12);
+
+  // Days cash on hand
+  const weeklyBurn = (STATE.history.payments.reduce((s, v) => s + v, 0) / 13);
+  const dailyBurn = weeklyBurn / 7;
+  const daysCash = Math.floor(STATE.accounts.cashOnHand / dailyBurn);
+
+  // Cash flow history totals
+  const totalCollections = STATE.history.collections.reduce((s, v) => s + v, 0);
+  const totalPayments = STATE.history.payments.reduce((s, v) => s + v, 0);
+  const netCashflow = totalCollections - totalPayments;
+
+  // Burn rate data
+  const burnRates = STATE.history.payments.map((p, i) => {
+    // 4-week rolling average
+    if (i < 3) return p;
+    return Math.round((STATE.history.payments[i] + STATE.history.payments[i-1] + STATE.history.payments[i-2] + STATE.history.payments[i-3]) / 4);
+  });
+
+  // Forecast projections
+  let runningCash = STATE.accounts.cashOnHand;
+  const forecastCash = STATE.forecast.expectedIn.map((inflow, i) => {
+    runningCash = runningCash + inflow - STATE.forecast.expectedOut[i];
+    return runningCash;
+  });
+  const forecastLow = Math.min(...forecastCash);
+  const forecastLowWeek = STATE.forecast.weeks[forecastCash.indexOf(forecastLow)];
+  const forecastEnd = forecastCash[forecastCash.length - 1];
+
+  // Health metrics
+  const overheadRatio = STATE.accounts.monthlyOverhead / STATE.accounts.avgMonthlyOverhead6mo;
+  const currentRatio = (STATE.accounts.cashOnHand + outstandingAR) / (STATE.accounts.monthlyOverhead * 2);
+  const dso = outstandingAR > 0 ? Math.round((outstandingAR / totalBilled) * 90) : 0;
+
+  return {
+    totalContractValue, totalBilled, totalReceived, totalActualCost,
+    totalBudgetedCost, unbilledRevenue, outstandingAR, projectedGrossProfit,
+    projectedNetProfit, daysCash, dailyBurn, weeklyBurn,
+    totalCollections, totalPayments, netCashflow,
+    activeJobCount: activeJobs.length, totalJobCount: jobs.length,
+    burnRates, forecastCash, forecastLow, forecastLowWeek, forecastEnd,
+    overheadRatio, currentRatio, dso
+  };
+}
+
+// ============================================
+// FORMATTING HELPERS
+// ============================================
+
+function fmt(n) {
+  if (n == null) return '—';
+  const neg = n < 0;
+  const abs = Math.abs(Math.round(n));
+  return (neg ? '-$' : '$') + abs.toLocaleString('en-US');
+}
+
+function fmtK(n) {
+  if (Math.abs(n) >= 1000) {
+    return (n < 0 ? '-$' : '$') + (Math.abs(n)/1000).toFixed(0) + 'K';
+  }
+  return fmt(n);
+}
+
+function pct(n) { return n.toFixed(1) + '%'; }
+
+function getMarginClass(margin) {
+  if (margin >= 20) return 'margin-good';
+  if (margin >= 10) return 'margin-warn';
+  return 'margin-bad';
+}
+
+function getJobStatus(job) {
+  if (job.percentComplete >= 100) return { label: 'Complete', cls: 'complete' };
+  const budgetUsed = job.actualCost / job.budgetedCost;
+  const progressRatio = job.percentComplete / 100;
+  if (budgetUsed > progressRatio * 1.15) return { label: 'Over Budget', cls: 'over-budget' };
+  if (budgetUsed > progressRatio * 1.05) return { label: 'At Risk', cls: 'at-risk' };
+  return { label: 'On Track', cls: 'on-track' };
+}
+
+function getDaysCashStatus(days) {
+  if (days >= 60) return { label: 'Healthy', cls: 'healthy' };
+  if (days >= 30) return { label: 'Monitor', cls: 'caution' };
+  return { label: 'Critical', cls: 'critical' };
+}
+
+// ============================================
+// EDITABLE VALUE SYSTEM
+// ============================================
+
+function makeEditable(value, path, formatter) {
+  const formatted = formatter ? formatter(value) : fmt(value);
+  return `<span class="editable" onclick="startEdit(this, '${path}', ${value})">${formatted}</span>`;
+}
+
+function startEdit(el, path, currentValue) {
+  if (el.querySelector('input')) return;
+  const raw = Math.abs(Math.round(currentValue));
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'editable-input';
+  input.value = raw;
+  input.style.width = Math.max(70, el.offsetWidth + 10) + 'px';
+
+  el.textContent = '';
+  el.appendChild(input);
+  input.focus();
+  input.select();
+
+  function commit() {
+    const newVal = parseFloat(input.value) || 0;
+    applyEdit(path, newVal);
+  }
+
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); commit(); }
+    if (e.key === 'Escape') { renderAll(); }
+  });
+}
+
+function applyEdit(path, value) {
+  const parts = path.split('.');
+  let target = STATE;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (parts[i].match(/^\d+$/)) {
+      target = target[parseInt(parts[i])];
+    } else {
+      target = target[parts[i]];
+    }
+  }
+  const lastKey = parts[parts.length - 1];
+  target[lastKey] = value;
+  renderAll();
+}
+
+// ============================================
+// RENDER FUNCTIONS
+// ============================================
+
+let chartInstances = {};
+
+function destroyChart(name) {
+  if (chartInstances[name]) {
+    chartInstances[name].destroy();
+    delete chartInstances[name];
+  }
+}
+
+function renderAll() {
+  const c = getComputed();
+  renderDashboardKPIs(c);
+  renderAnomalies();
+  renderDashboardJobs(c);
+  renderJobsTab(c);
+  renderHealthTab(c);
+  renderHistoryTab(c);
+  renderForecastTab(c);
+}
+
+// --- DASHBOARD TAB ---
+
+function renderDashboardKPIs(c) {
+  const status = getDaysCashStatus(c.daysCash);
+  document.getElementById('dashboard-kpis').innerHTML = `
+    <div class="kpi-card hl-green">
+      <div class="kpi-label">Cash on Hand</div>
+      <div class="kpi-value positive">${makeEditable(STATE.accounts.cashOnHand, 'accounts.cashOnHand')}</div>
+      <div class="kpi-subtitle">As of today</div>
+    </div>
+    <div class="kpi-card hl-blue">
+      <div class="kpi-label">Unbilled Revenue</div>
+      <div class="kpi-value">${fmt(c.unbilledRevenue)}</div>
+      <div class="kpi-subtitle">Work completed, not yet invoiced</div>
+    </div>
+    <div class="kpi-card hl-yellow">
+      <div class="kpi-label">Days Cash on Hand</div>
+      <div class="kpi-value ${status.cls === 'healthy' ? 'positive' : status.cls === 'critical' ? 'negative' : 'warning'}">${c.daysCash} days</div>
+      <div class="kpi-badge ${status.cls}">${status.label}</div>
+    </div>
+    <div class="kpi-card hl-red">
+      <div class="kpi-label">Outstanding AR</div>
+      <div class="kpi-value">${fmt(c.outstandingAR)}</div>
+      <div class="kpi-subtitle">${c.activeJobCount} active jobs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Contract Value</div>
+      <div class="kpi-value">${fmt(c.totalContractValue)}</div>
+      <div class="kpi-subtitle">${c.totalJobCount} total jobs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Projected Gross Profit</div>
+      <div class="kpi-value ${c.projectedGrossProfit >= 0 ? 'positive' : 'negative'}">${fmt(c.projectedGrossProfit)}</div>
+      <div class="kpi-subtitle">At project completion</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Budget Variance</div>
+      <div class="kpi-value ${c.totalActualCost <= c.totalBudgetedCost ? 'positive' : 'negative'}">${fmt(c.totalBudgetedCost - c.totalActualCost)}</div>
+      <div class="kpi-subtitle">${c.totalActualCost <= c.totalBudgetedCost ? 'Under budget' : 'Over budget'}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Forecast Low Point</div>
+      <div class="kpi-value ${c.forecastLow > 100000 ? 'positive' : c.forecastLow > 50000 ? 'warning' : 'negative'}">${fmt(c.forecastLow)}</div>
+      <div class="kpi-subtitle">Week of ${c.forecastLowWeek}</div>
+    </div>
+  `;
+}
+
+function renderAnomalies() {
+  const container = document.getElementById('dashboard-anomalies');
+  container.innerHTML = STATE.anomalies.map(a => `
+    <div class="anomaly-card severity-${a.severity}">
+      <div class="anomaly-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+      </div>
+      <div class="anomaly-content">
+        <div class="anomaly-title">${a.title}</div>
+        <div class="anomaly-desc">${a.desc}</div>
+        <div class="anomaly-metric">${a.metric}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderDashboardJobs(c) {
+  const tbody = document.getElementById('dashboard-jobs-body');
+  const rows = STATE.jobs.map(j => {
+    const margin = j.contractValue > 0 ? ((j.contractValue - j.actualCost) / j.contractValue * 100) : 0;
+    const projMargin = j.contractValue > 0 ? ((j.contractValue - j.budgetedCost) / j.contractValue * 100) : 0;
+    const status = getJobStatus(j);
+    const pctUsed = j.budgetedCost > 0 ? (j.actualCost / j.budgetedCost * 100) : 0;
+    const barCls = pctUsed > j.percentComplete * 1.1 ? 'danger' : pctUsed > j.percentComplete * 1.0 ? 'warn' : '';
+    return `
+      <tr>
+        <td style="font-weight:600;">${j.name}</td>
+        <td>${j.customer}</td>
+        <td class="num">${fmt(j.contractValue)}</td>
+        <td class="num">${fmt(j.actualCost)}</td>
+        <td>
+          <div class="progress-bar"><div class="progress-bar-fill ${barCls}" style="width:${Math.min(j.percentComplete, 100)}%"></div></div>
+          <span style="font-size:12px;font-weight:600;">${j.percentComplete}%</span>
+        </td>
+        <td class="num ${getMarginClass(projMargin)}">${pct(projMargin)}</td>
+        <td><span class="job-status ${status.cls}">${status.label}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  tbody.innerHTML = rows;
+}
+
+// --- JOBS TAB ---
+
+function renderJobsTab(c) {
+  // KPIs
+  const avgMargin = c.totalContractValue > 0 ? ((c.totalContractValue - c.totalBudgetedCost) / c.totalContractValue * 100) : 0;
+  document.getElementById('jobs-kpis').innerHTML = `
+    <div class="kpi-card hl-green">
+      <div class="kpi-label">Total Contract Value</div>
+      <div class="kpi-value">${fmt(c.totalContractValue)}</div>
+      <div class="kpi-subtitle">${c.totalJobCount} jobs</div>
+    </div>
+    <div class="kpi-card hl-blue">
+      <div class="kpi-label">Total Budgeted Cost</div>
+      <div class="kpi-value">${fmt(c.totalBudgetedCost)}</div>
+      <div class="kpi-subtitle">Across all jobs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Actual Cost</div>
+      <div class="kpi-value">${fmt(c.totalActualCost)}</div>
+      <div class="kpi-subtitle">${c.totalActualCost > c.totalBudgetedCost ? 'Over budget' : 'Under budget'}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Projected Margin</div>
+      <div class="kpi-value ${getMarginClass(avgMargin)}">${pct(avgMargin)}</div>
+      <div class="kpi-subtitle">Weighted by contract value</div>
+    </div>
+  `;
+
+  // Detail table
+  const tbody = document.getElementById('jobs-detail-body');
+  const rows = STATE.jobs.map((j, i) => {
+    const variance = j.budgetedCost - j.actualCost;
+    const grossProfit = j.contractValue - j.budgetedCost;
+    const margin = j.contractValue > 0 ? (grossProfit / j.contractValue * 100) : 0;
+    const status = getJobStatus(j);
+    return `
+      <tr>
+        <td style="font-weight:600;">${j.name}<br><span style="font-size:11px;color:var(--text-muted);font-weight:400;">${j.customer}</span></td>
+        <td class="num">${makeEditable(j.contractValue, 'jobs.' + i + '.contractValue')}</td>
+        <td class="num">${makeEditable(j.budgetedCost, 'jobs.' + i + '.budgetedCost')}</td>
+        <td class="num">${makeEditable(j.actualCost, 'jobs.' + i + '.actualCost')}</td>
+        <td class="num ${variance >= 0 ? 'margin-good' : 'margin-bad'}">${fmt(variance)}</td>
+        <td class="num">${fmt(grossProfit)}</td>
+        <td class="num ${getMarginClass(margin)}">${pct(margin)}</td>
+        <td><span class="job-status ${status.cls}">${status.label}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  // Totals row
+  const totalVariance = c.totalBudgetedCost - c.totalActualCost;
+  const totalGP = c.projectedGrossProfit;
+  const totalMargin = c.totalContractValue > 0 ? (totalGP / c.totalContractValue * 100) : 0;
+
+  tbody.innerHTML = rows + `
+    <tr class="totals-row">
+      <td>TOTALS</td>
+      <td class="num">${fmt(c.totalContractValue)}</td>
+      <td class="num">${fmt(c.totalBudgetedCost)}</td>
+      <td class="num">${fmt(c.totalActualCost)}</td>
+      <td class="num ${totalVariance >= 0 ? 'margin-good' : 'margin-bad'}">${fmt(totalVariance)}</td>
+      <td class="num">${fmt(totalGP)}</td>
+      <td class="num ${getMarginClass(totalMargin)}">${pct(totalMargin)}</td>
+      <td></td>
+    </tr>
+  `;
+}
+
+// --- HEALTH TAB ---
+
+function renderHealthTab(c) {
+  const status = getDaysCashStatus(c.daysCash);
+  const ohPct = Math.round(((STATE.accounts.monthlyOverhead / STATE.accounts.avgMonthlyOverhead6mo) - 1) * 100);
+
+  document.getElementById('health-metrics').innerHTML = `
+    <div class="health-metric">
+      <div class="health-metric-label">Days Cash on Hand</div>
+      <div class="health-metric-value ${status.cls === 'healthy' ? 'positive' : status.cls === 'critical' ? 'negative' : 'warning'}" style="color: ${status.cls === 'healthy' ? 'var(--positive)' : status.cls === 'critical' ? 'var(--negative)' : 'var(--warning)'}">${c.daysCash} days</div>
+      <div class="health-metric-sub">${fmt(STATE.accounts.cashOnHand)} ÷ ${fmt(Math.round(c.dailyBurn))}/day burn</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min(c.daysCash / 90 * 100, 100)}%;background:${status.cls === 'healthy' ? 'var(--positive)' : status.cls === 'critical' ? 'var(--negative)' : 'var(--warning)'}"></div></div>
+    </div>
+    <div class="health-metric">
+      <div class="health-metric-label">Current Ratio</div>
+      <div class="health-metric-value" style="color: ${c.currentRatio >= 1.5 ? 'var(--positive)' : c.currentRatio >= 1 ? 'var(--warning)' : 'var(--negative)'}">${c.currentRatio.toFixed(2)}</div>
+      <div class="health-metric-sub">(Cash + AR) ÷ Short-term obligations</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min(c.currentRatio / 3 * 100, 100)}%;background:${c.currentRatio >= 1.5 ? 'var(--positive)' : c.currentRatio >= 1 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+    </div>
+    <div class="health-metric">
+      <div class="health-metric-label">Days Sales Outstanding</div>
+      <div class="health-metric-value" style="color: ${c.dso <= 30 ? 'var(--positive)' : c.dso <= 45 ? 'var(--warning)' : 'var(--negative)'}">${c.dso} days</div>
+      <div class="health-metric-sub">Avg time to collect on invoices</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min(c.dso / 60 * 100, 100)}%;background:${c.dso <= 30 ? 'var(--positive)' : c.dso <= 45 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+    </div>
+    <div class="health-metric">
+      <div class="health-metric-label">Weekly Burn Rate</div>
+      <div class="health-metric-value">${fmtK(Math.round(c.weeklyBurn))}</div>
+      <div class="health-metric-sub">13-week average outflow per week</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:60%;background:var(--blue)"></div></div>
+    </div>
+    <div class="health-metric">
+      <div class="health-metric-label">Overhead vs. Baseline</div>
+      <div class="health-metric-value" style="color: ${ohPct <= 10 ? 'var(--positive)' : ohPct <= 20 ? 'var(--warning)' : 'var(--negative)'}">${ohPct > 0 ? '+' : ''}${ohPct}%</div>
+      <div class="health-metric-sub">${fmt(STATE.accounts.monthlyOverhead)}/mo vs ${fmt(STATE.accounts.avgMonthlyOverhead6mo)} avg</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min(Math.abs(ohPct) / 50 * 100, 100)}%;background:${ohPct <= 10 ? 'var(--positive)' : ohPct <= 20 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+    </div>
+    <div class="health-metric">
+      <div class="health-metric-label">AR Collection Rate</div>
+      <div class="health-metric-value" style="color: ${(c.totalReceived/c.totalBilled*100) >= 85 ? 'var(--positive)' : 'var(--warning)'}">${(c.totalBilled > 0 ? (c.totalReceived/c.totalBilled*100) : 0).toFixed(0)}%</div>
+      <div class="health-metric-sub">${fmt(c.totalReceived)} of ${fmt(c.totalBilled)} collected</div>
+      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${c.totalBilled > 0 ? (c.totalReceived/c.totalBilled*100) : 0}%;background:${(c.totalReceived/c.totalBilled*100) >= 85 ? 'var(--positive)' : 'var(--warning)'}"></div></div>
+    </div>
+  `;
+
+  // Burn rate chart
+  destroyChart('burnRate');
+  const ctx = document.getElementById('burnRateChart');
+  if (!ctx) return;
+  chartInstances['burnRate'] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: STATE.history.weeks,
+      datasets: [{
+        label: 'Weekly Payments',
+        data: STATE.history.payments,
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220,38,38,0.08)',
+        borderWidth: 2, fill: true, tension: 0.3,
+        pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#dc2626', pointBorderWidth: 2
+      },{
+        label: '4-Week Avg Burn',
+        data: c.burnRates,
+        borderColor: '#3b82f6',
+        borderWidth: 2, borderDash: [6,4], fill: false, tension: 0.3,
+        pointRadius: 0
+      }]
+    },
+    options: getChartOptions('$')
+  });
+}
+
+// --- HISTORY TAB ---
+
+function renderHistoryTab(c) {
+  document.getElementById('history-kpis').innerHTML = `
+    <div class="kpi-card hl-green">
+      <div class="kpi-label">Total Collections</div>
+      <div class="kpi-value positive">${fmt(c.totalCollections)}</div>
+      <div class="kpi-subtitle">Avg: ${fmt(Math.round(c.totalCollections/13))}/week</div>
+    </div>
+    <div class="kpi-card hl-red">
+      <div class="kpi-label">Total Payments</div>
+      <div class="kpi-value">${fmt(c.totalPayments)}</div>
+      <div class="kpi-subtitle">Avg: ${fmt(Math.round(c.totalPayments/13))}/week</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Net Cash Flow</div>
+      <div class="kpi-value ${c.netCashflow >= 0 ? 'positive' : 'negative'}">${fmt(c.netCashflow)}</div>
+      <div class="kpi-subtitle">${c.netCashflow >= 0 ? 'Surplus' : 'Deficit'} over 13 weeks</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg Weekly Net</div>
+      <div class="kpi-value ${c.netCashflow >= 0 ? 'positive' : 'negative'}">${fmt(Math.round(c.netCashflow/13))}</div>
+      <div class="kpi-subtitle">Collections minus payments</div>
+    </div>
+  `;
+
+  destroyChart('history');
+  const netData = STATE.history.collections.map((c, i) => c - STATE.history.payments[i]);
+  chartInstances['history'] = new Chart(document.getElementById('historyChart'), {
+    type: 'line',
+    data: {
+      labels: STATE.history.weeks,
+      datasets: [
+        {
+          label: 'Collections', data: STATE.history.collections,
+          borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,0.1)',
+          borderWidth: 2, fill: true, tension: 0.3,
+          pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#16a34a', pointBorderWidth: 2
+        },
+        {
+          label: 'Payments', data: STATE.history.payments,
+          borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.1)',
+          borderWidth: 2, fill: true, tension: 0.3,
+          pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#dc2626', pointBorderWidth: 2
+        },
+        {
+          label: 'Net Cash Flow', data: netData,
+          borderColor: '#3b82f6', backgroundColor: 'transparent',
+          borderWidth: 2, borderDash: [6,4], fill: false, tension: 0.3,
+          pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: '#3b82f6'
+        }
+      ]
+    },
+    options: getChartOptions('$')
+  });
+}
+
+// --- FORECAST TAB ---
+
+function renderForecastTab(c) {
+  document.getElementById('forecast-summary').innerHTML = `
+    <div class="forecast-stat">
+      <div class="forecast-stat-value" style="color:var(--text)">${fmt(STATE.accounts.cashOnHand)}</div>
+      <div class="forecast-stat-label">Starting Cash</div>
+    </div>
+    <div class="forecast-stat">
+      <div class="forecast-stat-value" style="color:${c.forecastLow > 100000 ? 'var(--positive)' : c.forecastLow > 50000 ? 'var(--warning)' : 'var(--negative)'}">${fmt(c.forecastLow)}</div>
+      <div class="forecast-stat-label">Projected Low — ${c.forecastLowWeek}</div>
+    </div>
+    <div class="forecast-stat">
+      <div class="forecast-stat-value" style="color:${c.forecastEnd > STATE.accounts.cashOnHand ? 'var(--positive)' : 'var(--warning)'}">${fmt(c.forecastEnd)}</div>
+      <div class="forecast-stat-label">Ending Cash — 13 Weeks</div>
+    </div>
+  `;
+
+  // Danger zone threshold
+  const dangerThreshold = 75000;
+
+  destroyChart('forecast');
+  chartInstances['forecast'] = new Chart(document.getElementById('forecastChart'), {
+    type: 'line',
+    data: {
+      labels: STATE.forecast.weeks,
+      datasets: [
+        {
+          label: 'Projected Cash Position',
+          data: c.forecastCash,
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,0.08)',
+          borderWidth: 3, fill: true, tension: 0.3,
+          pointRadius: 5, pointBackgroundColor: c.forecastCash.map(v => v < dangerThreshold ? '#dc2626' : '#fff'),
+          pointBorderColor: c.forecastCash.map(v => v < dangerThreshold ? '#dc2626' : '#3b82f6'),
+          pointBorderWidth: 2, pointHoverRadius: 7
+        },
+        {
+          label: 'Danger Zone',
+          data: new Array(13).fill(dangerThreshold),
+          borderColor: 'rgba(220,38,38,0.4)',
+          backgroundColor: 'rgba(220,38,38,0.06)',
+          borderWidth: 2, borderDash: [8,4], fill: 'origin', tension: 0,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      ...getChartOptions('$'),
+      plugins: {
+        ...getChartOptions('$').plugins,
+        legend: {
+          position: 'top', align: 'end',
+          labels: {
+            usePointStyle: true, pointStyle: 'line', padding: 20,
+            font: { family: 'Inter', size: 12, weight: '500' },
+            filter: (item) => item.text !== 'Danger Zone' || true
+          }
+        }
+      }
+    }
+  });
+
+  // Forecast table
+  const tbody = document.getElementById('forecast-body');
+  let running = STATE.accounts.cashOnHand;
+  tbody.innerHTML = STATE.forecast.weeks.map((week, i) => {
+    const inflow = STATE.forecast.expectedIn[i];
+    const outflow = STATE.forecast.expectedOut[i];
+    const net = inflow - outflow;
+    running = running + net;
+    const isLow = running < dangerThreshold;
+    return `
+      <tr style="${isLow ? 'background:var(--negative-light);' : ''}">
+        <td style="font-weight:600;">${week}</td>
+        <td class="num" style="color:var(--positive)">${fmt(inflow)}</td>
+        <td class="num" style="color:var(--negative)">${fmt(outflow)}</td>
+        <td class="num ${net >= 0 ? 'margin-good' : 'margin-bad'}">${fmt(net)}</td>
+        <td class="num" style="font-weight:700;${isLow ? 'color:var(--negative);' : ''}">${fmt(running)}</td>
+        <td>${isLow ? '<span class="kpi-badge critical">⚠ Low Cash</span>' : '<span class="kpi-badge healthy">OK</span>'}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// --- SHARED CHART OPTIONS ---
+
+function getChartOptions(prefix) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'top', align: 'end',
+        labels: {
+          usePointStyle: true, pointStyle: 'line', padding: 20,
+          font: { family: 'Inter', size: 12, weight: '500' }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(30,41,59,0.95)',
+        titleFont: { family: 'Inter', size: 13, weight: '600' },
+        bodyFont: { family: 'Inter', size: 12 },
+        padding: 12, cornerRadius: 8,
+        callbacks: {
+          label: function(ctx) {
+            let label = ctx.dataset.label || '';
+            if (label) label += ': ';
+            const v = ctx.parsed.y;
+            if (v !== null) label += (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString();
+            return label;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { font: { family: 'Inter', size: 11 }, color: '#64748b' }
+      },
+      y: {
+        grid: { color: 'rgba(226,232,240,0.8)', drawBorder: false },
+        ticks: {
+          font: { family: 'Inter', size: 11 }, color: '#64748b',
+          callback: function(v) {
+            if (Math.abs(v) >= 1000) return (v < 0 ? '-$' : '$') + Math.abs(v/1000) + 'K';
+            return '$' + v;
+          }
+        }
+      }
+    }
+  };
+}
+
+// ============================================
+// TAB NAVIGATION
+// ============================================
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  document.getElementById('tab-' + tabName).classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  // Re-render charts when switching (canvas size issue)
+  const c = getComputed();
+  if (tabName === 'health') renderHealthTab(c);
+  if (tabName === 'history') renderHistoryTab(c);
+  if (tabName === 'forecast') renderForecastTab(c);
+}
+
+// ============================================
+// INITIAL RENDER
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+});
+</script>
+</body>
+</html>
