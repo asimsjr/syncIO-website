@@ -7,49 +7,64 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Albert+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       /* ============================================
-   CSS VARIABLES & RESET
+   DESIGN SYSTEM — Tufte/Few Informed
+
+   Principles applied:
+   - Data-ink ratio maximized (no decorative borders, minimal chrome)
+   - Color encodes DATA meaning only (green=healthy, red=critical, amber=watch)
+   - syncGOLD reserved for single highest-priority attention signal
+   - Typography hierarchy: 3 levels (value, label, context)
+   - Progressive disclosure: glance → scan → analyze
+   - Z-pattern layout with single entry point
+   - Gestalt proximity: groups separated by whitespace, not borders
    ============================================ */
       :root {
-        --primary: #dc2626;
-        --primary-light: #fee2e2;
-        --primary-dark: #991b1b;
-        --positive: #16a34a;
-        --positive-light: #dcfce7;
-        --positive-bg: #f0fdf4;
-        --negative: #dc2626;
-        --negative-light: #fef2f2;
-        --warning: #f59e0b;
-        --warning-light: #fef3c7;
-        --warning-bg: #fffbeb;
-        --blue: #3b82f6;
-        --blue-light: #eff6ff;
-        --purple: #7c3aed;
-        --purple-light: #f5f3ff;
-        --bg: #f8fafc;
-        --card: #ffffff;
-        --border: #e2e8f0;
-        --border-light: #f1f5f9;
-        --text: #1e293b;
-        --text-secondary: #64748b;
-        --text-muted: #94a3b8;
-        --sidebar-bg: #fafafa;
+        /* Semantic data colors — ONLY used when encoding meaning */
+        --healthy: #1a7f37;
+        --healthy-bg: #f0fdf4;
+        --critical: #cf222e;
+        --critical-bg: #fff5f5;
+        --watch: #bf8700;
+        --watch-bg: #fff8e1;
+        --info: #0969da;
+        --info-bg: #f0f7ff;
+
+        /* Neutral palette — default for everything */
+        --bg: #f6f7f9;
+        --surface: #ffffff;
+        --border: #e8eaed;
+        --border-subtle: #f0f1f3;
+        --text-primary: #1a1a1a;
+        --text-secondary: #57606a;
+        --text-muted: #8b949e;
+        --text-faint: #b1b8c0;
+
+        /* Brand — used sparingly */
         --syncio-black: #0a0a0a;
         --syncio-gold: #e8a600;
         --syncio-gray: #9a9a9a;
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-        --radius: 10px;
-        --radius-sm: 6px;
+
+        /* Shadows — minimal, functional */
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+
+        /* Radii */
+        --radius: 8px;
+        --radius-sm: 5px;
       }
 
-      * {
+      /* ============================================
+   RESET & BASE
+   ============================================ */
+      *,
+      *::before,
+      *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -57,18 +72,18 @@
 
       body {
         font-family:
-          'Inter',
+          'Albert Sans',
           -apple-system,
-          BlinkMacSystemFont,
           sans-serif;
         background: var(--bg);
-        color: var(--text);
+        color: var(--text-primary);
         line-height: 1.5;
-        padding-top: 82px; /* disclaimer + nav */
+        padding-top: 76px;
+        -webkit-font-smoothing: antialiased;
       }
 
       /* ============================================
-   DEMO DISCLAIMER BANNER
+   DEMO BANNER — subtle, doesn't compete
    ============================================ */
       .demo-banner {
         position: fixed;
@@ -76,44 +91,48 @@
         left: 0;
         right: 0;
         z-index: 1001;
-        background: var(--syncio-gold);
-        color: var(--syncio-black);
+        background: var(--syncio-black);
+        color: var(--syncio-gray);
         text-align: center;
-        padding: 6px 16px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        height: 32px;
+        padding: 5px 16px;
+        font-size: 11px;
+        font-weight: 500;
+        height: 28px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 4px;
+        letter-spacing: 0.02em;
+      }
+      .demo-banner strong {
+        color: var(--syncio-gold);
+        font-weight: 700;
+        letter-spacing: 0.06em;
       }
       .demo-banner span {
-        opacity: 0.7;
-        font-weight: 500;
+        opacity: 0.6;
       }
 
       /* ============================================
-   SYNCIO TOP NAV
+   TOP NAV — brand chrome, recessive
    ============================================ */
       .syncio-nav {
         position: fixed;
-        top: 32px;
+        top: 28px;
         left: 0;
         right: 0;
         z-index: 1000;
-        height: 50px;
+        height: 48px;
         background: var(--syncio-black);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 1.5rem;
-        border-bottom: 1px solid #222;
+        padding: 0 1.25rem;
       }
       .syncio-nav-logo {
+        font-family: 'Outfit', sans-serif;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #fafafa;
         text-decoration: none;
       }
@@ -126,11 +145,11 @@
       .syncio-nav-back {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
         color: var(--syncio-gray);
         text-decoration: none;
-        font-size: 0.85rem;
-        transition: color 0.2s;
+        font-size: 0.8rem;
+        transition: color 0.15s;
       }
       .syncio-nav-back:hover {
         color: var(--syncio-gold);
@@ -141,125 +160,128 @@
    ============================================ */
       .dashboard-layout {
         display: flex;
-        min-height: calc(100vh - 82px);
+        min-height: calc(100vh - 76px);
       }
 
       /* ============================================
-   SIDEBAR
+   SIDEBAR — Light, recessive (ground, not figure)
+   Gestalt figure/ground: nav is background
    ============================================ */
       .sidebar {
-        width: 230px;
-        background: var(--sidebar-bg);
+        width: 200px;
+        background: var(--surface);
         border-right: 1px solid var(--border);
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
         position: sticky;
-        top: 82px;
-        height: calc(100vh - 82px);
+        top: 76px;
+        height: calc(100vh - 76px);
         overflow-y: auto;
       }
       .sidebar-header {
-        padding: 20px;
-        border-bottom: 1px solid var(--border);
+        padding: 16px 16px 14px;
+        border-bottom: 1px solid var(--border-subtle);
       }
       .logo {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 9px;
       }
       .logo-icon {
-        width: 34px;
-        height: 34px;
-        background: var(--primary);
-        border-radius: 7px;
+        width: 30px;
+        height: 30px;
+        background: var(--text-primary);
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
       }
       .logo-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 15px;
+        height: 15px;
         color: white;
       }
       .logo-text {
+        font-family: 'Outfit', sans-serif;
         font-weight: 700;
-        font-size: 14px;
-        color: var(--text);
+        font-size: 13px;
+        color: var(--text-primary);
         line-height: 1.2;
       }
       .logo-text span {
         display: block;
-        color: var(--text-secondary);
-        font-weight: 500;
-        font-size: 11px;
+        color: var(--text-muted);
+        font-family: 'Albert Sans', sans-serif;
+        font-weight: 400;
+        font-size: 10px;
       }
 
       .sidebar-nav {
-        padding: 16px 12px;
+        padding: 10px 8px;
         flex: 1;
       }
 
       .nav-section-label {
         font-size: 10px;
-        font-weight: 700;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--text-muted);
-        padding: 16px 12px 6px;
-        margin-top: 4px;
+        color: var(--text-faint);
+        padding: 14px 10px 5px;
       }
       .nav-section-label:first-child {
-        margin-top: 0;
-        padding-top: 0;
+        padding-top: 2px;
       }
 
       .nav-item {
         display: flex;
         align-items: center;
-        gap: 11px;
-        padding: 9px 12px;
-        border-radius: 8px;
+        gap: 9px;
+        padding: 7px 10px;
+        border-radius: 6px;
         color: var(--text-secondary);
-        font-size: 13.5px;
+        font-size: 13px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.12s;
         border: none;
         background: transparent;
         width: 100%;
         text-align: left;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
       }
       .nav-item:hover {
-        background: var(--border);
-        color: var(--text);
+        background: var(--bg);
+        color: var(--text-primary);
       }
       .nav-item.active {
-        background: var(--primary-light);
-        color: var(--primary);
+        background: var(--bg);
+        color: var(--text-primary);
         font-weight: 600;
+        box-shadow: inset 2px 0 0 var(--text-primary);
       }
       .nav-item svg {
-        width: 17px;
-        height: 17px;
+        width: 15px;
+        height: 15px;
         flex-shrink: 0;
+        opacity: 0.5;
+      }
+      .nav-item.active svg {
+        opacity: 0.8;
       }
       .nav-item.disabled {
-        opacity: 0.4;
+        opacity: 0.3;
         cursor: default;
         pointer-events: none;
       }
       .nav-item .phase-badge {
         font-size: 9px;
-        font-weight: 700;
-        background: var(--border);
-        color: var(--text-muted);
-        padding: 1px 6px;
-        border-radius: 3px;
+        font-weight: 600;
+        color: var(--text-faint);
         margin-left: auto;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.04em;
       }
 
       /* ============================================
@@ -267,439 +289,468 @@
    ============================================ */
       .main-content {
         flex: 1;
-        padding: 28px 36px;
+        padding: 24px 32px;
         overflow-y: auto;
         min-width: 0;
       }
+
+      /* ============================================
+   PAGE HEADER — clean, functional
+   ============================================ */
       .content-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 28px;
+        margin-bottom: 20px;
       }
       .page-title {
-        font-size: 22px;
-        font-weight: 800;
-        color: var(--text);
+        font-family: 'Outfit', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
         display: flex;
         align-items: baseline;
-        gap: 10px;
+        gap: 8px;
       }
       .page-subtitle {
-        font-size: 14px;
+        font-family: 'Albert Sans', sans-serif;
+        font-size: 13px;
         font-weight: 400;
-        color: var(--text-secondary);
-        font-style: italic;
+        color: var(--text-muted);
+        font-style: normal;
       }
       .last-sync {
-        font-size: 12px;
-        color: var(--text-muted);
-        margin-top: 4px;
+        font-size: 11px;
+        color: var(--text-faint);
+        margin-top: 2px;
       }
 
       .header-actions {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
       }
 
+      /* Sync button — NOT red, not competing for attention */
       .sync-button {
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 8px 16px;
-        border-radius: 8px;
-        border: 2px solid var(--primary);
-        background: white;
-        color: var(--primary);
-        font-size: 13px;
+        gap: 5px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text-secondary);
+        font-size: 12px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.12s;
       }
       .sync-button:hover {
-        background: var(--primary);
-        color: white;
+        border-color: var(--text-muted);
+        color: var(--text-primary);
       }
       .sync-button svg {
-        width: 15px;
-        height: 15px;
+        width: 13px;
+        height: 13px;
       }
 
       /* ============================================
-   SCENARIO TOGGLES
+   SCENARIO BAR — demoted, secondary interaction
+   Moved from prime position to subtle toolbar
    ============================================ */
       .scenario-bar {
-        background: var(--card);
-        border: 1px solid var(--border);
+        background: var(--surface);
+        border: 1px solid var(--border-subtle);
         border-radius: var(--radius);
-        padding: 14px 20px;
-        margin-bottom: 24px;
+        padding: 8px 14px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
         flex-wrap: wrap;
-        box-shadow: var(--shadow-sm);
       }
       .scenario-bar-label {
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--text-muted);
-        margin-right: 4px;
+        color: var(--text-faint);
+        margin-right: 2px;
         white-space: nowrap;
       }
       .scenario-toggle {
         display: flex;
         align-items: center;
-        gap: 7px;
-        padding: 6px 14px;
-        border-radius: 20px;
-        border: 1.5px solid var(--border);
-        background: white;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-      }
-      .scenario-toggle:hover {
-        border-color: var(--text-muted);
-        color: var(--text);
-      }
-      .scenario-toggle.active {
-        border-color: var(--primary);
-        background: var(--primary-light);
-        color: var(--primary);
-      }
-      .scenario-toggle .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--border);
-        transition: background 0.2s;
-      }
-      .scenario-toggle.active .dot {
-        background: var(--primary);
-      }
-      .scenario-reset {
-        margin-left: auto;
-        padding: 5px 12px;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-        background: white;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid var(--border-subtle);
+        background: transparent;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 500;
         color: var(--text-muted);
         cursor: pointer;
         transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .scenario-toggle:hover {
+        border-color: var(--border);
+        color: var(--text-secondary);
+      }
+      .scenario-toggle.active {
+        border-color: var(--info);
+        background: var(--info-bg);
+        color: var(--info);
+        font-weight: 600;
+      }
+      .scenario-toggle .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--border);
+        transition: background 0.15s;
+      }
+      .scenario-toggle.active .dot {
+        background: var(--info);
+      }
+      .scenario-reset {
+        margin-left: auto;
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--border-subtle);
+        background: transparent;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-faint);
+        cursor: pointer;
+        transition: all 0.12s;
       }
       .scenario-reset:hover {
-        border-color: var(--text-muted);
-        color: var(--text);
+        color: var(--text-muted);
+        border-color: var(--border);
       }
 
       /* ============================================
-   KPI CARDS
+   KPI CARDS — No decorative borders.
+   Color ONLY on the value when it encodes status.
+   Sparkline adds temporal context (Tufte).
    ============================================ */
       .kpi-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 24px;
+        gap: 12px;
+        margin-bottom: 12px;
       }
-      .kpi-card {
-        background: var(--card);
-        border-radius: var(--radius);
-        padding: 18px 20px;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
-        position: relative;
-        transition: box-shadow 0.2s;
-      }
-      .kpi-card:hover {
-        box-shadow: var(--shadow-md);
-      }
-      .kpi-label {
-        font-size: 11.5px;
-        font-weight: 600;
-        color: var(--text-secondary);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-bottom: 6px;
-      }
-      .kpi-value {
-        font-size: 26px;
-        font-weight: 800;
-        color: var(--text);
-        line-height: 1.2;
-        margin-bottom: 4px;
-      }
-      .kpi-value.positive {
-        color: var(--positive);
-      }
-      .kpi-value.negative {
-        color: var(--negative);
-      }
-      .kpi-value.warning {
-        color: var(--warning);
-      }
-      .kpi-subtitle {
-        font-size: 11.5px;
-        color: var(--text-muted);
-        font-weight: 500;
-      }
-      .kpi-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 10.5px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+
+      /* Gestalt proximity: add extra gap between groups */
+      .kpi-grid + .kpi-grid-secondary {
         margin-top: 4px;
       }
-      .kpi-badge.healthy {
-        background: var(--positive-light);
-        color: var(--positive);
-      }
-      .kpi-badge.caution {
-        background: var(--warning-light);
-        color: #b45309;
-      }
-      .kpi-badge.critical {
-        background: var(--primary-light);
-        color: var(--primary);
-      }
 
-      /* Highlight strips */
-      .kpi-card.hl-green {
-        border-top: 3px solid var(--positive);
-      }
-      .kpi-card.hl-red {
-        border-top: 3px solid var(--negative);
-      }
-      .kpi-card.hl-yellow {
-        border-top: 3px solid var(--warning);
-      }
-      .kpi-card.hl-blue {
-        border-top: 3px solid var(--blue);
-      }
-
-      /* ============================================
-   ANOMALY ALERT CARDS
-   ============================================ */
-      .anomaly-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-      .anomaly-card {
-        background: var(--card);
+      .kpi-card {
+        background: var(--surface);
         border-radius: var(--radius);
-        padding: 16px 20px;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        border-left: 4px solid var(--warning);
+        padding: 14px 16px;
+        border: 1px solid var(--border-subtle);
+        transition: border-color 0.15s;
+        position: relative;
       }
-      .anomaly-card.severity-high {
-        border-left-color: var(--negative);
+      .kpi-card:hover {
+        border-color: var(--border);
       }
-      .anomaly-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
+
+      .kpi-label {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+      }
+      .kpi-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.2;
+        margin-bottom: 2px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 8px;
+      }
+      .kpi-value.healthy {
+        color: var(--healthy);
+      }
+      .kpi-value.critical {
+        color: var(--critical);
+      }
+      .kpi-value.watch {
+        color: var(--watch);
+      }
+
+      .kpi-context {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* Sparkline — Tufte's word-sized graphic */
+      .sparkline {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .sparkline svg {
+        display: block;
+      }
+
+      /* Status dot — minimal status indicator replacing badges */
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        display: inline-block;
         flex-shrink: 0;
       }
-      .anomaly-card.severity-high .anomaly-icon {
-        background: var(--primary-light);
-        color: var(--primary);
+      .status-dot.healthy {
+        background: var(--healthy);
       }
-      .anomaly-card.severity-medium .anomaly-icon {
-        background: var(--warning-light);
-        color: #b45309;
+      .status-dot.watch {
+        background: var(--watch);
       }
-      .anomaly-icon svg {
-        width: 18px;
-        height: 18px;
-      }
-      .anomaly-content {
-        flex: 1;
-        min-width: 0;
-      }
-      .anomaly-title {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--text);
-        margin-bottom: 2px;
-      }
-      .anomaly-desc {
-        font-size: 12px;
-        color: var(--text-secondary);
-        line-height: 1.5;
-      }
-      .anomaly-metric {
-        font-size: 11px;
-        font-weight: 600;
-        margin-top: 6px;
-        padding: 3px 8px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-      .anomaly-card.severity-high .anomaly-metric {
-        background: var(--primary-light);
-        color: var(--primary);
-      }
-      .anomaly-card.severity-medium .anomaly-metric {
-        background: var(--warning-light);
-        color: #b45309;
+      .status-dot.critical {
+        background: var(--critical);
       }
 
       /* ============================================
-   SECTION CARDS
+   ANOMALY ALERTS — compact, left-border style
+   No dark backgrounds. Headline-first.
+   Cognitive load: short text, drill-down for detail.
+   ============================================ */
+      .alert-strip {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+      .alert-item {
+        background: var(--surface);
+        border: 1px solid var(--border-subtle);
+        border-left: 3px solid var(--watch);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .alert-item:hover {
+        background: var(--bg);
+      }
+      .alert-item.severity-high {
+        border-left-color: var(--critical);
+      }
+      .alert-title {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-primary);
+        flex: 1;
+      }
+      .alert-metric {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .alert-item.severity-high .alert-metric {
+        color: var(--critical);
+      }
+      .alert-item.severity-medium .alert-metric {
+        color: var(--watch);
+      }
+      .alert-expand {
+        font-size: 11px;
+        color: var(--text-faint);
+        transition: color 0.12s;
+      }
+      .alert-item:hover .alert-expand {
+        color: var(--text-muted);
+      }
+
+      /* Alert detail (hidden by default — progressive disclosure) */
+      .alert-detail {
+        display: none;
+        font-size: 11.5px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--border-subtle);
+      }
+      .alert-item.expanded .alert-detail {
+        display: block;
+      }
+      .alert-item.expanded {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      /* ============================================
+   SECTION CARDS — minimal chrome
    ============================================ */
       .section-card {
-        background: var(--card);
+        background: var(--surface);
         border-radius: var(--radius);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
-        margin-bottom: 24px;
+        border: 1px solid var(--border-subtle);
+        margin-bottom: 16px;
         overflow: hidden;
       }
       .section-card-header {
-        padding: 16px 20px;
-        border-bottom: 1px solid var(--border-light);
+        padding: 12px 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom: 1px solid var(--border-subtle);
       }
       .section-card-title {
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--text);
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .section-card-action {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--info);
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.12s;
+      }
+      .section-card-action:hover {
+        color: var(--text-primary);
       }
       .section-card-body {
-        padding: 20px;
+        padding: 16px;
       }
       .section-card-body.no-pad {
         padding: 0;
       }
 
       /* ============================================
-   DATA TABLES
+   DATA TABLE — clean, high-density
+   JetBrains Mono for numbers (tabular alignment)
    ============================================ */
       .data-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 13px;
+        font-size: 12.5px;
       }
       .data-table thead th {
         text-align: left;
-        padding: 10px 16px;
-        font-size: 11px;
+        padding: 8px 12px;
+        font-size: 10px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-muted);
-        border-bottom: 2px solid var(--border);
-        background: var(--bg);
+        letter-spacing: 0.06em;
+        color: var(--text-faint);
+        border-bottom: 1px solid var(--border);
+        background: transparent;
       }
       .data-table thead th.num {
         text-align: right;
       }
       .data-table tbody td {
-        padding: 11px 16px;
-        border-bottom: 1px solid var(--border-light);
-        color: var(--text);
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border-subtle);
+        color: var(--text-primary);
         font-weight: 500;
       }
       .data-table tbody td.num {
         text-align: right;
-        font-variant-numeric: tabular-nums;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .data-table tbody tr:last-child td {
+        border-bottom: none;
       }
       .data-table tbody tr:hover {
-        background: #f8fafc;
+        background: #fafbfc;
       }
       .data-table tbody tr.totals-row {
         font-weight: 700;
-        background: var(--bg);
-        border-top: 2px solid var(--border);
+        border-top: 1px solid var(--border);
       }
       .data-table tbody tr.totals-row td {
-        padding: 12px 16px;
-      }
-      .margin-good {
-        color: var(--positive);
-        font-weight: 700;
-      }
-      .margin-warn {
-        color: var(--warning);
-        font-weight: 700;
-      }
-      .margin-bad {
-        color: var(--negative);
-        font-weight: 700;
+        padding: 10px 12px;
+        background: var(--bg);
       }
 
-      .job-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 11px;
+      /* Margin coloring — semantic only */
+      .margin-good {
+        color: var(--healthy);
         font-weight: 600;
       }
-      .job-status.on-track {
-        background: var(--positive-light);
-        color: var(--positive);
+      .margin-warn {
+        color: var(--watch);
+        font-weight: 600;
       }
-      .job-status.at-risk {
-        background: var(--warning-light);
-        color: #b45309;
-      }
-      .job-status.over-budget {
-        background: var(--primary-light);
-        color: var(--primary);
-      }
-      .job-status.complete {
-        background: var(--blue-light);
-        color: var(--blue);
+      .margin-bad {
+        color: var(--critical);
+        font-weight: 600;
       }
 
-      /* Progress bar */
-      .progress-bar {
-        width: 80px;
+      /* Job status — minimal, text-based */
+      .job-status {
+        font-size: 10.5px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .job-status .status-dot {
+        width: 6px;
         height: 6px;
+      }
+      .job-status.on-track {
+        color: var(--healthy);
+      }
+      .job-status.at-risk {
+        color: var(--watch);
+      }
+      .job-status.over-budget {
+        color: var(--critical);
+      }
+      .job-status.complete {
+        color: var(--info);
+      }
+
+      /* Progress bar — thin, functional */
+      .progress-bar {
+        width: 60px;
+        height: 4px;
         background: var(--border);
-        border-radius: 3px;
+        border-radius: 2px;
         overflow: hidden;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 6px;
+        margin-right: 5px;
       }
       .progress-bar-fill {
         height: 100%;
-        border-radius: 3px;
-        background: var(--positive);
-        transition: width 0.3s ease;
+        border-radius: 2px;
+        background: var(--healthy);
+        transition: width 0.3s;
       }
       .progress-bar-fill.warn {
-        background: var(--warning);
+        background: var(--watch);
       }
       .progress-bar-fill.danger {
-        background: var(--negative);
+        background: var(--critical);
       }
 
       /* ============================================
@@ -707,7 +758,7 @@
    ============================================ */
       .chart-container {
         position: relative;
-        height: 340px;
+        height: 300px;
         padding: 4px 0;
       }
 
@@ -717,44 +768,47 @@
       .health-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
+        gap: 12px;
       }
       .health-metric {
-        background: var(--bg);
-        border-radius: var(--radius-sm);
-        padding: 16px 18px;
-        border: 1px solid var(--border-light);
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        border: 1px solid var(--border-subtle);
       }
       .health-metric-label {
-        font-size: 11px;
+        font-size: 10.5px;
         font-weight: 600;
         color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        margin-bottom: 8px;
-      }
-      .health-metric-value {
-        font-size: 28px;
-        font-weight: 800;
-        line-height: 1.1;
         margin-bottom: 6px;
       }
+      .health-metric-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 4px;
+      }
       .health-metric-sub {
-        font-size: 11.5px;
+        font-size: 11px;
         color: var(--text-muted);
-        font-weight: 500;
+        font-weight: 400;
       }
-      .health-metric-bar {
-        margin-top: 10px;
-        height: 8px;
+      /* Bullet graph — Few's invention, replaces gauges */
+      .bullet-bar {
+        margin-top: 8px;
+        height: 6px;
         background: var(--border);
-        border-radius: 4px;
+        border-radius: 3px;
         overflow: hidden;
+        position: relative;
       }
-      .health-metric-bar-fill {
+      .bullet-bar-fill {
         height: 100%;
-        border-radius: 4px;
-        transition: width 0.4s ease;
+        border-radius: 3px;
+        transition: width 0.4s;
       }
 
       /* ============================================
@@ -763,49 +817,50 @@
       .editable {
         cursor: pointer;
         position: relative;
-        border-bottom: 1px dashed var(--text-muted);
-        transition: border-color 0.15s;
+        border-bottom: 1px dashed var(--text-faint);
+        transition: border-color 0.12s;
       }
       .editable:hover {
         border-bottom-color: var(--text-muted);
       }
       .editable-input {
-        font-family: inherit;
+        font-family: 'JetBrains Mono', monospace;
         font-size: inherit;
         font-weight: inherit;
         color: inherit;
-        background: var(--warning-light);
-        border: 2px solid var(--warning);
-        border-radius: 4px;
-        padding: 0 4px;
+        background: var(--watch-bg);
+        border: 1.5px solid var(--watch);
+        border-radius: 3px;
+        padding: 0 3px;
         outline: none;
         width: auto;
         min-width: 60px;
       }
 
       /* ============================================
-   FORECAST SPECIFIC
+   FORECAST
    ============================================ */
       .forecast-summary {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-bottom: 20px;
+        gap: 12px;
+        margin-bottom: 16px;
       }
       .forecast-stat {
+        background: var(--surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius);
         text-align: center;
-        padding: 14px;
-        background: var(--bg);
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--border-light);
+        padding: 12px;
       }
       .forecast-stat-value {
-        font-size: 22px;
-        font-weight: 800;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 20px;
+        font-weight: 700;
         margin-bottom: 2px;
       }
       .forecast-stat-label {
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 600;
         color: var(--text-muted);
         text-transform: uppercase;
@@ -813,7 +868,34 @@
       }
 
       /* ============================================
-   TAB CONTENT VISIBILITY
+   KPI BADGE — used sparingly
+   ============================================ */
+      .kpi-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .kpi-badge.healthy {
+        background: var(--healthy-bg);
+        color: var(--healthy);
+      }
+      .kpi-badge.caution {
+        background: var(--watch-bg);
+        color: var(--watch);
+      }
+      .kpi-badge.critical {
+        background: var(--critical-bg);
+        color: var(--critical);
+      }
+
+      /* ============================================
+   TAB VISIBILITY
    ============================================ */
       .tab-content {
         display: none;
@@ -823,13 +905,13 @@
       }
 
       /* ============================================
-   FOOTER
+   FOOTER — minimal
    ============================================ */
       .powered-by {
         text-align: center;
-        padding: 24px;
-        font-size: 11px;
-        color: var(--text-muted);
+        padding: 20px;
+        font-size: 10px;
+        color: var(--text-faint);
         font-weight: 500;
       }
       .powered-by a {
@@ -840,20 +922,34 @@
       .powered-by a:hover {
         text-decoration: underline;
       }
+
+      /* ============================================
+   RESPONSIVE (basic)
+   ============================================ */
+      @media (max-width: 1100px) {
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .health-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .forecast-summary {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- DEMO DISCLAIMER -->
+    <!-- DEMO BANNER — black, recessive, doesn't compete with data -->
     <div class="demo-banner">
-      INTERACTIVE DEMO
+      <strong>INTERACTIVE DEMO</strong>
       <span
-        >— Click any underlined dollar value to edit — changes ripple across all views. | Toggle
-        What-If Scenarios below to simulate real business events. | Watch the Anomaly Alerts and
-        Forecast respond in real time.</span
+        >Click underlined values to edit • Toggle scenarios to simulate events • All views update in
+        real time</span
       >
     </div>
 
-    <!-- SYNCIO NAV -->
+    <!-- SYNCIO NAV — brand chrome -->
     <nav class="syncio-nav">
       <a href="https://synciolabs.com" class="syncio-nav-logo">
         <span class="bracket">&lt;</span>sync<span class="io">IO</span
@@ -861,8 +957,8 @@
       </a>
       <a href="https://synciolabs.com" class="syncio-nav-back">
         <svg
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -875,9 +971,9 @@
       </a>
     </nav>
 
-    <!-- DASHBOARD LAYOUT -->
+    <!-- LAYOUT -->
     <div class="dashboard-layout">
-      <!-- SIDEBAR -->
+      <!-- SIDEBAR — light, recessive (Gestalt: ground) -->
       <nav class="sidebar">
         <div class="sidebar-header">
           <div class="logo">
@@ -889,7 +985,7 @@
             </div>
             <div class="logo-text">
               YOUR Company
-              <span>Operations Dashboard<br />Demo Purposes Only</span>
+              <span>Operations Dashboard</span>
             </div>
           </div>
         </div>
@@ -939,37 +1035,30 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
             </svg>
-            Overhead
-            <span class="phase-badge">SOON</span>
+            Overhead <span class="phase-badge">SOON</span>
           </button>
           <button class="nav-item disabled">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
               <polyline points="14 2 14 8 20 8" />
-              <line x1="12" y1="18" x2="12" y2="12" />
-              <line x1="9" y1="15" x2="15" y2="15" />
             </svg>
-            Collections
-            <span class="phase-badge">SOON</span>
+            Collections <span class="phase-badge">SOON</span>
           </button>
           <button class="nav-item disabled">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
               <line x1="1" y1="10" x2="23" y2="10" />
             </svg>
-            Payments
-            <span class="phase-badge">SOON</span>
+            Payments <span class="phase-badge">SOON</span>
           </button>
         </div>
       </nav>
 
       <!-- MAIN CONTENT -->
       <main class="main-content">
-        <!-- ==========================================
-         SCENARIO TOGGLES (visible on all tabs)
-         ========================================== -->
+        <!-- SCENARIO BAR — demoted, secondary (Visual Hierarchy) -->
         <div class="scenario-bar">
-          <span class="scenario-bar-label">What-If Scenarios:</span>
+          <span class="scenario-bar-label">Scenarios:</span>
           <button
             class="scenario-toggle"
             onclick="toggleScenario('latePayment')"
@@ -991,11 +1080,12 @@
           >
             <span class="dot"></span> New $95K contract signed
           </button>
-          <button class="scenario-reset" onclick="resetScenarios()">Reset All</button>
+          <button class="scenario-reset" onclick="resetScenarios()">Reset</button>
         </div>
 
         <!-- ==========================================
          TAB 1: EXECUTIVE DASHBOARD
+         Redesigned: Z-pattern, 5 KPIs, promoted table
          ========================================== -->
         <div class="tab-content active" id="tab-dashboard">
           <div class="content-header">
@@ -1003,7 +1093,7 @@
               <h1 class="page-title">
                 Dashboard <span class="page-subtitle">Monday Morning View</span>
               </h1>
-              <div class="last-sync">Last sync: Today at 6:00 AM — QuickBooks Online</div>
+              <div class="last-sync">Synced today 6:00 AM — QuickBooks Online</div>
             </div>
             <div class="header-actions">
               <button class="sync-button">
@@ -1017,25 +1107,27 @@
             </div>
           </div>
 
-          <!-- KPI CARDS -->
+          <!-- PRIMARY KPIs — 4 cards max (Few: reduce to essentials) -->
           <div class="kpi-grid" id="dashboard-kpis"></div>
 
-          <!-- ANOMALY ALERTS -->
-          <div class="anomaly-grid" id="dashboard-anomalies"></div>
+          <!-- ANOMALY ALERTS — compact strips (Cognitive load: headline only) -->
+          <div class="alert-strip" id="dashboard-anomalies"></div>
 
-          <!-- ACTIVE JOBS SUMMARY -->
+          <!-- ACTIVE JOBS — PROMOTED (Few: most actionable data first) -->
           <div class="section-card">
             <div class="section-card-header">
-              <div class="section-card-title">Active Jobs — Quick View</div>
+              <div class="section-card-title">Active Jobs</div>
+              <a class="section-card-action" onclick="switchTabByName('jobs')"
+                >View detailed profitability →</a
+              >
             </div>
             <div class="section-card-body no-pad">
               <table class="data-table" id="dashboard-jobs-table">
                 <thead>
                   <tr>
-                    <th>Job Name</th>
-                    <th>Customer</th>
+                    <th>Job</th>
                     <th class="num">Contract</th>
-                    <th class="num">Costs to Date</th>
+                    <th class="num">Costs</th>
                     <th>Progress</th>
                     <th class="num">Margin</th>
                     <th>Status</th>
@@ -1045,6 +1137,9 @@
               </table>
             </div>
           </div>
+
+          <!-- SECONDARY KPIs — below the fold (Progressive disclosure) -->
+          <div class="kpi-grid kpi-grid-secondary" id="dashboard-secondary-kpis"></div>
         </div>
 
         <!-- ==========================================
@@ -1057,28 +1152,26 @@
                 Job Profitability <span class="page-subtitle">Budget vs. Actual</span>
               </h1>
               <div class="last-sync">
-                Click any dollar value to edit — changes cascade across all views
+                Click any underlined value to edit — changes cascade across all views
               </div>
             </div>
           </div>
-
           <div class="kpi-grid" id="jobs-kpis"></div>
-
           <div class="section-card">
             <div class="section-card-header">
-              <div class="section-card-title">All Active Jobs — Detailed View</div>
+              <div class="section-card-title">All Jobs — Detailed View</div>
             </div>
             <div class="section-card-body no-pad">
               <table class="data-table" id="jobs-detail-table">
                 <thead>
                   <tr>
-                    <th>Job Name</th>
-                    <th class="num">Contract Value</th>
-                    <th class="num">Budgeted Cost</th>
-                    <th class="num">Actual Cost</th>
+                    <th>Job</th>
+                    <th class="num">Contract</th>
+                    <th class="num">Budget</th>
+                    <th class="num">Actual</th>
                     <th class="num">Variance</th>
                     <th class="num">Gross Profit</th>
-                    <th class="num">Margin %</th>
+                    <th class="num">Margin</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -1095,22 +1188,18 @@
           <div class="content-header">
             <div>
               <h1 class="page-title">
-                Cash Flow Health <span class="page-subtitle">How strong is your position?</span>
+                Cash Flow Health <span class="page-subtitle">Position Strength</span>
               </h1>
-              <div class="last-sync">Real-time health indicators from QuickBooks data</div>
+              <div class="last-sync">Real-time indicators from QuickBooks data</div>
             </div>
           </div>
-
           <div class="health-grid" id="health-metrics"></div>
-
-          <div class="section-card" style="margin-top: 24px">
+          <div class="section-card" style="margin-top: 16px">
             <div class="section-card-header">
-              <div class="section-card-title">Burn Rate Trend — 13 Weeks</div>
+              <div class="section-card-title">Burn Rate — 13 Week Trend</div>
             </div>
             <div class="section-card-body">
-              <div class="chart-container">
-                <canvas id="burnRateChart"></canvas>
-              </div>
+              <div class="chart-container"><canvas id="burnRateChart"></canvas></div>
             </div>
           </div>
         </div>
@@ -1122,23 +1211,18 @@
           <div class="content-header">
             <div>
               <h1 class="page-title">
-                Cash Flow History
-                <span class="page-subtitle">Where did it come from? Where did it go?</span>
+                Cash Flow History <span class="page-subtitle">13-Week Trailing</span>
               </h1>
-              <div class="last-sync">13-week trailing analysis</div>
+              <div class="last-sync">Collections, payments, and net cash flow</div>
             </div>
           </div>
-
           <div class="kpi-grid" id="history-kpis"></div>
-
-          <div class="section-card">
+          <div class="section-card" style="margin-top: 4px">
             <div class="section-card-header">
-              <div class="section-card-title">13-Week Cash Flow Analysis</div>
+              <div class="section-card-title">Weekly Cash Flow</div>
             </div>
             <div class="section-card-body">
-              <div class="chart-container">
-                <canvas id="historyChart"></canvas>
-              </div>
+              <div class="chart-container"><canvas id="historyChart"></canvas></div>
             </div>
           </div>
         </div>
@@ -1150,30 +1234,23 @@
           <div class="content-header">
             <div>
               <h1 class="page-title">
-                Cash Flow Forecast <span class="page-subtitle">What's coming?</span>
+                Cash Flow Forecast <span class="page-subtitle">13-Week Forward</span>
               </h1>
-              <div class="last-sync">
-                13-week forward projection based on known AR, AP, and active jobs
-              </div>
+              <div class="last-sync">Based on known AR, AP, and active jobs</div>
             </div>
           </div>
-
           <div class="forecast-summary" id="forecast-summary"></div>
-
           <div class="section-card">
             <div class="section-card-header">
-              <div class="section-card-title">13-Week Projected Cash Position</div>
+              <div class="section-card-title">Projected Cash Position</div>
             </div>
             <div class="section-card-body">
-              <div class="chart-container">
-                <canvas id="forecastChart"></canvas>
-              </div>
+              <div class="chart-container"><canvas id="forecastChart"></canvas></div>
             </div>
           </div>
-
           <div class="section-card">
             <div class="section-card-header">
-              <div class="section-card-title">Week-by-Week Forecast Detail</div>
+              <div class="section-card-title">Week-by-Week Detail</div>
             </div>
             <div class="section-card-body no-pad">
               <table class="data-table" id="forecast-table">
@@ -1202,20 +1279,18 @@
 
     <script>
       // ============================================
-      // DATA MODEL — Single Source of Truth
+      // DATA MODEL — Single Source of Truth (unchanged)
       // ============================================
 
       function getBaseState() {
         return {
           company: { name: 'Interactive Demo', type: 'Operations Dashboard' },
           scenarios: { latePayment: false, costOverrun: false, newContract: false },
-
           accounts: {
             cashOnHand: 287340,
             monthlyOverhead: 18500,
             avgMonthlyOverhead6mo: 14800,
           },
-
           jobs: [
             {
               id: 1,
@@ -1295,8 +1370,6 @@
               received: 15360,
             },
           ],
-
-          // 13 weeks of historical cash flow
           history: {
             weeks: [
               'Dec 2',
@@ -1322,8 +1395,6 @@
               56000,
             ],
           },
-
-          // 13 weeks of forecast data
           forecast: {
             weeks: [
               'Mar 2',
@@ -1349,21 +1420,20 @@
               39000,
             ],
           },
-
           anomalies: [
             {
               id: 1,
               severity: 'high',
               title: 'Cash vs. Accrual Gap Detected',
               desc: 'Bank balance has declined $47,200 more than net income explains over the past 6 months. Unexplained cash leakage warrants investigation.',
-              metric: '$47,200 unexplained gap',
+              metric: '$47,200 gap',
             },
             {
               id: 2,
               severity: 'medium',
               title: 'Overhead Trending Above Baseline',
               desc: 'Monthly overhead is 25% above the trailing 6-month average. Review recent expense categories for unauthorized or unusual charges.',
-              metric: '$18,500 vs $14,800 avg',
+              metric: '$18.5K vs $14.8K avg',
             },
           ],
         };
@@ -1372,7 +1442,7 @@
       let STATE = getBaseState();
 
       // ============================================
-      // SCENARIO ENGINE
+      // SCENARIO ENGINE (unchanged logic)
       // ============================================
 
       function applyScenarios() {
@@ -1381,30 +1451,20 @@
         STATE.scenarios = savedScenarios;
 
         if (STATE.scenarios.latePayment) {
-          // Summit Ridge: move $58,960 received to $0 (payment delayed)
-          // This affects cash on hand and forecast
-          STATE.accounts.cashOnHand -= 28960; // partial impact
+          STATE.accounts.cashOnHand -= 28960;
           STATE.jobs[0].received -= 28960;
-          // Shift forecast: week 1-2 expected in drops
           STATE.forecast.expectedIn[0] -= 15000;
           STATE.forecast.expectedIn[1] -= 13960;
-          // Add it back in week 5-6
           STATE.forecast.expectedIn[5] += 15000;
           STATE.forecast.expectedIn[6] += 13960;
         }
-
         if (STATE.scenarios.costOverrun) {
-          // Cedar Park materials +15%
           const overrun = Math.round(STATE.jobs[1].actualCost * 0.15);
           STATE.jobs[1].actualCost += overrun;
-          STATE.jobs[1].budgetedCost; // budget stays same — shows overrun
-          // Additional outflows in forecast
           STATE.forecast.expectedOut[2] += Math.round(overrun * 0.5);
           STATE.forecast.expectedOut[3] += Math.round(overrun * 0.5);
         }
-
         if (STATE.scenarios.newContract) {
-          // New $95K job
           STATE.jobs.push({
             id: 8,
             name: 'Brookstone Villas Re-Roof',
@@ -1416,23 +1476,17 @@
             billed: 0,
             received: 0,
           });
-          // 25% deposit comes in week 3
           STATE.forecast.expectedIn[2] += 23750;
-          // Material purchases start week 4-5
           STATE.forecast.expectedOut[3] += 8500;
           STATE.forecast.expectedOut[4] += 12000;
         }
-
         renderAll();
       }
 
       function toggleScenario(name) {
-        // We need to preserve scenario state across getBaseState
         const current = STATE.scenarios[name];
         STATE = getBaseState();
-        // Restore all scenario states
         const btn = document.getElementById('sc-' + name);
-        // Toggle the clicked one
         document.querySelectorAll('.scenario-toggle').forEach((b) => {
           const sName = b.id.replace('sc-', '');
           if (sName === name) {
@@ -1452,7 +1506,7 @@
       }
 
       // ============================================
-      // COMPUTED VALUES
+      // COMPUTED VALUES (unchanged logic)
       // ============================================
 
       function getComputed() {
@@ -1469,21 +1523,13 @@
           (s, j) => s + (j.contractValue - j.budgetedCost),
           0
         );
-        const projectedNetProfit = projectedGrossProfit - STATE.accounts.monthlyOverhead * 12;
-
-        // Days cash on hand
         const weeklyBurn = STATE.history.payments.reduce((s, v) => s + v, 0) / 13;
         const dailyBurn = weeklyBurn / 7;
         const daysCash = Math.floor(STATE.accounts.cashOnHand / dailyBurn);
-
-        // Cash flow history totals
         const totalCollections = STATE.history.collections.reduce((s, v) => s + v, 0);
         const totalPayments = STATE.history.payments.reduce((s, v) => s + v, 0);
         const netCashflow = totalCollections - totalPayments;
-
-        // Burn rate data
         const burnRates = STATE.history.payments.map((p, i) => {
-          // 4-week rolling average
           if (i < 3) return p;
           return Math.round(
             (STATE.history.payments[i] +
@@ -1493,8 +1539,6 @@
               4
           );
         });
-
-        // Forecast projections
         let runningCash = STATE.accounts.cashOnHand;
         const forecastCash = STATE.forecast.expectedIn.map((inflow, i) => {
           runningCash = runningCash + inflow - STATE.forecast.expectedOut[i];
@@ -1503,8 +1547,6 @@
         const forecastLow = Math.min(...forecastCash);
         const forecastLowWeek = STATE.forecast.weeks[forecastCash.indexOf(forecastLow)];
         const forecastEnd = forecastCash[forecastCash.length - 1];
-
-        // Health metrics
         const overheadRatio = STATE.accounts.monthlyOverhead / STATE.accounts.avgMonthlyOverhead6mo;
         const currentRatio =
           (STATE.accounts.cashOnHand + outstandingAR) / (STATE.accounts.monthlyOverhead * 2);
@@ -1519,7 +1561,6 @@
           unbilledRevenue,
           outstandingAR,
           projectedGrossProfit,
-          projectedNetProfit,
           daysCash,
           dailyBurn,
           weeklyBurn,
@@ -1540,20 +1581,21 @@
       }
 
       // ============================================
-      // FORMATTING HELPERS
+      // FORMATTING — Abbreviated at summary level (Tufte)
       // ============================================
 
       function fmt(n) {
         if (n == null) return '—';
         const neg = n < 0;
-        const abs = Math.abs(Math.round(n));
-        return (neg ? '-$' : '$') + abs.toLocaleString('en-US');
+        return (neg ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
       }
 
+      // Abbreviated for KPI cards — reduces cognitive load
       function fmtK(n) {
-        if (Math.abs(n) >= 1000) {
-          return (n < 0 ? '-$' : '$') + (Math.abs(n) / 1000).toFixed(0) + 'K';
-        }
+        const abs = Math.abs(n);
+        if (abs >= 1000000) return (n < 0 ? '-$' : '$') + (abs / 1000000).toFixed(1) + 'M';
+        if (abs >= 1000)
+          return (n < 0 ? '-$' : '$') + (abs / 1000).toFixed(abs >= 100000 ? 0 : 1) + 'K';
         return fmt(n);
       }
 
@@ -1576,14 +1618,38 @@
         return { label: 'On Track', cls: 'on-track' };
       }
 
-      function getDaysCashStatus(days) {
-        if (days >= 60) return { label: 'Healthy', cls: 'healthy' };
-        if (days >= 30) return { label: 'Monitor', cls: 'caution' };
-        return { label: 'Critical', cls: 'critical' };
+      function getDaysCashClass(days) {
+        if (days >= 60) return 'healthy';
+        if (days >= 30) return 'watch';
+        return 'critical';
       }
 
       // ============================================
-      // EDITABLE VALUE SYSTEM
+      // SPARKLINE GENERATOR — Tufte's word-sized graphic
+      // ============================================
+
+      function makeSparkline(data, width = 64, height = 18, color = 'var(--text-muted)') {
+        if (!data || data.length < 2) return '';
+        const min = Math.min(...data);
+        const max = Math.max(...data);
+        const range = max - min || 1;
+        const step = width / (data.length - 1);
+        const points = data
+          .map(
+            (v, i) =>
+              `${(i * step).toFixed(1)},${(height - ((v - min) / range) * (height - 2) - 1).toFixed(1)}`
+          )
+          .join(' ');
+        // End dot
+        const lastX = ((data.length - 1) * step).toFixed(1);
+        const lastY = (height - ((data[data.length - 1] - min) / range) * (height - 2) - 1).toFixed(
+          1
+        );
+        return `<span class="sparkline"><svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><polyline points="${points}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${lastX}" cy="${lastY}" r="2" fill="${color}"/></svg></span>`;
+      }
+
+      // ============================================
+      // EDITABLE VALUE SYSTEM (unchanged logic)
       // ============================================
 
       function makeEditable(value, path, formatter) {
@@ -1599,26 +1665,21 @@
         input.className = 'editable-input';
         input.value = raw;
         input.style.width = Math.max(70, el.offsetWidth + 10) + 'px';
-
         el.textContent = '';
         el.appendChild(input);
         input.focus();
         input.select();
-
         function commit() {
           const newVal = parseFloat(input.value) || 0;
           applyEdit(path, newVal);
         }
-
         input.addEventListener('blur', commit);
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
             commit();
           }
-          if (e.key === 'Escape') {
-            renderAll();
-          }
+          if (e.key === 'Escape') renderAll();
         });
       }
 
@@ -1626,23 +1687,17 @@
         const parts = path.split('.');
         let target = STATE;
         for (let i = 0; i < parts.length - 1; i++) {
-          if (parts[i].match(/^\d+$/)) {
-            target = target[parseInt(parts[i])];
-          } else {
-            target = target[parts[i]];
-          }
+          target = parts[i].match(/^\d+$/) ? target[parseInt(parts[i])] : target[parts[i]];
         }
-        const lastKey = parts[parts.length - 1];
-        target[lastKey] = value;
+        target[parts[parts.length - 1]] = value;
         renderAll();
       }
 
       // ============================================
-      // RENDER FUNCTIONS
+      // RENDER FUNCTIONS — Redesigned
       // ============================================
 
       let chartInstances = {};
-
       function destroyChart(name) {
         if (chartInstances[name]) {
           chartInstances[name].destroy();
@@ -1655,89 +1710,122 @@
         renderDashboardKPIs(c);
         renderAnomalies();
         renderDashboardJobs(c);
+        renderSecondaryKPIs(c);
         renderJobsTab(c);
         renderHealthTab(c);
         renderHistoryTab(c);
         renderForecastTab(c);
       }
 
-      // --- DASHBOARD TAB ---
+      // --- DASHBOARD: PRIMARY KPIs ---
+      // 4 cards only. Abbreviated values. Sparklines for trend.
+      // Z-pattern: top-left = Cash (most critical)
 
       function renderDashboardKPIs(c) {
-        const status = getDaysCashStatus(c.daysCash);
+        const cashClass = getDaysCashClass(c.daysCash);
+
+        // Build sparkline data from history
+        const cashSparkData = [];
+        let runCash = STATE.accounts.cashOnHand;
+        // Back-calculate from history (approximate)
+        for (let i = STATE.history.collections.length - 1; i >= 0; i--) {
+          cashSparkData.unshift(runCash);
+          runCash = runCash - STATE.history.collections[i] + STATE.history.payments[i];
+        }
+
+        const netFlowSpark = STATE.history.collections.map((c, i) => c - STATE.history.payments[i]);
+
         document.getElementById('dashboard-kpis').innerHTML = `
-    <div class="kpi-card hl-green">
+    <div class="kpi-card">
       <div class="kpi-label">Cash on Hand</div>
-      <div class="kpi-value positive">${makeEditable(STATE.accounts.cashOnHand, 'accounts.cashOnHand')}</div>
-      <div class="kpi-subtitle">As of today</div>
+      <div class="kpi-value ${cashClass}">
+        ${makeEditable(STATE.accounts.cashOnHand, 'accounts.cashOnHand', fmtK)}
+        ${makeSparkline(cashSparkData, 56, 16, cashClass === 'healthy' ? 'var(--healthy)' : cashClass === 'critical' ? 'var(--critical)' : 'var(--watch)')}
+      </div>
+      <div class="kpi-context">
+        <span class="status-dot ${cashClass}"></span>
+        ${c.daysCash} days at current burn
+      </div>
     </div>
-    <div class="kpi-card hl-blue">
-      <div class="kpi-label">Unbilled Revenue</div>
-      <div class="kpi-value">${fmt(c.unbilledRevenue)}</div>
-      <div class="kpi-subtitle">Work completed, not yet invoiced</div>
-    </div>
-    <div class="kpi-card hl-yellow">
-      <div class="kpi-label">Days Cash on Hand</div>
-      <div class="kpi-value ${status.cls === 'healthy' ? 'positive' : status.cls === 'critical' ? 'negative' : 'warning'}">${c.daysCash} days</div>
-      <div class="kpi-badge ${status.cls}">${status.label}</div>
-    </div>
-    <div class="kpi-card hl-red">
+    <div class="kpi-card">
       <div class="kpi-label">Outstanding AR</div>
-      <div class="kpi-value">${fmt(c.outstandingAR)}</div>
-      <div class="kpi-subtitle">${c.activeJobCount} active jobs</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Total Contract Value</div>
-      <div class="kpi-value">${fmt(c.totalContractValue)}</div>
-      <div class="kpi-subtitle">${c.totalJobCount} total jobs</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Projected Gross Profit</div>
-      <div class="kpi-value ${c.projectedGrossProfit >= 0 ? 'positive' : 'negative'}">${fmt(c.projectedGrossProfit)}</div>
-      <div class="kpi-subtitle">At project completion</div>
+      <div class="kpi-value">${fmtK(c.outstandingAR)}</div>
+      <div class="kpi-context">${c.activeJobCount} active jobs · DSO ${c.dso}d</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Budget Variance</div>
-      <div class="kpi-value ${c.totalActualCost <= c.totalBudgetedCost ? 'positive' : 'negative'}">${fmt(c.totalBudgetedCost - c.totalActualCost)}</div>
-      <div class="kpi-subtitle">${c.totalActualCost <= c.totalBudgetedCost ? 'Under budget' : 'Over budget'}</div>
+      <div class="kpi-value ${c.totalActualCost <= c.totalBudgetedCost ? 'healthy' : 'critical'}">
+        ${fmtK(c.totalBudgetedCost - c.totalActualCost)}
+      </div>
+      <div class="kpi-context">${c.totalActualCost <= c.totalBudgetedCost ? 'Under budget' : 'Over budget'} across all jobs</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Forecast Low Point</div>
-      <div class="kpi-value ${c.forecastLow > 100000 ? 'positive' : c.forecastLow > 50000 ? 'warning' : 'negative'}">${fmt(c.forecastLow)}</div>
-      <div class="kpi-subtitle">Week of ${c.forecastLowWeek}</div>
+      <div class="kpi-label">Forecast Low</div>
+      <div class="kpi-value ${c.forecastLow > 100000 ? 'healthy' : c.forecastLow > 50000 ? 'watch' : 'critical'}">
+        ${fmtK(c.forecastLow)}
+        ${makeSparkline(c.forecastCash, 56, 16, c.forecastLow > 100000 ? 'var(--healthy)' : c.forecastLow > 50000 ? 'var(--watch)' : 'var(--critical)')}
+      </div>
+      <div class="kpi-context">Week of ${c.forecastLowWeek}</div>
     </div>
   `;
       }
 
+      // --- SECONDARY KPIs (below the fold) ---
+      function renderSecondaryKPIs(c) {
+        document.getElementById('dashboard-secondary-kpis').innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-label">Total Contract Value</div>
+      <div class="kpi-value">${fmtK(c.totalContractValue)}</div>
+      <div class="kpi-context">${c.totalJobCount} total jobs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Unbilled Revenue</div>
+      <div class="kpi-value">${fmtK(c.unbilledRevenue)}</div>
+      <div class="kpi-context">Work completed, not yet invoiced</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Projected Gross Profit</div>
+      <div class="kpi-value ${c.projectedGrossProfit >= 0 ? 'healthy' : 'critical'}">${fmtK(c.projectedGrossProfit)}</div>
+      <div class="kpi-context">At project completion</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Weekly Burn Rate</div>
+      <div class="kpi-value">
+        ${fmtK(Math.round(c.weeklyBurn))}
+        ${makeSparkline(STATE.history.payments, 56, 16, 'var(--text-muted)')}
+      </div>
+      <div class="kpi-context">13-week avg outflow</div>
+    </div>
+  `;
+      }
+
+      // --- ANOMALIES: Compact alert strips ---
+      // Headline + metric only. Click to expand detail. (Progressive disclosure)
+
       function renderAnomalies() {
-        const container = document.getElementById('dashboard-anomalies');
-        container.innerHTML = STATE.anomalies
+        document.getElementById('dashboard-anomalies').innerHTML = STATE.anomalies
           .map(
             (a) => `
-    <div class="anomaly-card severity-${a.severity}">
-      <div class="anomaly-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-        </svg>
-      </div>
-      <div class="anomaly-content">
-        <div class="anomaly-title">${a.title}</div>
-        <div class="anomaly-desc">${a.desc}</div>
-        <div class="anomaly-metric">${a.metric}</div>
-      </div>
+    <div class="alert-item severity-${a.severity}" onclick="this.classList.toggle('expanded')">
+      <span class="status-dot ${a.severity === 'high' ? 'critical' : 'watch'}"></span>
+      <div class="alert-title">${a.title}</div>
+      <div class="alert-metric">${a.metric}</div>
+      <div class="alert-expand">▾</div>
+      <div class="alert-detail" style="width:100%">${a.desc}</div>
     </div>
   `
           )
           .join('');
       }
 
+      // --- DASHBOARD JOBS TABLE ---
+      // Tighter layout, no customer column (save space), status dots not badges
+
       function renderDashboardJobs(c) {
         const tbody = document.getElementById('dashboard-jobs-body');
-        const rows = STATE.jobs
+        tbody.innerHTML = STATE.jobs
           .map((j) => {
             const margin =
-              j.contractValue > 0 ? ((j.contractValue - j.actualCost) / j.contractValue) * 100 : 0;
-            const projMargin =
               j.contractValue > 0
                 ? ((j.contractValue - j.budgetedCost) / j.contractValue) * 100
                 : 0;
@@ -1746,61 +1834,56 @@
             const barCls =
               pctUsed > j.percentComplete * 1.1
                 ? 'danger'
-                : pctUsed > j.percentComplete * 1.0
+                : pctUsed > j.percentComplete
                   ? 'warn'
                   : '';
             return `
       <tr>
-        <td style="font-weight:600;">${j.name}</td>
-        <td>${j.customer}</td>
-        <td class="num">${fmt(j.contractValue)}</td>
-        <td class="num">${fmt(j.actualCost)}</td>
+        <td style="font-weight:600;">${j.name}<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">${j.customer}</span></td>
+        <td class="num">${fmtK(j.contractValue)}</td>
+        <td class="num">${fmtK(j.actualCost)}</td>
         <td>
           <div class="progress-bar"><div class="progress-bar-fill ${barCls}" style="width:${Math.min(j.percentComplete, 100)}%"></div></div>
-          <span style="font-size:12px;font-weight:600;">${j.percentComplete}%</span>
+          <span style="font-family:'JetBrains Mono';font-size:11px;font-weight:500">${j.percentComplete}%</span>
         </td>
-        <td class="num ${getMarginClass(projMargin)}">${pct(projMargin)}</td>
-        <td><span class="job-status ${status.cls}">${status.label}</span></td>
+        <td class="num ${getMarginClass(margin)}">${pct(margin)}</td>
+        <td><span class="job-status ${status.cls}"><span class="status-dot ${status.cls === 'on-track' ? 'healthy' : status.cls === 'at-risk' ? 'watch' : status.cls === 'over-budget' ? 'critical' : ''}" style="${status.cls === 'complete' ? 'background:var(--info)' : ''}"></span>${status.label}</span></td>
       </tr>
     `;
           })
           .join('');
-
-        tbody.innerHTML = rows;
       }
 
       // --- JOBS TAB ---
 
       function renderJobsTab(c) {
-        // KPIs
         const avgMargin =
           c.totalContractValue > 0
             ? ((c.totalContractValue - c.totalBudgetedCost) / c.totalContractValue) * 100
             : 0;
         document.getElementById('jobs-kpis').innerHTML = `
-    <div class="kpi-card hl-green">
+    <div class="kpi-card">
       <div class="kpi-label">Total Contract Value</div>
-      <div class="kpi-value">${fmt(c.totalContractValue)}</div>
-      <div class="kpi-subtitle">${c.totalJobCount} jobs</div>
+      <div class="kpi-value">${fmtK(c.totalContractValue)}</div>
+      <div class="kpi-context">${c.totalJobCount} jobs</div>
     </div>
-    <div class="kpi-card hl-blue">
-      <div class="kpi-label">Total Budgeted Cost</div>
-      <div class="kpi-value">${fmt(c.totalBudgetedCost)}</div>
-      <div class="kpi-subtitle">Across all jobs</div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Budget</div>
+      <div class="kpi-value">${fmtK(c.totalBudgetedCost)}</div>
+      <div class="kpi-context">Across all jobs</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Total Actual Cost</div>
-      <div class="kpi-value">${fmt(c.totalActualCost)}</div>
-      <div class="kpi-subtitle">${c.totalActualCost > c.totalBudgetedCost ? 'Over budget' : 'Under budget'}</div>
+      <div class="kpi-value">${fmtK(c.totalActualCost)}</div>
+      <div class="kpi-context">${c.totalActualCost > c.totalBudgetedCost ? 'Over budget' : 'Under budget'}</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Avg Projected Margin</div>
       <div class="kpi-value ${getMarginClass(avgMargin)}">${pct(avgMargin)}</div>
-      <div class="kpi-subtitle">Weighted by contract value</div>
+      <div class="kpi-context">Weighted by contract value</div>
     </div>
   `;
 
-        // Detail table
         const tbody = document.getElementById('jobs-detail-body');
         const rows = STATE.jobs
           .map((j, i) => {
@@ -1810,20 +1893,19 @@
             const status = getJobStatus(j);
             return `
       <tr>
-        <td style="font-weight:600;">${j.name}<br><span style="font-size:11px;color:var(--text-muted);font-weight:400;">${j.customer}</span></td>
+        <td style="font-weight:600;">${j.name}<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">${j.customer}</span></td>
         <td class="num">${makeEditable(j.contractValue, 'jobs.' + i + '.contractValue')}</td>
         <td class="num">${makeEditable(j.budgetedCost, 'jobs.' + i + '.budgetedCost')}</td>
         <td class="num">${makeEditable(j.actualCost, 'jobs.' + i + '.actualCost')}</td>
         <td class="num ${variance >= 0 ? 'margin-good' : 'margin-bad'}">${fmt(variance)}</td>
         <td class="num">${fmt(grossProfit)}</td>
         <td class="num ${getMarginClass(margin)}">${pct(margin)}</td>
-        <td><span class="job-status ${status.cls}">${status.label}</span></td>
+        <td><span class="job-status ${status.cls}"><span class="status-dot ${status.cls === 'on-track' ? 'healthy' : status.cls === 'at-risk' ? 'watch' : status.cls === 'over-budget' ? 'critical' : ''}" style="${status.cls === 'complete' ? 'background:var(--info)' : ''}"></span>${status.label}</span></td>
       </tr>
     `;
           })
           .join('');
 
-        // Totals row
         const totalVariance = c.totalBudgetedCost - c.totalActualCost;
         const totalGP = c.projectedGrossProfit;
         const totalMargin = c.totalContractValue > 0 ? (totalGP / c.totalContractValue) * 100 : 0;
@@ -1847,51 +1929,56 @@
       // --- HEALTH TAB ---
 
       function renderHealthTab(c) {
-        const status = getDaysCashStatus(c.daysCash);
+        const cashCls = getDaysCashClass(c.daysCash);
         const ohPct = Math.round(
           (STATE.accounts.monthlyOverhead / STATE.accounts.avgMonthlyOverhead6mo - 1) * 100
         );
+        const colorFor = (cls) =>
+          cls === 'healthy'
+            ? 'var(--healthy)'
+            : cls === 'critical'
+              ? 'var(--critical)'
+              : 'var(--watch)';
 
         document.getElementById('health-metrics').innerHTML = `
     <div class="health-metric">
       <div class="health-metric-label">Days Cash on Hand</div>
-      <div class="health-metric-value ${status.cls === 'healthy' ? 'positive' : status.cls === 'critical' ? 'negative' : 'warning'}" style="color: ${status.cls === 'healthy' ? 'var(--positive)' : status.cls === 'critical' ? 'var(--negative)' : 'var(--warning)'}">${c.daysCash} days</div>
-      <div class="health-metric-sub">${fmt(STATE.accounts.cashOnHand)} ÷ ${fmt(Math.round(c.dailyBurn))}/day burn</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min((c.daysCash / 90) * 100, 100)}%;background:${status.cls === 'healthy' ? 'var(--positive)' : status.cls === 'critical' ? 'var(--negative)' : 'var(--warning)'}"></div></div>
+      <div class="health-metric-value" style="color:${colorFor(cashCls)}">${c.daysCash} days</div>
+      <div class="health-metric-sub">${fmtK(STATE.accounts.cashOnHand)} ÷ ${fmtK(Math.round(c.dailyBurn))}/day</div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:${Math.min((c.daysCash / 90) * 100, 100)}%;background:${colorFor(cashCls)}"></div></div>
     </div>
     <div class="health-metric">
       <div class="health-metric-label">Current Ratio</div>
-      <div class="health-metric-value" style="color: ${c.currentRatio >= 1.5 ? 'var(--positive)' : c.currentRatio >= 1 ? 'var(--warning)' : 'var(--negative)'}">${c.currentRatio.toFixed(2)}</div>
+      <div class="health-metric-value" style="color:${c.currentRatio >= 1.5 ? 'var(--healthy)' : c.currentRatio >= 1 ? 'var(--watch)' : 'var(--critical)'}">${c.currentRatio.toFixed(2)}</div>
       <div class="health-metric-sub">(Cash + AR) ÷ Short-term obligations</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min((c.currentRatio / 3) * 100, 100)}%;background:${c.currentRatio >= 1.5 ? 'var(--positive)' : c.currentRatio >= 1 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:${Math.min((c.currentRatio / 3) * 100, 100)}%;background:${c.currentRatio >= 1.5 ? 'var(--healthy)' : c.currentRatio >= 1 ? 'var(--watch)' : 'var(--critical)'}"></div></div>
     </div>
     <div class="health-metric">
       <div class="health-metric-label">Days Sales Outstanding</div>
-      <div class="health-metric-value" style="color: ${c.dso <= 30 ? 'var(--positive)' : c.dso <= 45 ? 'var(--warning)' : 'var(--negative)'}">${c.dso} days</div>
-      <div class="health-metric-sub">Avg time to collect on invoices</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min((c.dso / 60) * 100, 100)}%;background:${c.dso <= 30 ? 'var(--positive)' : c.dso <= 45 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+      <div class="health-metric-value" style="color:${c.dso <= 30 ? 'var(--healthy)' : c.dso <= 45 ? 'var(--watch)' : 'var(--critical)'}">${c.dso} days</div>
+      <div class="health-metric-sub">Avg time to collect</div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:${Math.min((c.dso / 60) * 100, 100)}%;background:${c.dso <= 30 ? 'var(--healthy)' : c.dso <= 45 ? 'var(--watch)' : 'var(--critical)'}"></div></div>
     </div>
     <div class="health-metric">
       <div class="health-metric-label">Weekly Burn Rate</div>
       <div class="health-metric-value">${fmtK(Math.round(c.weeklyBurn))}</div>
-      <div class="health-metric-sub">13-week average outflow per week</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:60%;background:var(--blue)"></div></div>
+      <div class="health-metric-sub">13-week average</div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:60%;background:var(--info)"></div></div>
     </div>
     <div class="health-metric">
       <div class="health-metric-label">Overhead vs. Baseline</div>
-      <div class="health-metric-value" style="color: ${ohPct <= 10 ? 'var(--positive)' : ohPct <= 20 ? 'var(--warning)' : 'var(--negative)'}">${ohPct > 0 ? '+' : ''}${ohPct}%</div>
-      <div class="health-metric-sub">${fmt(STATE.accounts.monthlyOverhead)}/mo vs ${fmt(STATE.accounts.avgMonthlyOverhead6mo)} avg</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${Math.min((Math.abs(ohPct) / 50) * 100, 100)}%;background:${ohPct <= 10 ? 'var(--positive)' : ohPct <= 20 ? 'var(--warning)' : 'var(--negative)'}"></div></div>
+      <div class="health-metric-value" style="color:${ohPct <= 10 ? 'var(--healthy)' : ohPct <= 20 ? 'var(--watch)' : 'var(--critical)'}">+${ohPct}%</div>
+      <div class="health-metric-sub">${fmtK(STATE.accounts.monthlyOverhead)}/mo vs ${fmtK(STATE.accounts.avgMonthlyOverhead6mo)}</div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:${Math.min((Math.abs(ohPct) / 50) * 100, 100)}%;background:${ohPct <= 10 ? 'var(--healthy)' : ohPct <= 20 ? 'var(--watch)' : 'var(--critical)'}"></div></div>
     </div>
     <div class="health-metric">
       <div class="health-metric-label">AR Collection Rate</div>
-      <div class="health-metric-value" style="color: ${(c.totalReceived / c.totalBilled) * 100 >= 85 ? 'var(--positive)' : 'var(--warning)'}">${(c.totalBilled > 0 ? (c.totalReceived / c.totalBilled) * 100 : 0).toFixed(0)}%</div>
-      <div class="health-metric-sub">${fmt(c.totalReceived)} of ${fmt(c.totalBilled)} collected</div>
-      <div class="health-metric-bar"><div class="health-metric-bar-fill" style="width:${c.totalBilled > 0 ? (c.totalReceived / c.totalBilled) * 100 : 0}%;background:${(c.totalReceived / c.totalBilled) * 100 >= 85 ? 'var(--positive)' : 'var(--warning)'}"></div></div>
+      <div class="health-metric-value" style="color:${(c.totalReceived / c.totalBilled) * 100 >= 85 ? 'var(--healthy)' : 'var(--watch)'}">${(c.totalBilled > 0 ? (c.totalReceived / c.totalBilled) * 100 : 0).toFixed(0)}%</div>
+      <div class="health-metric-sub">${fmtK(c.totalReceived)} of ${fmtK(c.totalBilled)}</div>
+      <div class="bullet-bar"><div class="bullet-bar-fill" style="width:${c.totalBilled > 0 ? (c.totalReceived / c.totalBilled) * 100 : 0}%;background:${(c.totalReceived / c.totalBilled) * 100 >= 85 ? 'var(--healthy)' : 'var(--watch)'}"></div></div>
     </div>
   `;
 
-        // Burn rate chart
         destroyChart('burnRate');
         const ctx = document.getElementById('burnRateChart');
         if (!ctx) return;
@@ -1903,29 +1990,29 @@
               {
                 label: 'Weekly Payments',
                 data: STATE.history.payments,
-                borderColor: '#dc2626',
-                backgroundColor: 'rgba(220,38,38,0.08)',
-                borderWidth: 2,
+                borderColor: 'var(--critical)',
+                backgroundColor: 'rgba(207,34,46,0.04)',
+                borderWidth: 1.5,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 4,
+                pointRadius: 2.5,
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#dc2626',
-                pointBorderWidth: 2,
+                pointBorderColor: 'var(--critical)',
+                pointBorderWidth: 1.5,
               },
               {
-                label: '4-Week Avg Burn',
+                label: '4-Week Avg',
                 data: c.burnRates,
-                borderColor: '#3b82f6',
-                borderWidth: 2,
-                borderDash: [6, 4],
+                borderColor: 'var(--info)',
+                borderWidth: 1.5,
+                borderDash: [5, 3],
                 fill: false,
                 tension: 0.3,
                 pointRadius: 0,
               },
             ],
           },
-          options: getChartOptions('$'),
+          options: getChartOptions(),
         });
       }
 
@@ -1933,25 +2020,33 @@
 
       function renderHistoryTab(c) {
         document.getElementById('history-kpis').innerHTML = `
-    <div class="kpi-card hl-green">
+    <div class="kpi-card">
       <div class="kpi-label">Total Collections</div>
-      <div class="kpi-value positive">${fmt(c.totalCollections)}</div>
-      <div class="kpi-subtitle">Avg: ${fmt(Math.round(c.totalCollections / 13))}/week</div>
+      <div class="kpi-value healthy">${fmtK(c.totalCollections)}</div>
+      <div class="kpi-context">Avg ${fmtK(Math.round(c.totalCollections / 13))}/week</div>
     </div>
-    <div class="kpi-card hl-red">
+    <div class="kpi-card">
       <div class="kpi-label">Total Payments</div>
-      <div class="kpi-value">${fmt(c.totalPayments)}</div>
-      <div class="kpi-subtitle">Avg: ${fmt(Math.round(c.totalPayments / 13))}/week</div>
+      <div class="kpi-value">${fmtK(c.totalPayments)}</div>
+      <div class="kpi-context">Avg ${fmtK(Math.round(c.totalPayments / 13))}/week</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Net Cash Flow</div>
-      <div class="kpi-value ${c.netCashflow >= 0 ? 'positive' : 'negative'}">${fmt(c.netCashflow)}</div>
-      <div class="kpi-subtitle">${c.netCashflow >= 0 ? 'Surplus' : 'Deficit'} over 13 weeks</div>
+      <div class="kpi-value ${c.netCashflow >= 0 ? 'healthy' : 'critical'}">${fmtK(c.netCashflow)}</div>
+      <div class="kpi-context">${c.netCashflow >= 0 ? 'Surplus' : 'Deficit'} over 13 weeks</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Avg Weekly Net</div>
-      <div class="kpi-value ${c.netCashflow >= 0 ? 'positive' : 'negative'}">${fmt(Math.round(c.netCashflow / 13))}</div>
-      <div class="kpi-subtitle">Collections minus payments</div>
+      <div class="kpi-value ${c.netCashflow >= 0 ? 'healthy' : 'critical'}">
+        ${fmtK(Math.round(c.netCashflow / 13))}
+        ${makeSparkline(
+          STATE.history.collections.map((c, i) => c - STATE.history.payments[i]),
+          56,
+          16,
+          c.netCashflow >= 0 ? 'var(--healthy)' : 'var(--critical)'
+        )}
+      </div>
+      <div class="kpi-context">Collections minus payments</div>
     </div>
   `;
 
@@ -1965,45 +2060,43 @@
               {
                 label: 'Collections',
                 data: STATE.history.collections,
-                borderColor: '#16a34a',
-                backgroundColor: 'rgba(22,163,74,0.1)',
-                borderWidth: 2,
+                borderColor: 'var(--healthy)',
+                backgroundColor: 'rgba(26,127,55,0.04)',
+                borderWidth: 1.5,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 4,
+                pointRadius: 2.5,
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#16a34a',
-                pointBorderWidth: 2,
+                pointBorderColor: 'var(--healthy)',
+                pointBorderWidth: 1.5,
               },
               {
                 label: 'Payments',
                 data: STATE.history.payments,
-                borderColor: '#dc2626',
-                backgroundColor: 'rgba(220,38,38,0.1)',
-                borderWidth: 2,
+                borderColor: 'var(--critical)',
+                backgroundColor: 'rgba(207,34,46,0.04)',
+                borderWidth: 1.5,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 4,
+                pointRadius: 2.5,
                 pointBackgroundColor: '#fff',
-                pointBorderColor: '#dc2626',
-                pointBorderWidth: 2,
+                pointBorderColor: 'var(--critical)',
+                pointBorderWidth: 1.5,
               },
               {
-                label: 'Net Cash Flow',
+                label: 'Net',
                 data: netData,
-                borderColor: '#3b82f6',
+                borderColor: 'var(--info)',
                 backgroundColor: 'transparent',
-                borderWidth: 2,
-                borderDash: [6, 4],
+                borderWidth: 1.5,
+                borderDash: [5, 3],
                 fill: false,
                 tension: 0.3,
                 pointRadius: 0,
-                pointHoverRadius: 5,
-                pointBackgroundColor: '#3b82f6',
               },
             ],
           },
-          options: getChartOptions('$'),
+          options: getChartOptions(),
         });
       }
 
@@ -2012,22 +2105,20 @@
       function renderForecastTab(c) {
         document.getElementById('forecast-summary').innerHTML = `
     <div class="forecast-stat">
-      <div class="forecast-stat-value" style="color:var(--text)">${fmt(STATE.accounts.cashOnHand)}</div>
+      <div class="forecast-stat-value" style="color:var(--text-primary)">${fmtK(STATE.accounts.cashOnHand)}</div>
       <div class="forecast-stat-label">Starting Cash</div>
     </div>
     <div class="forecast-stat">
-      <div class="forecast-stat-value" style="color:${c.forecastLow > 100000 ? 'var(--positive)' : c.forecastLow > 50000 ? 'var(--warning)' : 'var(--negative)'}">${fmt(c.forecastLow)}</div>
-      <div class="forecast-stat-label">Projected Low — ${c.forecastLowWeek}</div>
+      <div class="forecast-stat-value" style="color:${c.forecastLow > 100000 ? 'var(--healthy)' : c.forecastLow > 50000 ? 'var(--watch)' : 'var(--critical)'}">${fmtK(c.forecastLow)}</div>
+      <div class="forecast-stat-label">Low Point — ${c.forecastLowWeek}</div>
     </div>
     <div class="forecast-stat">
-      <div class="forecast-stat-value" style="color:${c.forecastEnd > STATE.accounts.cashOnHand ? 'var(--positive)' : 'var(--warning)'}">${fmt(c.forecastEnd)}</div>
-      <div class="forecast-stat-label">Ending Cash — 13 Weeks</div>
+      <div class="forecast-stat-value" style="color:${c.forecastEnd > STATE.accounts.cashOnHand ? 'var(--healthy)' : 'var(--watch)'}">${fmtK(c.forecastEnd)}</div>
+      <div class="forecast-stat-label">End Position — 13 Weeks</div>
     </div>
   `;
 
-        // Danger zone threshold
         const dangerThreshold = 75000;
-
         destroyChart('forecast');
         chartInstances['forecast'] = new Chart(document.getElementById('forecastChart'), {
           type: 'line',
@@ -2035,56 +2126,38 @@
             labels: STATE.forecast.weeks,
             datasets: [
               {
-                label: 'Projected Cash Position',
+                label: 'Projected Cash',
                 data: c.forecastCash,
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59,130,246,0.08)',
-                borderWidth: 3,
+                borderColor: 'var(--info)',
+                backgroundColor: 'rgba(9,105,218,0.04)',
+                borderWidth: 2,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 5,
+                pointRadius: 3,
                 pointBackgroundColor: c.forecastCash.map((v) =>
-                  v < dangerThreshold ? '#dc2626' : '#fff'
+                  v < dangerThreshold ? '#cf222e' : '#fff'
                 ),
                 pointBorderColor: c.forecastCash.map((v) =>
-                  v < dangerThreshold ? '#dc2626' : '#3b82f6'
+                  v < dangerThreshold ? '#cf222e' : '#0969da'
                 ),
-                pointBorderWidth: 2,
-                pointHoverRadius: 7,
+                pointBorderWidth: 1.5,
               },
               {
                 label: 'Danger Zone',
                 data: new Array(13).fill(dangerThreshold),
-                borderColor: 'rgba(220,38,38,0.4)',
-                backgroundColor: 'rgba(220,38,38,0.06)',
-                borderWidth: 2,
-                borderDash: [8, 4],
+                borderColor: 'rgba(207,34,46,0.3)',
+                backgroundColor: 'rgba(207,34,46,0.03)',
+                borderWidth: 1,
+                borderDash: [6, 4],
                 fill: 'origin',
                 tension: 0,
                 pointRadius: 0,
               },
             ],
           },
-          options: {
-            ...getChartOptions('$'),
-            plugins: {
-              ...getChartOptions('$').plugins,
-              legend: {
-                position: 'top',
-                align: 'end',
-                labels: {
-                  usePointStyle: true,
-                  pointStyle: 'line',
-                  padding: 20,
-                  font: { family: 'Inter', size: 12, weight: '500' },
-                  filter: (item) => item.text !== 'Danger Zone' || true,
-                },
-              },
-            },
-          },
+          options: getChartOptions(),
         });
 
-        // Forecast table
         const tbody = document.getElementById('forecast-body');
         let running = STATE.accounts.cashOnHand;
         tbody.innerHTML = STATE.forecast.weeks
@@ -2092,25 +2165,25 @@
             const inflow = STATE.forecast.expectedIn[i];
             const outflow = STATE.forecast.expectedOut[i];
             const net = inflow - outflow;
-            running = running + net;
+            running += net;
             const isLow = running < dangerThreshold;
             return `
-      <tr style="${isLow ? 'background:var(--negative-light);' : ''}">
+      <tr style="${isLow ? 'background:var(--critical-bg);' : ''}">
         <td style="font-weight:600;">${week}</td>
-        <td class="num" style="color:var(--positive)">${fmt(inflow)}</td>
-        <td class="num" style="color:var(--negative)">${fmt(outflow)}</td>
+        <td class="num" style="color:var(--healthy)">${fmt(inflow)}</td>
+        <td class="num" style="color:var(--critical)">${fmt(outflow)}</td>
         <td class="num ${net >= 0 ? 'margin-good' : 'margin-bad'}">${fmt(net)}</td>
-        <td class="num" style="font-weight:700;${isLow ? 'color:var(--negative);' : ''}">${fmt(running)}</td>
-        <td>${isLow ? '<span class="kpi-badge critical">⚠ Low Cash</span>' : '<span class="kpi-badge healthy">OK</span>'}</td>
+        <td class="num" style="font-weight:600;${isLow ? 'color:var(--critical);' : ''}">${fmt(running)}</td>
+        <td>${isLow ? '<span class="kpi-badge critical">Low</span>' : '<span class="kpi-badge healthy">OK</span>'}</td>
       </tr>
     `;
           })
           .join('');
       }
 
-      // --- SHARED CHART OPTIONS ---
+      // --- CHART OPTIONS — Clean, minimal chrome ---
 
-      function getChartOptions(prefix) {
+      function getChartOptions() {
         return {
           responsive: true,
           maintainAspectRatio: false,
@@ -2122,16 +2195,20 @@
               labels: {
                 usePointStyle: true,
                 pointStyle: 'line',
-                padding: 20,
-                font: { family: 'Inter', size: 12, weight: '500' },
+                padding: 16,
+                font: { family: 'Albert Sans', size: 11, weight: '500' },
+                color: '#8b949e',
               },
             },
             tooltip: {
-              backgroundColor: 'rgba(30,41,59,0.95)',
-              titleFont: { family: 'Inter', size: 13, weight: '600' },
-              bodyFont: { family: 'Inter', size: 12 },
-              padding: 12,
-              cornerRadius: 8,
+              backgroundColor: '#1a1a1a',
+              titleColor: '#fafafa',
+              bodyColor: '#d1d5db',
+              titleFont: { family: 'Albert Sans', size: 12, weight: '600' },
+              bodyFont: { family: 'JetBrains Mono', size: 11 },
+              padding: 10,
+              cornerRadius: 6,
+              borderWidth: 0,
               callbacks: {
                 label: function (ctx) {
                   let label = ctx.dataset.label || '';
@@ -2146,18 +2223,20 @@
           scales: {
             x: {
               grid: { display: false },
-              ticks: { font: { family: 'Inter', size: 11 }, color: '#64748b' },
+              ticks: { font: { family: 'Albert Sans', size: 10 }, color: '#b1b8c0' },
+              border: { display: false },
             },
             y: {
-              grid: { color: 'rgba(226,232,240,0.8)', drawBorder: false },
+              grid: { color: '#f0f1f3', drawBorder: false },
               ticks: {
-                font: { family: 'Inter', size: 11 },
-                color: '#64748b',
+                font: { family: 'JetBrains Mono', size: 10 },
+                color: '#b1b8c0',
                 callback: function (v) {
                   if (Math.abs(v) >= 1000) return (v < 0 ? '-$' : '$') + Math.abs(v / 1000) + 'K';
                   return '$' + v;
                 },
               },
+              border: { display: false },
             },
           },
         };
@@ -2169,12 +2248,28 @@
 
       function switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach((t) => t.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach((n) => n.classList.remove('active'));
-
+        document
+          .querySelectorAll('.nav-item:not(.disabled)')
+          .forEach((n) => n.classList.remove('active'));
         document.getElementById('tab-' + tabName).classList.add('active');
         event.currentTarget.classList.add('active');
+        const c = getComputed();
+        if (tabName === 'health') renderHealthTab(c);
+        if (tabName === 'history') renderHistoryTab(c);
+        if (tabName === 'forecast') renderForecastTab(c);
+      }
 
-        // Re-render charts when switching (canvas size issue)
+      function switchTabByName(tabName) {
+        document.querySelectorAll('.tab-content').forEach((t) => t.classList.remove('active'));
+        document
+          .querySelectorAll('.nav-item:not(.disabled)')
+          .forEach((n) => n.classList.remove('active'));
+        document.getElementById('tab-' + tabName).classList.add('active');
+        // Find and activate the correct nav item
+        document.querySelectorAll('.nav-item').forEach((n) => {
+          if (n.textContent.trim().toLowerCase().replace(/\s+/g, '').includes(tabName))
+            n.classList.add('active');
+        });
         const c = getComputed();
         if (tabName === 'health') renderHealthTab(c);
         if (tabName === 'history') renderHistoryTab(c);
@@ -2184,7 +2279,6 @@
       // ============================================
       // INITIAL RENDER
       // ============================================
-
       document.addEventListener('DOMContentLoaded', () => {
         renderAll();
       });
