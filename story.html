@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Where the Platform Came From | syncIO Labs</title>
+    <meta
+      name="description"
+      content="The multi-state construction operation whose reconciliation problem became the syncIO Operational Intelligence Platform."
+    />
+    <link rel="canonical" href="https://synciolabs.com/story" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/site.css" />
+    <meta property="og:title" content="Where the Platform Came From | syncIO Labs" />
+    <meta property="og:description" content="Construction, five states, $20M+ in projects — the operation that became the syncIO Operational Intelligence Platform." />
+    <meta property="og:image" content="https://synciolabs.com/og-image.png" />
+    <meta property="og:url" content="https://synciolabs.com/story" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://synciolabs.com/og-image.png" />
+  </head>
+  <body>
+    <nav class="site-nav">
+      <a href="/" class="logo">
+        <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
+      </a>
+      <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href="/platform">Platform</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/story" class="active">Story</a>
+        <a href="/contact">Contact</a>
+        <a href="/contact?interest=demo" class="nav-cta">Request a demo</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-hero">
+        <span class="section-label">Story</span>
+        <h1>Where the platform <span class="highlight">came from.</span></h1>
+        <p class="intro">
+          The Operational Intelligence Platform wasn't designed on a whiteboard. It was built for one operation with a
+          real reconciliation problem, and the architecture that fixed it is what every client runs on today.
+        </p>
+      </section>
+
+      <section class="section" style="padding-top: 2rem;">
+        <div class="container">
+          <div class="case">
+            <div class="case-head">
+              <div>
+                <span class="case-badge">Origin story</span>
+                <h2>New Steel Structures</h2>
+                <p class="case-sub">The operation that became the platform. Construction, five states, $20M+ in projects.</p>
+              </div>
+              <div class="metrics">
+                <div class="metric"><div class="metric-value">$20M+</div><div class="metric-label">Projects tracked</div></div>
+                <div class="metric"><div class="metric-value">70%</div><div class="metric-label">Reporting time saved</div></div>
+                <div class="metric"><div class="metric-value">44</div><div class="metric-label">Database tables</div></div>
+                <div class="metric"><div class="metric-value">5</div><div class="metric-label">States</div></div>
+              </div>
+            </div>
+
+            <div class="case-body">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <a href="/archive/Solutions/NSS-dashboard.html" class="case-shot" aria-label="Open the original NSS operations dashboard">
+                  <iframe src="/archive/Solutions/NSS-dashboard.html" loading="lazy" title="New Steel Structures operations dashboard" tabindex="-1"></iframe>
+                </a>
+                <a href="/archive/Solutions/NSS-CaseStudy.pdf" download class="btn-download">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                  Download the case study (PDF)
+                </a>
+              </div>
+
+              <div>
+                <h3>The problem</h3>
+                <p>New Steel Structures was managing $20M+ in projects across five states. The tools were solid — accounting, spreadsheets for analysis, a project tracker. They just didn't talk to each other.</p>
+                <ul>
+                  <li><strong>Triple data entry:</strong> bills keyed into accounting, the tracker, and the spreadsheet</li>
+                  <li><strong>Stale data:</strong> Tuesday's WIP report was already a week old</li>
+                  <li><strong>25–30 hours a week</strong> spent assembling reports by hand</li>
+                </ul>
+                <h3>What was built</h3>
+                <p>A unified operations system pulling directly from accounting as the single source of truth. Real-time visibility into WIP, cash flow, collections, and project health, synced automatically every morning.</p>
+                <h3>What it became</h3>
+                <p>That system — one source of truth, data flowing one direction, the screen never doing math — is the architecture the syncIO Operational Intelligence Platform runs on for every client today, regardless of industry.</p>
+              </div>
+
+              <div class="case-full">
+                <h3>The single-source-of-truth rule</h3>
+                <p>Every calculation follows a strict five-layer path. Data flows one direction only: from the source system through the sync layer, stored raw in the database, calculated in the API layer, and displayed in the frontend. <strong>The first rule: the frontend never calculates.</strong> If the same number could exist in two places with two different values, the architecture failed. That separation eliminated reconciliation errors entirely — and it's still the first rule of the platform.</p>
+                <div class="tech-tags">
+                  <div class="tech-tag"><span class="tech-tag-number">01</span>Source<span class="tech-tag-label">your tools</span></div>
+                  <svg class="tech-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  <div class="tech-tag"><span class="tech-tag-number">02</span>Sync<span class="tech-tag-label">one direction</span></div>
+                  <svg class="tech-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  <div class="tech-tag"><span class="tech-tag-number">03</span>Database<span class="tech-tag-label">stored raw</span></div>
+                  <svg class="tech-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  <div class="tech-tag"><span class="tech-tag-number">04</span>Computation<span class="tech-tag-label">one owner</span></div>
+                  <svg class="tech-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  <div class="tech-tag"><span class="tech-tag-number">05</span>Display<span class="tech-tag-label">never calculates</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tint rule-top">
+        <div class="container">
+          <span class="section-label">Beyond construction</span>
+          <h2>The problems weren't <span class="highlight">construction problems.</span></h2>
+          <p class="lede">
+            Jobs you can't cost until they're over. Cash you can't see coming. Systems that don't talk. Those belong to
+            every business that sells work and delivers it — consulting, field services, manufacturing, equipment sales
+            and service. If you estimate, deliver, invoice, and pay people, the picture the platform assembles is yours.
+          </p>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div class="inner">
+          <h2>Ready to see it on <span class="highlight">your operation?</span></h2>
+          <p>A short walkthrough of a live instance, then a conversation about what you run on.</p>
+          <div class="cta-row">
+            <a href="/contact?interest=demo" class="btn-primary">
+              Request a demo
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+            <a href="/platform" class="btn-secondary">See the platform</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-left">
+        <a href="/" class="footer-logo">
+          <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span><span class="logo-labs"> Labs</span>
+        </a>
+        <span class="footer-copy">© 2026 syncIO Labs. Atlanta, GA.</span>
+      </div>
+      <div class="footer-right">
+        <a href="mailto:info@synciolabs.com" class="footer-link">info@synciolabs.com</a>
+        <a href="/legal" class="footer-link">Legal</a>
+      </div>
+    </footer>
+  </body>
+</html>

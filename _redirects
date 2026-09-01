@@ -1,4 +1,18 @@
 /syncAndy   /vcard/asimsjr.vcf      200
 /syncRJ     /vcard/rjfowler.vcf     200
-/portfolio /solutions               301
-/portfolio.html /solutions          301
+
+# Old site paths -> new pages (301 so search equity carries)
+/services        /how-it-works   301
+/services.html   /how-it-works   301
+/solutions       /story          301
+/solutions.html  /story          301
+/portfolio       /story          301
+/portfolio.html  /story          301
+/contact.html    /contact        301
+
+# Old Solutions/ demo dashboards now live under /archive/Solutions/ (kept for the Story page embed)
+/Solutions/*     /archive/Solutions/:splat   301
+
+# Reserved: flip to https://demo.synciolabs.com once the demo instance clears its release gate
+# /demo          https://demo.synciolabs.com   302
+/demo            /contact?interest=demo   302

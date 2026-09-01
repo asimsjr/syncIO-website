@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI & Data Disclosure | syncIO Labs</title>
+    <meta
+      name="description"
+      content="How syncIO Labs uses AI to analyze your business data, what gets sent to AI providers, and what controls you have."
+    />
+    <link rel="canonical" href="https://synciolabs.com/legal" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gold: #e8a600;
+        --gold-bright: #f5b942;
+        --gold-dim: #8b6914;
+        --black: #0a0a0a;
+        --dark: #111111;
+        --dark-card: #161616;
+        --gray: #6f6f6f;
+        --gray-light: #9a9a9a;
+        --white: #fafafa;
+        --white-dim: #e0e0e0;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: 'Albert Sans', sans-serif;
+        background-color: var(--black);
+        color: var(--white);
+        line-height: 1.6;
+      }
+
+      h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+
+      /* Navigation — identical to all other pages */
+      nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        padding: 1.5rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--black);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.4rem;
+        text-decoration: none;
+        color: var(--white);
+      }
+      .logo-bracket { color: var(--gold); font-weight: 700; }
+      .logo-io { color: var(--gray-light); }
+
+      .nav-links { display: flex; gap: 2.5rem; }
+      .nav-links a {
+        color: var(--gray-light);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 900;
+        transition: color 0.3s ease;
+        padding: 0.25rem 0;
+        border-top: 2px solid var(--gray);
+      }
+      .nav-links a:hover {
+        color: var(--white);
+        border-top: 2px solid var(--gold);
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+      }
+      .hamburger span {
+        width: 24px; height: 2px;
+        background: var(--white);
+        transition: all 0.3s ease;
+      }
+
+      /* Page content */
+      .legal-hero {
+        padding: 10rem 4rem 4rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        display: inline-block;
+        color: var(--gold);
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--gold);
+      }
+
+      .legal-hero h1 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.75rem;
+      }
+
+      .legal-meta {
+        font-size: 0.9rem;
+        color: var(--gray-light);
+        margin-bottom: 0;
+      }
+
+      .legal-body {
+        padding: 0 4rem 8rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .legal-divider {
+        border: none;
+        border-top: 1px solid #1f1f1f;
+        margin: 2.5rem 0;
+      }
+
+      .legal-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .legal-section h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.01em;
+      }
+
+      .legal-section p {
+        font-size: 1rem;
+        color: var(--gray-light);
+        line-height: 1.8;
+        margin-bottom: 0.75rem;
+      }
+
+      .legal-section p:last-child { margin-bottom: 0; }
+
+      .legal-section p strong {
+        color: var(--white);
+        font-weight: 600;
+      }
+
+      .legal-callout {
+        background: var(--dark-card);
+        border: 1px solid #1f1f1f;
+        border-left: 3px solid var(--gold);
+        padding: 1.5rem 1.75rem;
+        margin: 1.25rem 0;
+        border-radius: 0 4px 4px 0;
+      }
+
+      .legal-callout p {
+        color: var(--white-dim);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin: 0;
+      }
+
+      .legal-contact a {
+        color: var(--gold);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .legal-contact a:hover { color: var(--gold-bright); }
+
+      /* Footer — identical to all other pages */
+      footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 3rem 4rem;
+        border-top: 1px solid #1a1a1a;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-logo {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--white);
+        text-decoration: none;
+      }
+      .footer-logo .logo-bracket { color: var(--gold); }
+      .footer-logo .logo-io { color: var(--gray-light); }
+
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      .footer-link {
+        color: var(--gray-light);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+      }
+      .footer-link:hover { color: var(--gold); }
+      .footer-link.active { color: var(--gold); }
+
+      .footer-right {
+        color: var(--gray-light);
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        nav { padding: 1.5rem 2rem; }
+        .legal-hero, .legal-body { padding-left: 2rem; padding-right: 2rem; }
+        footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 3rem 2rem; }
+        .footer-left { flex-direction: column; gap: 1rem; }
+      }
+
+      @media (max-width: 640px) {
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%; left: 0; right: 0;
+          background: var(--black);
+          flex-direction: column;
+          padding: 1.5rem 2rem;
+          gap: 1rem;
+          border-top: 1px solid #1a1a1a;
+        }
+        .nav-links.active { display: flex; }
+        .nav-links a { border-top: none; padding: 0.75rem 0; border-bottom: 1px solid #1a1a1a; }
+        .hamburger { display: flex; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="/" class="logo">
+        <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span>
+      </a>
+      <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="nav-links">
+        <a href="/services">Services</a>
+        <a href="/solutions">Solutions</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="legal-hero">
+      <span class="section-label">Legal</span>
+      <h1>AI & Data Disclosure</h1>
+      <p class="legal-meta">Last updated: March 2026</p>
+    </section>
+
+    <!-- Body -->
+    <div class="legal-body">
+      <hr class="legal-divider" />
+
+      <div class="legal-section">
+        <h2>What is this page?</h2>
+        <p>
+          syncIO uses AI to help make sense of your business data — spotting trends,
+          flagging issues, and writing plain-language summaries of what's happening
+          in your business. This page explains what that means for your data, in plain English.
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>How it works</h2>
+        <p>
+          syncIO connects to your business tools (like QuickBooks) and pulls in your
+          financial and operational data. Our Intelligence Layer analyzes that data and
+          surfaces insights — things like cash flow forecasts, collections priorities,
+          and anomaly alerts.
+        </p>
+        <p>
+          When AI narrative summaries are turned on, some of that analyzed data gets
+          sent to an AI service to write the plain-language explanations you see on
+          your dashboard.
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>What actually gets sent to the AI</h2>
+        <p>
+          Think of it this way: imagine your accountant summarizes your financials for
+          a meeting. They don't hand over every invoice and receipt — they prepare a
+          summary sheet with the key numbers. That's exactly what happens here.
+        </p>
+        <p>
+          What gets sent is a summary — things like "AR aging is trending worse over
+          the past 30 days" or "cash flow looks healthy for the next 6 weeks." It's
+          the kind of information your accountant would write on a whiteboard, not
+          your actual books.
+        </p>
+        <div class="legal-callout">
+          <p>
+            <strong>Your real data — actual invoice numbers, customer names, payment amounts,
+            employee records — never leaves your system.</strong> The AI only ever sees
+            the summary, not the source.
+          </p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2>What the AI provider does with it</h2>
+        <p>
+          syncIO sends that summary to an AI provider to generate your plain-language
+          insights. Your account administrator chooses which AI provider your platform
+          uses — this may be Anthropic's Claude, OpenAI's ChatGPT, or another provider
+          your organization prefers.
+        </p>
+        <p>
+          Regardless of which provider is configured, syncIO only ever sends the same
+          summarized data described above. Your AI provider processes it to generate
+          your summary and nothing more. Major AI API providers contractually guarantee
+          they do not train their models on data submitted through the API.
+        </p>
+        <p>
+          For information on a specific provider's data practices, refer to their
+          published privacy policy.
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>Your control</h2>
+        <p>
+          AI narrative summaries are turned on by default so you get the full value
+          of the platform from day one. If you'd prefer to turn them off, any Owner
+          or Admin on your account can do so at any time in
+          <strong>Settings → Intelligence → Narrative Generation</strong>.
+          The provider your account uses can also be changed from that same settings
+          page. Everything else in the platform keeps working normally — you'd just
+          see data and charts without the written summaries.
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>Your data stays yours</h2>
+        <p>
+          Your business data lives in your own dedicated database — it is never mixed
+          with other clients' data, never sold, and never used to train any AI model.
+          If you ever cancel your account, all data is deleted within 30 days.
+        </p>
+      </div>
+
+      <hr class="legal-divider" />
+
+      <div class="legal-section legal-contact">
+        <h2>Questions?</h2>
+        <p>
+          Reach us at <a href="mailto:legal@synciolabs.com">legal@synciolabs.com</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-left">
+        <a href="/" class="footer-logo">
+          <span class="logo-bracket">&lt;</span>sync<span class="logo-io">IO</span><span class="logo-bracket">/&gt;</span><span> Labs</span>
+        </a>
+        <div class="footer-links">
+          <a href="mailto:info@synciolabs.com" class="footer-link">info@synciolabs.com</a>
+          <a href="/legal" class="footer-link active">Legal</a>
+        </div>
+      </div>
+      <div class="footer-right">© 2026 syncIO Labs. Atlanta, GA.</div>
+    </footer>
+
+  </body>
+</html>
