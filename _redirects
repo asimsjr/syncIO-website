@@ -12,6 +12,7 @@
 
 # Old Solutions/ demo dashboards now live under /archive/Solutions/ (kept for the Story page embed)
 /Solutions/*     /archive/Solutions/:splat   301
+/Portfolio/*     /archive/Solutions/:splat   301
 
 # Reserved: flip to https://demo.synciolabs.com once the demo instance clears its release gate
 # /demo          https://demo.synciolabs.com   302
