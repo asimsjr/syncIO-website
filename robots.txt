@@ -3,6 +3,7 @@ Allow: /
 
 # Keep archived demo dashboards and utility pages out of search
 Disallow: /archive/
+Allow: /archive/Solutions/NSS-CaseStudy.pdf
 Disallow: /thank-you
 Disallow: /vcard/
 
